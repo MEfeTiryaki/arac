@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!-- This file contains the description of the arac robot. -->
+
+<robot name="arac" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Arguments -->
+  <xacro:arg name="simulation"          default="true"/>
+  <xacro:arg name="fixed"               default="false"/>
+  <xacro:arg name="material_color_rgba" default="0.7 0.7 0.7 1.0"/>
+  <xacro:arg name="simulate_using_gpu"  default="true"/>
+
+  <!-- Component versions -->
+  <xacro:property name="base_version"    value="0_0_0"/>
+
+  <!-- Includes -->
+  <xacro:include filename="$(find arac_description)/urdf/include/arac_utils.urdf.xacro"/>
+
+  <xacro:include filename="$(find arac_description)/urdf/base/${base_version}/arac_base.urdf.xacro"/>
+  <xacro:include filename="$(find arac_description)/urdf/wheel/wheel.urdf.xacro"/>
+
+  <!-- Base -->
+  <xacro:arac_base name="base">
+    <properties>
+      <xacro:include filename="$(find arac_description)/urdf/base/${base_version}/arac_base_parameters.urdf.xacro"/>
+    </properties>
+  </xacro:arac_base>
+
+  <!-- Left fore components -->
+  <xacro:wheel leg="LF">
+    <properties>
+      <xacro:include filename="$(find arac_description)/urdf/wheel/wheel_parameters.urdf.xacro"/>
+    </properties>
+  </xacro:wheel>
+
+  <!-- Right fore components -->
+  <xacro:wheel leg="RF">
+    <properties>
+      <xacro:include filename="$(find arac_description)/urdf/wheel/wheel_parameters.urdf.xacro"/>
+    </properties>
+  </xacro:wheel>
+
+  <!-- Left Hinf components -->
+  <xacro:wheel leg="LH">
+    <properties>
+      <xacro:include filename="$(find arac_description)/urdf/wheel/wheel_parameters.urdf.xacro"/>
+    </properties>
+  </xacro:wheel>
+
+  <!-- Right hind components -->
+  <xacro:wheel leg="RH">
+    <properties>
+      <xacro:include filename="$(find arac_description)/urdf/wheel/wheel_parameters.urdf.xacro"/>
+    </properties>
+  </xacro:wheel>
+
+
+
+</robot>

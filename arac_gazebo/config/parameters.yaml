@@ -1,0 +1,13 @@
+frame:
+  base:
+    name:                base
+  odometry:
+    name:                odom
+  world:
+    name:                map
+  world_gravity_aligned:
+    name:                map_ga
+  footprint:
+    name:                footprint
+  feetcenter:
+    name:                feetcenter

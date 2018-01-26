@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!-- Give the robot description parameter a name -->
+  <arg name="description_name" default="arac_description"/>
+  <!-- Set path of robot description -->
+  <arg name="description_file" default="$(find arac_description)/urdf/arac.urdf.xacro"/>
+  <!-- TF prefix -->
+  <arg name="tf_prefix" default=""/>
+  <!-- Joint state topic name -->
+  <arg name="joint_states_topic" default="/state_estimator/joint_states"/>
+  <!-- Namespace to run the nodes in -->
+
+  <!-- Load robot description -->
+  <include file="$(find arac_description)/launch/load.launch">
+    <arg name="description_name" value="$(arg description_name)"/>
+    <arg name="description_file" value="$(arg description_file)"/>
+  </include>
+
+
+</launch>

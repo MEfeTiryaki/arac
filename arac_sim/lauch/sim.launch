@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!-- GAZEBO ARGUMENTS -->
+  <!-- Run Gazebo headless -->
+  <arg name="gazebo_headless"                         default="false"/>
+
+  <!-- Model path -->
+  <!-- If the world is not found in a "linked" devel space layout (see catkin config), this might help: -->
+  <!-- "$(find gazebo_worlds)/../../.private/gazebo_worlds/share" -->
+  <arg name="model_path"                              default="$(find gazebo_worlds)/.."/>
+  <!-- Name of the world -->
+  <arg name="world"                                   default="empty"/>
+  <!-- Path to the world file -->
+  <arg name="world_file"                              default="$(find gazebo_worlds)/worlds/$(arg world).world"/>
+
+  <!-- Set true to fix the robot's main body in space -->
+  <arg name="fixed"                                   default="false"/>
+
+  <!-- Set the initial pose of the robot's main body -->
+  <arg name="x"                                       default="0.0"/>
+  <arg name="y"                                       default="0.0"/>
+  <arg name="z"                                       default="0.8"/>
+  <arg name="roll"                                    default="0.0"/>
+  <arg name="pitch"                                   default="0.0"/>
+  <arg name="yaw"                                     default="0.0"/>
+
+  <!-- Frame offsets -->
+  <arg name="frame_odometry_offset_x"                 default="0.0"/>
+  <arg name="frame_odometry_offset_y"                 default="0.0"/>
+  <arg name="frame_odometry_offset_z"                 default="0.0"/>
+
+  <!-- GUI ARGUMENTS -->
+  <!-- Enable/disable Gazebo GUI -->
+  <arg name="run_gazebo_gui"                          default="true"/>
+  <!-- Enable/disable rviz -->
+  <arg name="run_rviz"                                default="false"/>
+  <!-- rviz configuration -->
+  <arg name="rviz_config_path"                        default="$(find arac_sim)/config/rviz/arac.rviz"/>
+  <!-- Path to the RViz world -->
+  <arg name="rviz_world_path"                         default="$(find gazebo_worlds)/rviz/$(arg world).yaml"/>
+
+
+  <!-- ROBOT ARGUMENTS -->
+  <!-- Set the name of the robot -->
+  <arg name="robot_name"                          default="arac"/>
+  <!-- Set robot description path -->
+  <arg name="description_file"                        default="$(find arac_description)/urdf/arac.urdf.xacro"/>
+
+
+  <!-- PARAMETERS -->
+  <!-- Set global simulation parameter -->
+  <param name="/simulation" value="true"/>
+
+  <!-- Gazebo -->
+  <include file="$(find arac_gazebo)/launch/arac_gazebo.launch">
+    <arg name="headless"                            value="$(arg gazebo_headless)"/>
+    <arg name="model_path"                          value="$(arg model_path)"/>
+    <arg name="world"                               value="$(arg world)"/>
+    <arg name="world_file"                          value="$(arg world_file)"/>
+    <arg name="fixed"                               value="$(arg fixed)"/>
+    <arg name="x"                                   value="$(arg x)"/>
+    <arg name="y"                                   value="$(arg y)"/>
+    <arg name="z"                                   value="$(arg z)"/>
+    <arg name="roll"                                value="$(arg roll)"/>
+    <arg name="pitch"                               value="$(arg pitch)"/>
+    <arg name="yaw"                                 value="$(arg yaw)"/>
+    <arg name="frame_odometry_offset_x"             value="$(arg frame_odometry_offset_x)"/>
+    <arg name="frame_odometry_offset_y"             value="$(arg frame_odometry_offset_y)"/>
+    <arg name="frame_odometry_offset_z"             value="$(arg frame_odometry_offset_z)"/>
+    <arg name="run_gui"                             value="$(arg run_gazebo_gui)"/>
+    <arg name="description_name"                    value="arac_description"/>
+    <arg name="description_file"                    value="$(arg description_file)"/>
+  </include>
+
+</launch>
