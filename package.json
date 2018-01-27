@@ -1,0 +1,15 @@
+{
+  "name": "arac",
+  "version": "0.0.1",
+  "author": "Mehmet Efe Tiryaki <m.efetiryaki@gmail.com>",
+  "repository": "https://github.com/Sadetra/arac",
+  "homepage": "https://github.com/Sadetra/arac",
+  "license": "Proprietary",
+  "description": "None",
+  "keywords": [
+  ],
+  "dependencies": {
+    "arac_description": "^0.0.1",
+    "arac_gazebo": "^0.0.1",
+  },
+}
