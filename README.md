@@ -10,6 +10,7 @@ Benzetimleri çalıştırabilmek için bilgisayarınızda aşağıdakiler bulunm
 * [Ros](http://www.ros.org/)-kinetic
 * Eigen 3.3 (Ubuntu 16.04 libeigen-dev bulunduruyor)
 * Boost 1.58.0
+* [eclipse](https://www.eclipse.org/neon/) neon
 * [catkin_tools](http://catkin-tools.readthedocs.io/en/latest/verbs/catkin_build.html) 
 
 ilgili egitsellerin bağlantıları ileride eklenecektir.
