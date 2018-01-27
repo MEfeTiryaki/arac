@@ -2,7 +2,7 @@
 
 <package format="2">
 
-  <name>arac_highlevel_controller</name>
+  <name>arac_model</name>
   <version>0.0.1</version>
   <description>None</description>
   <license>Proprietary</license>

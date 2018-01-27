@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(arac_highlevel_controller)
+project(arac_model)
 
 add_definitions("-std=c++11")
 
@@ -11,4 +11,3 @@ catkin_package(
   INCLUDE_DIRS
   CATKIN_DEPENDS
 )
-
