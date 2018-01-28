@@ -1,0 +1,8 @@
+subscribers:
+  arac_state:
+    topic: /state_estimator/arac_state
+    queue_size: 10
+    latch: false
+  joystick:
+    topic: /commands/joy
+    queue_size: 10

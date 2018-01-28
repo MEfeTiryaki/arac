@@ -2,7 +2,7 @@
 
 <package format="2">
 
-  <name>arac_controller_frame</name>
+  <name>arac</name>
   <version>0.0.1</version>
   <description>None</description>
   <license>Proprietary</license>
@@ -11,13 +11,14 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>parameter_handler_ros</depend>
+  <depend>arac_controller</depend>
+  <depend>arac_controller_frame</depend>
+  <depend>arac_description</depend>
+  <depend>arac_gazebo</depend>
+  <depend>arac_joystick</depend>
   <depend>arac_model</depend>
   <depend>arac_msgs</depend>
-  <depend>roscpp</depend>
-  <depend>boost</depend>
-  <depend>eigen</depend>
-  <depend>param_io</depend>
-
+  <depend>arac_sim</depend>
+  <depend>arac_state_estimator</depend>
 
 </package>

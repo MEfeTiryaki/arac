@@ -67,7 +67,7 @@ void AracGazeboPlugin::readParameters(sdf::ElementPtr sdf)
 
   getParam(*nodeHandle_, "joint_states/default_positions", jointPositionsDefault_);
 
-  isEstimatorUsed = False;
+  isEstimatorUsed = false;
 }
 
 // Note : RSL code for getting model of the robot
@@ -173,10 +173,17 @@ void AracGazeboPlugin::initSubscribers()
   std::cout << "Initializing Publishers" << std::endl;
 
   // Actuator Command Subscriber
-  nh.subscribe(robotName_+"ActuatorCommand",
+  const std::string subscriberStr= robotName_+"ActuatorCommand";
+  actuatorCommandSubscriber_ = nodeHandle_->subscribe(subscriberStr,
                       1000,
-                      &MBSteeringPlugin::setReferenceVelocities,
+                      &AracGazeboPlugin::setActuatorCommands,
                       this);
+}
+
+// Todo : correct the message later
+void AracGazeboPlugin::setActuatorCommands(const  geometry_msgs::Twist& msg){
+    std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
+
 }
 
 GZ_REGISTER_MODEL_PLUGIN(AracGazeboPlugin)

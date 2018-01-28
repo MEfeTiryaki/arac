@@ -78,6 +78,9 @@ class AracGazeboPlugin : public ModelPlugin
   // Writes simulation state.
   virtual void writeSimulation();
 
+  // Set Commands to be writen in writeSimulation
+  void setActuatorCommands(const  geometry_msgs::Twist& msg);
+
   // Retrieves URDF robot description from ROS parameter server.
   virtual std::string getUrdfRobotDescription(const std::string& paramName) const;
 
@@ -130,7 +133,8 @@ class AracGazeboPlugin : public ModelPlugin
   ros::Publisher robotStatePublisher_ ;
   ros::Publisher imuDataPublisher_ ;
   ros::Publisher actuatorDataPublisher_;
-
+  // Subscriber
+  ros::Subscriber actuatorCommandSubscriber_;
   // Estimator Bool
   bool isEstimatorUsed ;
   // Actuators

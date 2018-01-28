@@ -48,6 +48,11 @@
   <!-- Set robot description path -->
   <arg name="description_file"                        default="$(find arac_description)/urdf/arac.urdf.xacro"/>
 
+  <!-- Launch prefix for the arac controller frame -->
+  <arg name="arac_controller_frame_prefix"      default=""/>
+  <!-- File where the controllers to load are specified -->
+  <arg name="controllers_file"          default="$(find arac_sim)/config/controllers/controllers.yaml"/>
+
 
   <!-- PARAMETERS -->
   <!-- Set global simulation parameter -->
@@ -73,5 +78,13 @@
     <arg name="description_name"                    value="arac_description"/>
     <arg name="description_file"                    value="$(arg description_file)"/>
   </include>
+
+  <!-- Arac Controller Frame -->
+    <include file="$(find arac_controller_frame)/launch/arac_controller_frame.launch">
+      <arg name="simulation"       value="true"/>
+      <arg name="launch_prefix"    value="$(arg arac_controller_frame_prefix)"/>
+      <arg name="description_name" value="arac_description"/>
+      <arg name="controllers_file" value="$(arg controllers_file)"/>
+    </include>
 
 </launch>
