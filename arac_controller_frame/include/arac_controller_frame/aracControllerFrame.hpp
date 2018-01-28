@@ -7,7 +7,6 @@
 #include <geometry_msgs/TwistStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/TransformStamped.h>
-#include <std_srvs/Empty.h>
 #include <std_msgs/Empty.h>
 
 #include <boost/thread.hpp>
@@ -16,6 +15,9 @@
 #include <mutex>
 
 #include <param_io/get_param.hpp>
+
+
+#include "arac_msgs/ActuatorCommands.h"
 
 namespace arac_controller_frame {
 
@@ -42,17 +44,36 @@ class aracControllerFrame
 
   virtual void initilizeSubscribers();
 
+  virtual void getJoystickTwistInput(geometry_msgs::Twist msg);
+
+  virtual void setActuatorCommand();
+
+  void createActuatorCommand();
+
+  void resetActuatorCommand();
  private:
 
   ros::NodeHandle* nodeHandle_;
 
-  std::string nodeName_;
+  ros::Rate* loop_rate_;
 
-  geometry_msgs::TwistStamped joystickTwistInput_;
+  std::string nodeName_;
+  std::string robotName_;
+
+  geometry_msgs::Twist joystickTwistInput_;
+  double joystickCommandStartTime_;
 
   ros::Publisher actuatorCommandPublisher_;
+  arac_msgs::ActuatorCommands actuatorCommand_;
+
 
   ros::Subscriber joystickSubscriber_;
+
+  std::vector<std::string> jointNames_;
+  std::vector<double> jointPositions_;
+  std::vector<double> jointVelocities_;
+  std::vector<double> jointEffort_;
+
 
 };
 }

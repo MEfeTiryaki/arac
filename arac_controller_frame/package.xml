@@ -18,6 +18,8 @@
   <depend>boost</depend>
   <depend>eigen</depend>
   <depend>param_io</depend>
-
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
 
 </package>

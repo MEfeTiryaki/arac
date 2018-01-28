@@ -36,6 +36,7 @@
 #include <sensor_msgs/JointState.h>
 
 #include "arac_msgs/AracState.h"
+#include "arac_msgs/ActuatorCommands.h"
 
 // urdf
 #include <urdf/model.h>
@@ -79,7 +80,7 @@ class AracGazeboPlugin : public ModelPlugin
   virtual void writeSimulation();
 
   // Set Commands to be writen in writeSimulation
-  void setActuatorCommands(const  geometry_msgs::Twist& msg);
+  void setActuatorCommands(const  arac_msgs::ActuatorCommands& msg);
 
   // Retrieves URDF robot description from ROS parameter server.
   virtual std::string getUrdfRobotDescription(const std::string& paramName) const;

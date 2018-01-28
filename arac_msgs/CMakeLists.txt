@@ -12,7 +12,7 @@ find_package(catkin REQUIRED
 )
 
 add_message_files(
-   FILES  AracState.msg WheelState.msg
+   FILES  AracState.msg ActuatorCommands.msg
 )
 generate_messages(
    DEPENDENCIES  std_msgs geometry_msgs sensor_msgs

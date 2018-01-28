@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!-- Launch simulation -->
+  <include file="$(find arac_sim)/launch/sim.launch">
+    <arg name="arac_controller_frame_launch_prefix" value="gdb -ex run --args"/>
+  </include>
+
+</launch>

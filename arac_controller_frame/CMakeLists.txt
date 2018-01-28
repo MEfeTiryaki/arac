@@ -12,6 +12,9 @@ find_package(catkin REQUIRED
 	  arac_msgs
 	  roscpp
 	  param_io
+	  geometry_msgs
+      std_msgs
+      sensor_msgs
 
 )
 
@@ -30,6 +33,9 @@ catkin_package(
 	  arac_msgs
 	  roscpp
 	  param_io
+	  geometry_msgs
+      std_msgs
+      sensor_msgs
   DEPENDS
     Boost
 	  

@@ -23,6 +23,7 @@ AracGazeboPlugin::~AracGazeboPlugin()
 
 void AracGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 {
+  ROS_INFO("[ARAC GAZEBO PLUGIN]");
   // To ensure that gazebo is not distrubed while loading
   std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
   nodeHandle_ = new ros::NodeHandle("~");
@@ -156,14 +157,14 @@ void AracGazeboPlugin::initPublishers()
   std::cout << "Initializing Publishers" << std::endl;
 
   // Robot State Publishers
-  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(robotName_ + "JointState", 1);
+  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(robotName_ + "/RobotState", 1);
 
   if (isEstimatorUsed) {
     // Todo : implement Imu data for state estimation
-    imuDataPublisher_ = nodeHandle_->advertise<sensor_msgs::Imu>(robotName_ + "ImuData", 1);
+    imuDataPublisher_ = nodeHandle_->advertise<sensor_msgs::Imu>(robotName_ + "/ImuData", 1);
     // Todo : implement joint data for state estimation
     actuatorDataPublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>(
-        robotName_ + "_ActuatorData", 1);
+        robotName_ + "/ActuatorData", 1);
   }
 }
 
@@ -173,7 +174,7 @@ void AracGazeboPlugin::initSubscribers()
   std::cout << "Initializing Publishers" << std::endl;
 
   // Actuator Command Subscriber
-  const std::string subscriberStr= robotName_+"ActuatorCommand";
+  const std::string subscriberStr= "/arac_controller_frame/ActuatorCommands";
   actuatorCommandSubscriber_ = nodeHandle_->subscribe(subscriberStr,
                       1000,
                       &AracGazeboPlugin::setActuatorCommands,
@@ -181,7 +182,7 @@ void AracGazeboPlugin::initSubscribers()
 }
 
 // Todo : correct the message later
-void AracGazeboPlugin::setActuatorCommands(const  geometry_msgs::Twist& msg){
+void AracGazeboPlugin::setActuatorCommands(const  arac_msgs::ActuatorCommands& msg){
     std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
 
 }
