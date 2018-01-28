@@ -14,8 +14,13 @@ aracControllerFrame::~aracControllerFrame()
 {
 }
 
-void aracControllerFrame::init()
+void aracControllerFrame::init(int argc, char **argv)
 {
+  ros::init(argc, argv, "talker");
+
+  initilizePublishers();
+  initilizeSubscribers();
+
 }
 
 void aracControllerFrame::update()
@@ -24,6 +29,14 @@ void aracControllerFrame::update()
 
 void aracControllerFrame::execute()
 {
+
+}
+void aracControllerFrame::initilizePublishers(){
+
+}
+
+void aracControllerFrame::initilizeSubscribers(){
+
 }
 
 } /* namespace arac_controller_frame*/

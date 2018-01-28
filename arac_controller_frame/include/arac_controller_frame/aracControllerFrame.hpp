@@ -29,7 +29,7 @@ class aracControllerFrame
   virtual ~aracControllerFrame();
 
   // Init
-  virtual void init();
+  virtual void init(int argc, char **argv);
 
   // Update
   virtual void update();
@@ -37,8 +37,22 @@ class aracControllerFrame
   // excute
   virtual void execute();
 
+ protected:
+  virtual void initilizePublishers();
+
+  virtual void initilizeSubscribers();
+
  private:
+
   ros::NodeHandle* nodeHandle_;
+
+  std::string nodeName_;
+
+  geometry_msgs::TwistStamped joystickTwistInput_;
+
+  ros::Publisher actuatorCommandPublisher_;
+
+  ros::Subscriber joystickSubscriber_;
 
 };
 }
