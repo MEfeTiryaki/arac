@@ -9,19 +9,20 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  
+  
   <depend>boost</depend>
   <depend>gazebo</depend>
-
+  <depend>gazebo_ros</depend>
+  <depend>roscpp</depend> 
   <depend>param_io</depend>
   <depend>gazebo_plugins</depend>
-  <depend>gazebo_ros</depend>
   <depend>gazebo_worlds</depend>
-  <depend>roscpp</depend>
   <depend>urdf</depend>
   <depend>xacro</depend>
   <depend>arac_msgs</depend>
 
   <export>
-    <gazebo plugin_path="${prefix}/lib" gazebo_media_path="${prefix}"/>
+    <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}"/>
   </export>
 </package>

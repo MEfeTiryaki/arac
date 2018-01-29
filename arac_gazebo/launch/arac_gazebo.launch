@@ -31,7 +31,7 @@
   <!-- Debug mode -->
   <arg name="debug"                                 default="false"/>
   <!-- Verbose mode -->
-  <arg name="verbose"                               default="false"/>
+  <arg name="verbose"                               default="true"/>
   <!-- Frame offsets -->
   <arg name="frame_odometry_offset_x"               default="0.0"/>
   <arg name="frame_odometry_offset_y"               default="0.0"/>

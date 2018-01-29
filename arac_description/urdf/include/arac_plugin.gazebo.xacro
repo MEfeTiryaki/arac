@@ -2,7 +2,6 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:if value="$(arg simulation)">
     <gazebo>
       <plugin name="gazebo_ros_control"
         filename="libarac_gazebo.so">
@@ -12,6 +11,5 @@
         <statePublisherRate>400.0</statePublisherRate>
       </plugin>
     </gazebo>
-  </xacro:if>
-
+  
 </robot>

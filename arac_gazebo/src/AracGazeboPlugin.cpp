@@ -13,26 +13,34 @@ namespace gazebo {
 // Note : param_io is needed to use the getParam
 using namespace param_io;
 AracGazeboPlugin::AracGazeboPlugin()
-    : nodeHandle_()
+    : nodeHandle_(),
+      isEstimatorUsed(false)
 {
+  std::cout << "Gazebo Plugin Constructor " <<std::endl;
 }
 
 AracGazeboPlugin::~AracGazeboPlugin()
 {
 }
 
+void AracGazeboPlugin::Init(){
+}
+
+void AracGazeboPlugin::Reset(){
+}
+
 void AracGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 {
-  ROS_INFO("[ARAC GAZEBO PLUGIN]");
+  std::cout <<"[ARAC GAZEBO PLUGIN]"<<std::endl;
   // To ensure that gazebo is not distrubed while loading
-  std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
-  nodeHandle_ = new ros::NodeHandle("~");
+  //std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
+  nodeHandle_ = new ros::NodeHandle("AracGazeboPlugin");
 
   // Note : check if this is placed correctly
-  readParameters(sdf);
+  this->readParameters(sdf);
 
   // Model
-  model_ = model;
+  this->model_ = model;
 
   // request the robot_description parameter
   robotDescriptionUrdfString_ = getUrdfRobotDescription(robotDescriptionParamName_);
@@ -49,12 +57,24 @@ void AracGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
   Reset();
 
   // connect to world updates from Gazebo
-  updateConnection_ = event::Events::ConnectWorldUpdateBegin(
+  this->updateConnection_ = event::Events::ConnectWorldUpdateBegin(
       boost::bind(&AracGazeboPlugin::OnUpdate, this));
 }
 
+void AracGazeboPlugin::OnUpdate(){
+  std::cout << "Gazebo Plugin is running " <<std::endl;
+}
+
+ void AracGazeboPlugin::readSimulation(){
+
+}
+
+void AracGazeboPlugin::writeSimulation(){}
+
 void AracGazeboPlugin::readParameters(sdf::ElementPtr sdf)
 {
+
+  std::cout <<"AracGazeboPlugin::readParameters"<<std::endl;
   robotName_ = sdf->GetElement("robotName")->Get<std::string>();
   robotBaseLink_ = sdf->GetElement("robotBaseLink")->Get<std::string>();
   robotDescriptionParamName_ = sdf->GetElement("robotDescription")->Get<std::string>();
@@ -108,6 +128,8 @@ std::string AracGazeboPlugin::getUrdfRobotDescription(const std::string& paramNa
 
 void AracGazeboPlugin::initJointStructures()
 {
+  std::cout <<"AracGazeboPlugin::initJointStructures"<<std::endl;
+
   // Todo : Make this more generic
   jointNames_.push_back("LF_WH");
   jointNames_.push_back("RF_WH");
@@ -153,8 +175,8 @@ void AracGazeboPlugin::initJointStructures()
 
 void AracGazeboPlugin::initPublishers()
 {
-  // Actuator readings.
-  std::cout << "Initializing Publishers" << std::endl;
+  std::cout <<"AracGazeboPlugin::initPublishers"<<std::endl;
+
 
   // Robot State Publishers
   robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(robotName_ + "/RobotState", 1);
@@ -170,8 +192,8 @@ void AracGazeboPlugin::initPublishers()
 
 void AracGazeboPlugin::initSubscribers()
 {
-  // Actuator readings.
-  std::cout << "Initializing Publishers" << std::endl;
+  std::cout <<"AracGazeboPlugin::initSubscribers"<<std::endl;
+
 
   // Actuator Command Subscriber
   const std::string subscriberStr= "/arac_controller_frame/ActuatorCommands";
@@ -181,7 +203,6 @@ void AracGazeboPlugin::initSubscribers()
                       this);
 }
 
-// Todo : correct the message later
 void AracGazeboPlugin::setActuatorCommands(const  arac_msgs::ActuatorCommands& msg){
     std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
 

@@ -17,9 +17,10 @@
 #include <thread>
 
 // gazebo
+#include <gazebo/gazebo.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
-
+#include <sdf/Element.hh>
 // ros
 #include <ros/ros.h>
 #include <ros/callback_queue.h>
@@ -52,7 +53,7 @@ class AracGazeboPlugin : public ModelPlugin
   virtual ~AracGazeboPlugin();
 
   // Implements Gazebo virtual load function.
-  virtual void Load(physics::ModelPtr model, sdf::ElementPtr sdf);
+  virtual void Load(physics::ModelPtr model, sdf::ElementPtr /*_sdf*/) ;
 
   // Overrides Gazebo init function.
   virtual void Init();

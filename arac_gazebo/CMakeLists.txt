@@ -38,12 +38,12 @@ catkin_package(
     param_io
     arac_msgs
     gazebo_plugins
-    gazebo_ros
     gazebo_worlds
-    roscpp
     urdf
     xacro
   DEPENDS
+  	roscpp
+  	gazebo_ros
     Boost
 
 )
@@ -59,6 +59,7 @@ add_dependencies(
 target_link_libraries(
   ${PROJECT_NAME}
   ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
 )
 
 install(TARGETS ${PROJECT_NAME}
