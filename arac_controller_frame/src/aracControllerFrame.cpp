@@ -42,12 +42,12 @@ void aracControllerFrame::init(int argc, char **argv)
 
 void aracControllerFrame::update()
 {
+
 }
 
 void aracControllerFrame::execute()
 {
   while (ros::ok()) {
-
     if (ros::Time::now().toSec()-joystickCommandStartTime_>0.5){
       resetActuatorCommand();
     }else{
@@ -93,10 +93,12 @@ void aracControllerFrame::createActuatorCommand(){
   actuatorCommand_.inputs.effort = jointEffort_;
 
 }
+
 void aracControllerFrame::resetActuatorCommand(){
   actuatorCommand_.inputs.velocity = std::vector<double> (4, 0.0);
 
 }
+
 void aracControllerFrame::setActuatorCommand(){
   double linearVelocity = joystickTwistInput_.linear.x;
   double angularVelocity = joystickTwistInput_.angular.z;
@@ -105,4 +107,22 @@ void aracControllerFrame::setActuatorCommand(){
   actuatorCommand_.inputs.velocity[2] = linearVelocity + angularVelocity ;
   actuatorCommand_.inputs.velocity[3] = linearVelocity - angularVelocity ;
 }
+
+
+
+
 } /* namespace arac_controller_frame*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -137,11 +137,14 @@ class AracGazeboPlugin : public ModelPlugin
   ros::Publisher actuatorDataPublisher_;
   // Subscriber
   ros::Subscriber actuatorCommandSubscriber_;
+  arac_msgs::ActuatorCommands actuatorCommands_;
   // Estimator Bool
   bool isEstimatorUsed ;
   // Actuators
   std::vector<std::string> jointNames_;
   std::unordered_map<std::string, int> jointNametoJointId_;
+
+
   std::vector<gazebo::physics::JointPtr> jointPtrs_;
   std::vector<int> jointTypes_;
   std::vector<double> jointPositionsReset_;

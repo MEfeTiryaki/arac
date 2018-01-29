@@ -14,27 +14,34 @@ namespace gazebo {
 using namespace param_io;
 AracGazeboPlugin::AracGazeboPlugin()
     : nodeHandle_(),
-      isEstimatorUsed(false)
+      isEstimatorUsed(false),
+      jointNames_(4),
+      jointPtrs_(4),
+      jointTypes_(4),
+      jointPositionsReset_(4),
+      actuatorCommands_()
 {
-  std::cout << "Gazebo Plugin Constructor " <<std::endl;
 }
 
 AracGazeboPlugin::~AracGazeboPlugin()
 {
 }
 
-void AracGazeboPlugin::Init(){
+void AracGazeboPlugin::Init()
+{
 }
 
-void AracGazeboPlugin::Reset(){
+void AracGazeboPlugin::Reset()
+{
 }
 
 void AracGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 {
-  std::cout <<"[ARAC GAZEBO PLUGIN]"<<std::endl;
   // To ensure that gazebo is not distrubed while loading
   //std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
-  nodeHandle_ = new ros::NodeHandle("AracGazeboPlugin");
+
+  // XXX : "~" getParam'da başa gelen salak cift // den kurtarıyor
+  nodeHandle_ = new ros::NodeHandle("~");
 
   // Note : check if this is placed correctly
   this->readParameters(sdf);
@@ -48,10 +55,12 @@ void AracGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
   // parse the URDF string into a URDF model structure
   robotDescriptionUrdfModel_.initString(robotDescriptionUrdfString_);
 
+  initJointStructures();
   // initialize ROS pub/sub/services
   initPublishers();
   initSubscribers();
-  initServices();
+
+  //initServices();
 
   // reset simulation variables
   Reset();
@@ -61,21 +70,29 @@ void AracGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
       boost::bind(&AracGazeboPlugin::OnUpdate, this));
 }
 
-void AracGazeboPlugin::OnUpdate(){
-  std::cout << "Gazebo Plugin is running " <<std::endl;
+void AracGazeboPlugin::OnUpdate()
+{
+  writeSimulation();
 }
 
- void AracGazeboPlugin::readSimulation(){
+void AracGazeboPlugin::readSimulation()
+{
 
 }
 
-void AracGazeboPlugin::writeSimulation(){}
+void AracGazeboPlugin::writeSimulation()
+{
+
+  for (int i = 0 ;i<4 ;i++ ) {
+    double jointVelocity = actuatorCommands_.inputs.velocity[i];
+    jointPtrs_[i]->SetVelocity(0, jointVelocity);
+  }
+
+}
 
 void AracGazeboPlugin::readParameters(sdf::ElementPtr sdf)
 {
 
-  std::cout <<"AracGazeboPlugin::readParameters"<<std::endl;
-  robotName_ = sdf->GetElement("robotName")->Get<std::string>();
   robotBaseLink_ = sdf->GetElement("robotBaseLink")->Get<std::string>();
   robotDescriptionParamName_ = sdf->GetElement("robotDescription")->Get<std::string>();
   const double statePublisherRate = sdf->GetElement("statePublisherRate")->Get<double>();
@@ -111,7 +128,7 @@ std::string AracGazeboPlugin::getUrdfRobotDescription(const std::string& paramNa
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     auto now = std::chrono::steady_clock::now();
 
-    if ((std::chrono::duration_cast<std::chrono::seconds>(now - start)).count() >= timeOut) {
+    if ((std::chrono::duration_cast < std::chrono::seconds > (now - start)).count() >= timeOut) {
       std::cout << "[" << robotName_
                 << "GazeboPlugin::getUrdfRobotDescription] Timeout while loading urdf!"
                 << std::endl;
@@ -126,25 +143,29 @@ std::string AracGazeboPlugin::getUrdfRobotDescription(const std::string& paramNa
   return urdfString;
 }
 
+
+// Todo : Bok gibi oldu düzelt!!
 void AracGazeboPlugin::initJointStructures()
 {
-  std::cout <<"AracGazeboPlugin::initJointStructures"<<std::endl;
 
   // Todo : Make this more generic
-  jointNames_.push_back("LF_WH");
-  jointNames_.push_back("RF_WH");
-  jointNames_.push_back("LH_WH");
-  jointNames_.push_back("RH_WH");
+  jointNames_[0]="LF_WH";
+  jointNames_[1]="RF_WH";
+  jointNames_[2]="LH_WH";
+  jointNames_[3]="RH_WH";
 
   int i = 0;
   for (const auto jointName : jointNames_) {
     jointNametoJointId_.insert(std::make_pair(jointName, i++));
   }
 
-  // Init the joint structures.
+
+   i = 0;
+// Init the joint structures.
   for (const auto jointName : jointNames_) {
 
     auto joint = robotDescriptionUrdfModel_.getJoint(jointName);
+
     if (!joint) {
       std::cout << "gazebo_ros_control : " << "Joint named '" << jointName
                 << "' does not exist in the URDF model." << std::endl;
@@ -159,27 +180,24 @@ void AracGazeboPlugin::initJointStructures()
       return;
     }
 
-    jointPtrs_.push_back(jointPtr);
+    jointPtrs_[i] = jointPtr;
 
     // Set joint position to default initial position
-    jointPtrs_.back()->SetPosition(0, jointPositionsDefault_[jointNametoJointId_[jointName]]);
+    jointPtrs_[i]->SetPosition(0, jointPositionsDefault_[i]);
 
-    jointTypes_.push_back(joint->type);
-    jointPositionsReset_.push_back(jointPositionsDefault_[jointNametoJointId_[jointName]]);
-    jointPositionLimitsLow_.push_back(joint->limits->lower);
-    jointPositionLimitsHigh_.push_back(joint->limits->upper);
-    jointTorqueLimits_.push_back(joint->limits->effort);
-    jointVelocityLimits_.push_back(joint->limits->velocity);
+    jointTypes_[i]=joint->type;
+    jointPositionsReset_[i] = jointPositionsDefault_[i];
+
+    i++;
   }
 }
 
 void AracGazeboPlugin::initPublishers()
 {
-  std::cout <<"AracGazeboPlugin::initPublishers"<<std::endl;
-
 
   // Robot State Publishers
-  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(robotName_ + "/RobotState", 1);
+  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(robotName_ + "/RobotState",
+                                                                      1);
 
   if (isEstimatorUsed) {
     // Todo : implement Imu data for state estimation
@@ -192,20 +210,24 @@ void AracGazeboPlugin::initPublishers()
 
 void AracGazeboPlugin::initSubscribers()
 {
-  std::cout <<"AracGazeboPlugin::initSubscribers"<<std::endl;
 
+// Actuator Command Subscriber
+  const std::string subscriberStr = "/arac_controller_frame/ActuatorCommands";
+  actuatorCommandSubscriber_ = nodeHandle_->subscribe(subscriberStr, 1,
+                                                      &AracGazeboPlugin::setActuatorCommands, this);
 
-  // Actuator Command Subscriber
-  const std::string subscriberStr= "/arac_controller_frame/ActuatorCommands";
-  actuatorCommandSubscriber_ = nodeHandle_->subscribe(subscriberStr,
-                      1000,
-                      &AracGazeboPlugin::setActuatorCommands,
-                      this);
+  actuatorCommands_.inputs.name = jointNames_;
+  actuatorCommands_.inputs.position = std::vector<double>(4,0.0);
+  actuatorCommands_.inputs.velocity = std::vector<double>(4,0.0);
+  actuatorCommands_.inputs.effort = std::vector<double>(4,0.0);
+
 }
 
-void AracGazeboPlugin::setActuatorCommands(const  arac_msgs::ActuatorCommands& msg){
-    std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
-
+// Todo : name callbacks as callback
+void AracGazeboPlugin::setActuatorCommands(const arac_msgs::ActuatorCommands& msg)
+{
+  //std::unique_lock < std::recursive_mutex > lock(gazeboMutex_);
+  actuatorCommands_ = msg;
 }
 
 GZ_REGISTER_MODEL_PLUGIN(AracGazeboPlugin)

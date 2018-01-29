@@ -42,12 +42,16 @@
       <axis xyz="0 0 1" />
     </joint>
     
+
     <gazebo reference="${leg}_WH" >
-        <kp>${kp_wheel}</kp>
+    	<kp>${kp_wheel}</kp>
         <kd>${kd_wheel}</kd>
         <mu1>${mu_wheel}</mu1>
         <mu2>${mu_wheel}</mu2>
+        <fdir1 value="1 0 0"/>
         <minDepth> ${wheel_minDepth} </minDepth>
+        <maxVel>100.0</maxVel>
+        <material>Gazebo/Black</material>
     </gazebo>
 
   </xacro:macro>
