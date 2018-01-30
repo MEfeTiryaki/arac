@@ -51,6 +51,7 @@ catkin_package(
 add_library(
   ${PROJECT_NAME}
   src/AracGazeboPlugin.cpp
+  src/KulmanGazeboPlugin.cpp
 )
 add_dependencies(
   ${PROJECT_NAME}
