@@ -13,6 +13,7 @@ find_package(catkin REQUIRED
     roscpp
     urdf
     xacro
+    tf
 )
 
 find_package(gazebo REQUIRED)
@@ -45,6 +46,7 @@ catkin_package(
   	roscpp
   	gazebo_ros
     Boost
+    tf
 
 )
 

@@ -14,6 +14,7 @@ find_package(catkin REQUIRED
   arac_msgs
   arac_sim
   arac_state_estimator
+  arac_rviz
 )
 
 catkin_package(
@@ -28,4 +29,5 @@ catkin_package(
   arac_msgs
   arac_sim
   arac_state_estimator
+  arac_rviz
 )

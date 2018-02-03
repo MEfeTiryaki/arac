@@ -39,6 +39,8 @@
 #include "arac_msgs/AracState.h"
 #include "arac_msgs/ActuatorCommands.h"
 
+#include <tf/transform_broadcaster.h>
+
 // urdf
 #include <urdf/model.h>
 
@@ -79,10 +81,13 @@ class KulmanGazeboPlugin : public ModelPlugin
   virtual void initServices(){};
 
   // Reads simulation state.
-  virtual void readSimulation() = 0;
+  virtual void readSimulation();
 
   // Writes simulation state.
   virtual void writeSimulation() = 0;
+
+  // TF publish
+  virtual void publishTFs() ;
 
   // Retrieves URDF robot description from ROS parameter server.
   virtual std::string getUrdfRobotDescription(const std::string& paramName) const;
@@ -113,6 +118,10 @@ class KulmanGazeboPlugin : public ModelPlugin
   std::string frameOdometry_;
   std::string frameWorld_;
   std::string frameWorldGravityAligned_;
+
+  // TF transforms
+  tf::Transform odomTransform;
+
 
   // Gazebo time step.
   double gazeboTimeStep_ = 0.0;

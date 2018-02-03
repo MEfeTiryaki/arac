@@ -21,7 +21,8 @@
   <depend>urdf</depend>
   <depend>xacro</depend>
   <depend>arac_msgs</depend>
-
+  <depend>tf</depend>
+	
   <export>
     <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}"/>
   </export>

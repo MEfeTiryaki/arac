@@ -76,6 +76,8 @@ void KulmanGazeboPlugin::OnUpdate()
 {
   readSimulation();
   writeSimulation();
+  publishTFs();
+
 }
 
 void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
@@ -146,7 +148,7 @@ void KulmanGazeboPlugin::initPublishers()
 void KulmanGazeboPlugin::initSubscribers()
 {
 
-// Actuator Command Subscriber
+  // Actuator Command Subscriber
   const std::string subscriberStr = "/arac_controller_frame/ActuatorCommands";
   actuatorCommandSubscriber_ = nodeHandle_->subscribe(subscriberStr, 1,
                                                       &KulmanGazeboPlugin::actuatorCommandsCallback,
@@ -165,5 +167,23 @@ void KulmanGazeboPlugin::actuatorCommandsCallback(const arac_msgs::ActuatorComma
   //std::unique_lock < std::recursive_mutex > lock(gazeboMutex_);
   actuatorCommands_ = msg;
 }
+
+
+void KulmanGazeboPlugin::publishTFs()
+{
+  const auto& pose  = model_->GetLink(frameBase_)->GetWorldPose();
+  // Odom
+  odomTransform.setOrigin( tf::Vector3(pose.pos.x,pose.pos.y,pose.pos.z ));
+  odomTransform.setRotation(tf::Quaternion(pose.rot.x,pose.rot.y,pose.rot.z,pose.rot.w));
+
+  static tf::TransformBroadcaster br;
+  br.sendTransform(tf::StampedTransform(odomTransform, ros::Time::now(), frameWorld_ , frameBase_));
+}
+
+void KulmanGazeboPlugin::readSimulation(){
+
+}
+
+
 
 }
