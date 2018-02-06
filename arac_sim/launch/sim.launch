@@ -43,7 +43,7 @@
   <!-- Path to the RViz world -->
   <arg name="rviz_world_path"                         default="$(find gazebo_worlds)/rviz/$(arg world).yaml"/>
 
-<arg name="tf_prefix"                         default=""/>
+  <arg name="tf_prefix"                         default=""/>
 
 
   <!-- ROBOT ARGUMENTS -->
@@ -89,7 +89,7 @@
     <remap from="robot_description" to="arac_description"/>
     <remap from="joint_states"      to="/state_estimator/joint_states"/>
   </node>
-  
+
   <node ns="arac_tf_publisher" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
     <param name="publish_frequency" value="100"/>
     <param name="use_tf_static"     value="true"/>
@@ -97,7 +97,7 @@
     <remap from="robot_description" to="arac_description"/>
     <remap from="joint_states"      to="/state_estimator/joint_states"/>
   </node>
-  
+
   <!-- RViz -->
   <group if="$(arg run_rviz)">
     <!-- Launch node -->

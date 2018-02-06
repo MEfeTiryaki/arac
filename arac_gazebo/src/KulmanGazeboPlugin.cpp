@@ -178,6 +178,8 @@ void KulmanGazeboPlugin::publishTFs()
 
   static tf::TransformBroadcaster br;
   br.sendTransform(tf::StampedTransform(odomTransform, ros::Time::now(), frameWorld_ , frameBase_));
+
+
 }
 
 void KulmanGazeboPlugin::readSimulation(){
