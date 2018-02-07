@@ -30,7 +30,7 @@ class JoystickHandlerBase{
 
  private:
    virtual void initilizeSubscribers();
-   
+
    virtual void getJoystickMsg(geometry_msgs::Twist msg);
 
 

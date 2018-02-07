@@ -7,14 +7,14 @@ find_package(Boost REQUIRED COMPONENTS thread chrono)
 
 find_package(catkin REQUIRED
   COMPONENTS
-  	  parameter_handler_ros
+  	parameter_handler_ros
 	  arac_model
 	  arac_msgs
 	  roscpp
 	  param_io
 	  geometry_msgs
-      std_msgs
-      sensor_msgs
+    std_msgs
+    sensor_msgs
 
 )
 
@@ -34,11 +34,11 @@ catkin_package(
 	  roscpp
 	  param_io
 	  geometry_msgs
-      std_msgs
-      sensor_msgs
+    std_msgs
+    sensor_msgs
   DEPENDS
     Boost
-	  
+
 
 )
 
@@ -93,7 +93,3 @@ install(DIRECTORY include/${PROJECT_NAME}/
 install(DIRECTORY launch config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-
-
-
