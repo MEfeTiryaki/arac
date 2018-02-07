@@ -17,10 +17,6 @@ using namespace param_io;
 KulmanGazeboPlugin::KulmanGazeboPlugin()
     : nodeHandle_(),
       isEstimatorUsed(false),
-      jointNames_(4),
-      jointPtrs_(4),
-      jointTypes_(4),
-      jointPositionsReset_(4),
       actuatorCommands_()
 {
 }
@@ -89,10 +85,20 @@ void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
 
   publishingTimeStep_ = (statePublisherRate > 0.0) ? 1.0 / statePublisherRate : 0.0;
 
+  // Get Frame parameters
   getParam(*nodeHandle_, "frame/base/name", frameBase_);
   getParam(*nodeHandle_, "frame/odometry/name", frameOdometry_);
   getParam(*nodeHandle_, "frame/world/name", frameWorld_);
 
+  // Get Publisher Parameters
+  getParam(*nodeHandle_, "publishers/kulman_state/topic", kulmanStatePublisherName_);
+  getParam(*nodeHandle_, "publishers/kulman_state/queue_size", kulmanStatePublisherQueueSize_);
+
+  getParam(*nodeHandle_, "publishers/joint_state/topic", jointStatePublisherName_);
+  getParam(*nodeHandle_, "publishers/joint_state/queue_size", jointStatePublisherQueueSize_);
+
+
+  // Get Default Positions
   getParam(*nodeHandle_, "joint_states/default_positions", jointPositionsDefault_);
 
   isEstimatorUsed = false;
@@ -141,6 +147,8 @@ void KulmanGazeboPlugin::initJointStructures()
 
   std::cout << "Detected Joints are :"<< std::endl;
 
+  jointPositionsReset_ = std::vector<double>(jointPtrs_.size());
+
   // Init the joint structures.
   for (int i = 0 ; i < jointPtrs_.size() ;i++) {
     const auto jointPtr = jointPtrs_[i];
@@ -156,10 +164,10 @@ void KulmanGazeboPlugin::initPublishers()
 {
 
   // Robot State Publishers
-  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>("/KulmanState",
-                                                                      400);
-  jointStatePublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>("/KulmanState/joint_states",
-                                                                        400);
+  kulmanStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(kulmanStatePublisherName_,
+                                                                      kulmanStatePublisherQueueSize_);
+  jointStatePublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>(jointStatePublisherName_,
+                                                                        jointStatePublisherQueueSize_);
 
   // Initilized the message
   kulmanStateMsg_ = arac_msgs::AracState();
@@ -218,7 +226,7 @@ void KulmanGazeboPlugin::publishTFs()
 
 void KulmanGazeboPlugin::publishPublishers()
 {
-    robotStatePublisher_.publish(kulmanStateMsg_);
+    kulmanStatePublisher_.publish(kulmanStateMsg_);
     jointStatePublisher_.publish(jointStates_);
 }
 

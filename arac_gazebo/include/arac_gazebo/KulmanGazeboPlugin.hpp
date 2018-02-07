@@ -124,11 +124,19 @@ class KulmanGazeboPlugin : public ModelPlugin
   tf::Transform odomTransform;
 
   // Publisher
-  ros::Publisher robotStatePublisher_;
+  ros::Publisher kulmanStatePublisher_;
   ros::Publisher jointStatePublisher_;
-
+  // Publisher names
+  std::string kulmanStatePublisherName_;
+  std::string jointStatePublisherName_;
+  // Publisher queue_size
+  int kulmanStatePublisherQueueSize_;
+  int jointStatePublisherQueueSize_;
+  // Publisher msgs
   arac_msgs::AracState kulmanStateMsg_ ;
   sensor_msgs::JointState jointStates_ ;
+
+
   // Subscriber
   ros::Subscriber actuatorCommandSubscriber_;
   arac_msgs::ActuatorCommands actuatorCommands_;
@@ -156,10 +164,6 @@ class KulmanGazeboPlugin : public ModelPlugin
   std::vector<gazebo::physics::JointPtr> jointPtrs_;
   std::vector<int> jointTypes_;
   std::vector<double> jointPositionsReset_;
-  std::vector<double> jointPositionLimitsLow_;
-  std::vector<double> jointPositionLimitsHigh_;
-  std::vector<double> jointTorqueLimits_;
-  std::vector<double> jointVelocityLimits_;
   std::vector<double> jointPositionsDefault_;
 
 

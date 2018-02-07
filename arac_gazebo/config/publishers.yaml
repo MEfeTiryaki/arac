@@ -1,7 +1,14 @@
 publishers:
 
-  robot_state:
-    topic: /state_estimator/robot_state
+  kulman_state:
+    topic: /state_estimator/kulman_state
+    queue_size: 10
+    latch: false
+    min_frequency_rate: 0.1
+    max_frequency_rate: 0.1
+
+  joint_state:
+    topic: /state_estimator/simulation_joint_states
     queue_size: 10
     latch: false
     min_frequency_rate: 0.1
@@ -21,4 +28,3 @@ publishers:
     topic: /state_estimator/twist
     queue_size: 1
     latch: false
- 

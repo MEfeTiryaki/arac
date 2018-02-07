@@ -2,10 +2,19 @@
 
 <launch>
 
+  <!-- ROBOT SPECIFIC ARGUMENTS -->
+  <!-- Robot description name -->
+  <arg name="kulman_description"                  default="arac_description"/>
+  <!-- Set the name of the robot -->
+  <arg name="robot_name"                          default="arac"/>
+  <!-- Set robot description path -->
+  <arg name="description_file"                    default="$(find arac_description)/urdf/arac.urdf.xacro"/>
+
+
+
   <!-- GAZEBO ARGUMENTS -->
   <!-- Run Gazebo headless -->
   <arg name="gazebo_headless"                         default="false"/>
-
   <!-- Model path -->
   <!-- If the world is not found in a "linked" devel space layout (see catkin config), this might help: -->
   <!-- "$(find gazebo_worlds)/../../.private/gazebo_worlds/share" -->
@@ -14,55 +23,61 @@
   <arg name="world"                                   default="empty"/>
   <!-- Path to the world file -->
   <arg name="world_file"                              default="$(find gazebo_worlds)/worlds/$(arg world).world"/>
-
   <!-- Set true to fix the robot's main body in space -->
   <arg name="fixed"                                   default="false"/>
-
   <!-- Set the initial pose of the robot's main body -->
   <arg name="x"                                       default="0.0"/>
   <arg name="y"                                       default="0.0"/>
-  <arg name="z"                                       default="0.8"/>
+  <arg name="z"                                       default="0.0"/>
   <arg name="roll"                                    default="0.0"/>
   <arg name="pitch"                                   default="0.0"/>
   <arg name="yaw"                                     default="0.0"/>
-
   <!-- Frame offsets -->
   <arg name="frame_odometry_offset_x"                 default="0.0"/>
   <arg name="frame_odometry_offset_y"                 default="0.0"/>
   <arg name="frame_odometry_offset_z"                 default="0.0"/>
+
+
 
   <!-- GUI ARGUMENTS -->
   <!-- Enable/disable Gazebo GUI -->
   <arg name="run_gazebo_gui"                          default="false"/>
   <!-- Enable/disable rviz -->
   <arg name="run_rviz"                                default="true"/>
-
-  <arg name="tf_minimal"                                default="false"/>
   <!-- rviz configuration -->
   <arg name="rviz_config_path"                        default="$(find arac_sim)/config/rviz/arac.rviz"/>
   <!-- Path to the RViz world -->
   <arg name="rviz_world_path"                         default="$(find gazebo_worlds)/rviz/$(arg world).yaml"/>
 
+
+
+  <!-- TF PARAMETERS -->
+  <!-- tf prefix -->
   <arg name="tf_prefix"                         default=""/>
+  <!-- tf minimal -->
+  <arg name="tf_minimal"                                default="false"/>
+  <!-- Simulation joint states publisher -->
+  <arg name="simulation_joint_states_topic" default="/state_estimator/simulation_joint_states"/>
+  <!-- Joint state topic name -->
+  <arg name="joint_states_topic" default="/state_estimator/joint_states"/>
 
 
-  <!-- ROBOT ARGUMENTS -->
-  <!-- Set the name of the robot -->
-  <arg name="robot_name"                          default="arac"/>
-  <!-- Set robot description path -->
-  <arg name="description_file"                        default="$(find arac_description)/urdf/arac.urdf.xacro"/>
 
+  <!-- CONTROLLER FRAME PARAMETERS -->
   <!-- Launch prefix for the arac controller frame -->
   <arg name="arac_controller_frame_launch_prefix"      default=""/>
   <!-- File where the controllers to load are specified -->
   <arg name="controllers_file"          default="$(find arac_sim)/config/controllers/controllers.yaml"/>
 
 
+
   <!-- PARAMETERS -->
   <!-- Set global simulation parameter -->
   <param name="/simulation" value="true"/>
 
-  <!-- Gazebo -->
+
+
+  <!-- GAZEBO -->
   <include file="$(find arac_gazebo)/launch/arac_gazebo.launch">
     <arg name="headless"                            value="$(arg gazebo_headless)"/>
     <arg name="model_path"                          value="$(arg model_path)"/>
@@ -79,13 +94,33 @@
     <arg name="frame_odometry_offset_y"             value="$(arg frame_odometry_offset_y)"/>
     <arg name="frame_odometry_offset_z"             value="$(arg frame_odometry_offset_z)"/>
     <arg name="run_gui"                             value="$(arg run_gazebo_gui)"/>
-    <arg name="description_name"                    value="arac_description"/>
+    <arg name="description_name"                    value="$(arg kulman_description)"/>
     <arg name="description_file"                    value="$(arg description_file)"/>
   </include>
 
- 
 
-  <!-- RViz -->
+
+  <!--  Joint State and TF publishers for Rviz Virtualization  -->
+  <node name="arac_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen">
+    <param name="use_gui"           value="false"/>
+    <param name="rate"              value="100"/>
+    <rosparam param="source_list">
+        ["$(arg simulation_joint_states_topic)"]
+    </rosparam>
+    <remap from="robot_description" to="$(arg kulman_description)"/>
+    <remap from="joint_states"      to="$(arg joint_states_topic)"/>
+  </node>
+  <node ns="arac_tf_publisher" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" value="100"/>
+    <param name="use_tf_static"     value="true"/>
+    <param name="tf_prefix"         value="$(arg tf_prefix)"/>
+    <remap from="robot_description" to="$(arg kulman_description)"/>
+    <remap from="joint_states"      to="$(arg joint_states_topic)"/>
+  </node>
+
+
+
+  <!-- RVIZ -->
   <group if="$(arg run_rviz)">
     <!-- Launch node -->
     <include file="$(find arac_rviz)/launch/rviz.launch">
@@ -95,11 +130,13 @@
     </include>
   </group>
 
-  <!-- Arac Controller Frame -->
+
+
+  <!-- CONTROLLER FRAME -->
     <include file="$(find arac_controller_frame)/launch/arac_controller_frame.launch">
       <arg name="simulation"       value="true"/>
       <arg name="launch_prefix"    value="$(arg arac_controller_frame_launch_prefix)"/>
-      <arg name="description_name" value="arac_description"/>
+      <arg name="description_name" value="$(arg kulman_description)"/>
       <arg name="controllers_file" value="$(arg controllers_file)"/>
     </include>
 
