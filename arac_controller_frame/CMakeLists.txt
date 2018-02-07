@@ -27,7 +27,7 @@ catkin_package(
   LIBRARIES
   	arac_controller_frame
   CATKIN_DEPENDS
-	  sarac_model
+	  arac_model
 	  arac_msgs
 	  roscpp
 	  param_io
