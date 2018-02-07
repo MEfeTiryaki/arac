@@ -42,7 +42,7 @@ KulmanTfPublisher::execute()
   }
 }
 
-KulmanTfPublisher::robotStateCallback(arac_msgs::AracState msg){
+KulmanTfPublisher::robotStateCallback(arac_msgs::KulmanState msg){
 
 }
 

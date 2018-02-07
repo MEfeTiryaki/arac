@@ -1,8 +1,8 @@
 subscribers:
-  arac_state:
-    topic: /state_estimator/arac_state
+  kulman_state:
+    topic: /state_estimator/kulman_state
     queue_size: 10
     latch: false
   joystick:
-    topic: /commands/joy
+    topic: /turtle1/cmd_vel
     queue_size: 10

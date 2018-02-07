@@ -98,6 +98,10 @@ void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
   getParam(*nodeHandle_, "publishers/joint_state/queue_size", jointStatePublisherQueueSize_);
 
 
+  // Get Subscriber parameters
+  getParam(*nodeHandle_, "subscribers/actuator_commands/topic", actuatorCommandSubscriberName_);
+  getParam(*nodeHandle_, "subscribers/actuator_commands/queue_size", actuatorCommandSubscriberQueueSize_);
+
   // Get Default Positions
   getParam(*nodeHandle_, "joint_states/default_positions", jointPositionsDefault_);
 
@@ -164,13 +168,13 @@ void KulmanGazeboPlugin::initPublishers()
 {
 
   // Robot State Publishers
-  kulmanStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(kulmanStatePublisherName_,
+  kulmanStatePublisher_ = nodeHandle_->advertise<arac_msgs::KulmanState>(kulmanStatePublisherName_,
                                                                       kulmanStatePublisherQueueSize_);
   jointStatePublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>(jointStatePublisherName_,
                                                                         jointStatePublisherQueueSize_);
 
   // Initilized the message
-  kulmanStateMsg_ = arac_msgs::AracState();
+  kulmanStateMsg_ = arac_msgs::KulmanState();
   // kulmanStateMsg_.pose =
   // kulmanStateMsg_.twist =
 
@@ -193,9 +197,10 @@ void KulmanGazeboPlugin::initSubscribers()
 
   // Actuator Command Subscriber
   const std::string subscriberStr = "/arac_controller_frame/ActuatorCommands";
-  actuatorCommandSubscriber_ = nodeHandle_->subscribe(subscriberStr, 1,
-                                                      &KulmanGazeboPlugin::actuatorCommandsCallback,
-                                                      this);
+  actuatorCommandSubscriber_ = nodeHandle_->subscribe(actuatorCommandSubscriberName_
+                                                     , actuatorCommandSubscriberQueueSize_
+                                                     , &KulmanGazeboPlugin::actuatorCommandsCallback
+                                                     , this);
 
   actuatorCommands_.inputs.name = jointNames_;
   actuatorCommands_.inputs.position = std::vector<double>(4, 0.0);

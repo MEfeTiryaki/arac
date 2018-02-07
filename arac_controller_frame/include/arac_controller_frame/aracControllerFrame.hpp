@@ -40,6 +40,8 @@ class aracControllerFrame
   virtual void execute();
 
  protected:
+  virtual void readParameters();
+
   virtual void initilizePublishers();
 
   virtual void initilizeSubscribers();
@@ -60,14 +62,29 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
-  geometry_msgs::Twist joystickTwistInput_;
-  double joystickCommandStartTime_;
 
+  // Publisher
   ros::Publisher actuatorCommandPublisher_;
+  // Publisher names
+  std::string actuatorCommandPublisherName_;
+  // Publisher queue_size
+  int actuatorCommandPublisherQueueSize_;
+  // Publisher msgs
   arac_msgs::ActuatorCommands actuatorCommand_;
 
-
+  // Subscriber
   ros::Subscriber joystickSubscriber_;
+  // Subscriber names
+  std::string joystickSubscriberName_;
+  // Subscriber queue_size
+  int joystickSubscriberQueueSize_;
+  // Subscriber msgs
+  geometry_msgs::Twist joystickMsg_;
+
+
+  double joystickCommandStartTime_;
+
+
 
   std::vector<std::string> jointNames_;
   std::vector<double> jointPositions_;

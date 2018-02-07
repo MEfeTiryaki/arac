@@ -36,7 +36,7 @@
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
 
-#include "arac_msgs/AracState.h"
+#include "arac_msgs/KulmanState.h"
 #include "arac_msgs/ActuatorCommands.h"
 
 #include <tf/transform_broadcaster.h>
@@ -133,12 +133,16 @@ class KulmanGazeboPlugin : public ModelPlugin
   int kulmanStatePublisherQueueSize_;
   int jointStatePublisherQueueSize_;
   // Publisher msgs
-  arac_msgs::AracState kulmanStateMsg_ ;
+  arac_msgs::KulmanState kulmanStateMsg_ ;
   sensor_msgs::JointState jointStates_ ;
-
 
   // Subscriber
   ros::Subscriber actuatorCommandSubscriber_;
+  // Subscriber names
+  std::string actuatorCommandSubscriberName_;
+  // Subscriber queue_size
+  int actuatorCommandSubscriberQueueSize_;
+  // Subscriber msgs
   arac_msgs::ActuatorCommands actuatorCommands_;
 
 
