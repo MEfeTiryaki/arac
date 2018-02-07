@@ -7,8 +7,7 @@ find_package(Boost REQUIRED COMPONENTS thread chrono)
 
 find_package(catkin REQUIRED
   COMPONENTS
-  	parameter_handler_ros
-	  arac_model
+  	arac_model
 	  arac_msgs
 	  roscpp
 	  param_io
@@ -28,7 +27,6 @@ catkin_package(
   LIBRARIES
   	arac_controller_frame
   CATKIN_DEPENDS
-	  parameter_handler_ros
 	  arac_model
 	  arac_msgs
 	  roscpp

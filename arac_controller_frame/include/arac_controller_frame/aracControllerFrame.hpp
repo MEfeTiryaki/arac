@@ -68,8 +68,8 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
-  std::shared_ptr<JoystickHandlerBase> JoysticHandler ;
-  std::shared_ptr<Kuco::ControllerBase> Controller ;
+  std::shared_ptr<JoystickHandlerBase> JoysticHandler_ ;
+  std::shared_ptr<Kuco::ControllerBase> Controller_ ;
 
 
   // Publisher

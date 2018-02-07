@@ -17,7 +17,7 @@
 
 
 class JoystickHandlerBase{
- public :
+public:
   virtual JoystickHandlerBase();
 
   virtual ~JoystickHandlerBase();
@@ -28,6 +28,9 @@ class JoystickHandlerBase{
 
   virtual void readParameters();
 
+  double getLinearVelocity();
+
+  double getAngularVelocity();
  private:
    virtual void initilizeSubscribers();
 
@@ -50,6 +53,8 @@ class JoystickHandlerBase{
 
    double joystickCommandStartTime_;
 
+   double linVelocity_;
+   double angVelocity_;
 
 
 };

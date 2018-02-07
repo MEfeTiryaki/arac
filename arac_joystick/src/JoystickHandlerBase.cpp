@@ -29,20 +29,10 @@ void JoystickHandlerBase::init()
 
   joystickCommandStartTime_ = ros::Time::now().toSec();
 
-
-
 }
 
 void JoystickHandlerBase::advance()
 {
-  if (ros::Time::now().toSec()-joystickCommandStartTime_>0.5){
-    resetActuatorCommand();
-  }else{
-    setActuatorCommand();
-  }
-
-  actuatorCommandPublisher_.publish(actuatorCommand_);
-
 }
 
 void JoystickHandlerBase::readParameters(){

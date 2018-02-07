@@ -113,7 +113,7 @@ void aracControllerFrame::resetActuatorCommand(){
 }
 
 void aracControllerFrame::setActuatorCommand(){
-  double linearVelocity = joystickMsg_.linear.x;
+  double linearVelocity = JoysticHandler_;
   double angularVelocity = joystickMsg_.angular.z;
   actuatorCommand_.inputs.velocity[0] = linearVelocity + angularVelocity ;
   actuatorCommand_.inputs.velocity[1] = linearVelocity + angularVelocity ;
