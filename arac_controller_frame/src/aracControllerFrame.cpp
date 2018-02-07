@@ -103,8 +103,8 @@ void aracControllerFrame::setActuatorCommand(){
   double linearVelocity = joystickTwistInput_.linear.x;
   double angularVelocity = joystickTwistInput_.angular.z;
   actuatorCommand_.inputs.velocity[0] = linearVelocity + angularVelocity ;
-  actuatorCommand_.inputs.velocity[1] = linearVelocity - angularVelocity ;
-  actuatorCommand_.inputs.velocity[2] = linearVelocity + angularVelocity ;
+  actuatorCommand_.inputs.velocity[1] = linearVelocity + angularVelocity ;
+  actuatorCommand_.inputs.velocity[2] = linearVelocity - angularVelocity ;
   actuatorCommand_.inputs.velocity[3] = linearVelocity - angularVelocity ;
 }
 
@@ -112,17 +112,3 @@ void aracControllerFrame::setActuatorCommand(){
 
 
 } /* namespace arac_controller_frame*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
