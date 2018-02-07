@@ -21,15 +21,10 @@ class AracGazeboPlugin : public KulmanGazeboPlugin
 
  protected:
 
-  virtual void initJointStructures() override;
-
   virtual void initSubscribers() override;
 
   // Inits the ROS publishers.
   virtual void initPublishers() override;
-
-  // Reads simulation state.
-  virtual void readSimulation() override;
 
   // Writes simulation state.
   virtual void writeSimulation() override;

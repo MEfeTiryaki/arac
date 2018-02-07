@@ -77,7 +77,7 @@ void KulmanGazeboPlugin::OnUpdate()
   readSimulation();
   writeSimulation();
   publishTFs();
-
+  publishPublishers();
 }
 
 void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
@@ -86,17 +86,19 @@ void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
   robotBaseLink_ = sdf->GetElement("robotBaseLink")->Get<std::string>();
   robotDescriptionParamName_ = sdf->GetElement("robotDescription")->Get<std::string>();
   const double statePublisherRate = sdf->GetElement("statePublisherRate")->Get<double>();
+
   publishingTimeStep_ = (statePublisherRate > 0.0) ? 1.0 / statePublisherRate : 0.0;
 
   getParam(*nodeHandle_, "frame/base/name", frameBase_);
   getParam(*nodeHandle_, "frame/odometry/name", frameOdometry_);
   getParam(*nodeHandle_, "frame/world/name", frameWorld_);
-  getParam(*nodeHandle_, "frame/world_gravity_aligned/name", frameWorldGravityAligned_);
+
   getParam(*nodeHandle_, "joint_states/default_positions", jointPositionsDefault_);
 
   isEstimatorUsed = false;
 
 }
+
 
 // Note : RSL code for getting model of the robot
 std::string KulmanGazeboPlugin::getUrdfRobotDescription(const std::string& paramName) const
@@ -133,14 +135,47 @@ std::string KulmanGazeboPlugin::getUrdfRobotDescription(const std::string& param
   return urdfString;
 }
 
+void KulmanGazeboPlugin::initJointStructures()
+{
+  jointPtrs_ = model_->GetJoints();
 
+  std::cout << "Detected Joints are :"<< std::endl;
+
+  // Init the joint structures.
+  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+    const auto jointPtr = jointPtrs_[i];
+    std::cout <<"  - " << jointPtr->GetName()<< std::endl;
+
+    // Set joint position to default initial position
+    jointPtr->SetPosition(0, jointPositionsDefault_[i]);
+    jointPositionsReset_[i] = jointPositionsDefault_[i];
+  }
+}
 
 void KulmanGazeboPlugin::initPublishers()
 {
 
   // Robot State Publishers
-  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>(robotName_ + "/RobotState",
-                                                                      1);
+  robotStatePublisher_ = nodeHandle_->advertise<arac_msgs::AracState>("/KulmanState",
+                                                                      400);
+  jointStatePublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>("/KulmanState/joint_states",
+                                                                        400);
+
+  // Initilized the message
+  kulmanStateMsg_ = arac_msgs::AracState();
+  // kulmanStateMsg_.pose =
+  // kulmanStateMsg_.twist =
+
+  jointStates_ =  sensor_msgs::JointState();
+
+  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+    const auto jointPtr = jointPtrs_[i];
+    jointStates_.name.push_back(jointPtr->GetName());
+    jointStates_.position.push_back(0.0);
+    jointStates_.velocity.push_back(0.0);
+    jointStates_.effort.push_back(0.0);
+  }
+  kulmanStateMsg_.joints = jointStates_;
 
 
 }
@@ -179,13 +214,25 @@ void KulmanGazeboPlugin::publishTFs()
   static tf::TransformBroadcaster br;
   br.sendTransform(tf::StampedTransform(odomTransform, ros::Time::now(), frameWorld_ , frameBase_));
 
+}
 
+void KulmanGazeboPlugin::publishPublishers()
+{
+    robotStatePublisher_.publish(kulmanStateMsg_);
+    jointStatePublisher_.publish(jointStates_);
 }
 
 void KulmanGazeboPlugin::readSimulation(){
-
+  jointStates_.header.stamp = ros::Time::now() ;
+  kulmanStateMsg_.header.stamp = ros::Time::now() ;
+  // read joint angles and write in publisher
+  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+    const auto jointPtr = jointPtrs_[i];
+    jointStates_.position[i] = jointPtr->GetAngle(0).Radian();
+    jointStates_.velocity[i] = jointPtr->GetVelocity(0);
+    jointStates_.effort[i] = jointPtr->GetForce(0);
+  }
+  kulmanStateMsg_.joints = jointStates_;
 }
-
-
 
 }

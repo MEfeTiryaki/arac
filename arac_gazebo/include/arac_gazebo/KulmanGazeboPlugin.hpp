@@ -69,7 +69,7 @@ class KulmanGazeboPlugin : public ModelPlugin
   // Reads parameters from the parameter server.
   virtual void readParameters(sdf::ElementPtr sdf);
 
-  virtual void initJointStructures() = 0;
+  virtual void initJointStructures() ;
 
   // Inits the ROS subscriber.
   virtual void initSubscribers() ;
@@ -88,6 +88,8 @@ class KulmanGazeboPlugin : public ModelPlugin
 
   // TF publish
   virtual void publishTFs() ;
+
+  virtual void publishPublishers();
 
   // Retrieves URDF robot description from ROS parameter server.
   virtual std::string getUrdfRobotDescription(const std::string& paramName) const;
@@ -117,22 +119,20 @@ class KulmanGazeboPlugin : public ModelPlugin
   std::string frameBase_;
   std::string frameOdometry_;
   std::string frameWorld_;
-  std::string frameWorldGravityAligned_;
 
   // TF transforms
   tf::Transform odomTransform;
 
+  // Publisher
+  ros::Publisher robotStatePublisher_;
+  ros::Publisher jointStatePublisher_;
 
-  // Gazebo time step.
-  double gazeboTimeStep_ = 0.0;
-  // Time step for publishing simulation state.
-  double publishingTimeStep_ = 0.0;
-  // Simulation time stamp taken at the start of the last updateCb() function call.
-  common::Time lastStartUpdateSimTime_;
-  // System time stamp taken at the start of the last updateCb() function call.
-  std::chrono::time_point<std::chrono::steady_clock> lastStartUpdateSysTime_;
-  // Current inter-update simulation time step.
-  double updateSimTimeStep_ = 0.0;
+  arac_msgs::AracState kulmanStateMsg_ ;
+  sensor_msgs::JointState jointStates_ ;
+  // Subscriber
+  ros::Subscriber actuatorCommandSubscriber_;
+  arac_msgs::ActuatorCommands actuatorCommands_;
+
 
   // Model.
   physics::ModelPtr model_;
@@ -146,11 +146,7 @@ class KulmanGazeboPlugin : public ModelPlugin
   // Robot base link angular velocity in base frame.
   math::Vector3 robotBaseLinkAngularVelocity_;
 
-  // Publisher
-  ros::Publisher robotStatePublisher_;
-  // Subscriber
-  ros::Subscriber actuatorCommandSubscriber_;
-  arac_msgs::ActuatorCommands actuatorCommands_;
+
   // Estimator Bool
   bool isEstimatorUsed;
   // Actuators
@@ -165,6 +161,18 @@ class KulmanGazeboPlugin : public ModelPlugin
   std::vector<double> jointTorqueLimits_;
   std::vector<double> jointVelocityLimits_;
   std::vector<double> jointPositionsDefault_;
+
+
+  // Gazebo time step.
+  double gazeboTimeStep_ = 0.0;
+  // Time step for publishing simulation state.
+  double publishingTimeStep_ = 0.0;
+  // Simulation time stamp taken at the start of the last updateCb() function call.
+  common::Time lastStartUpdateSimTime_;
+  // System time stamp taken at the start of the last updateCb() function call.
+  std::chrono::time_point<std::chrono::steady_clock> lastStartUpdateSysTime_;
+  // Current inter-update simulation time step.
+  double updateSimTimeStep_ = 0.0;
 
 };
 

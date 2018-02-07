@@ -6,7 +6,7 @@
   <xacro:property name="w_wheel"                value= "0.02"/> <!-- [m] -->
   <xacro:property name="m_wheel"                value= "10.0"/> <!-- [kg] -->
   <xacro:property name="x_wheel"                value= "0.2"/> <!-- m -->
-  <xacro:property name="y_wheel"                value= "0.15"/> <!-- m -->
+  <xacro:property name="y_wheel"                value= "0.2"/> <!-- m -->
   <xacro:property name="z_wheel"                value= "-0.05"/> <!-- m -->
 
   <xacro:property name="B_Ixx_wheel"            value= "0.01"/> <!-- [kg * m^2] -->

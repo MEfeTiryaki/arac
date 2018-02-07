@@ -83,20 +83,7 @@
     <arg name="description_file"                    value="$(arg description_file)"/>
   </include>
 
- <node name="arac_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen">
-    <param name="use_gui"           value="true"/>
-    <param name="rate"              value="100"/>
-    <remap from="robot_description" to="arac_description"/>
-    <remap from="joint_states"      to="/state_estimator/joint_states"/>
-  </node>
-
-  <node ns="arac_tf_publisher" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
-    <param name="publish_frequency" value="100"/>
-    <param name="use_tf_static"     value="true"/>
-    <param name="tf_prefix"         value="$(arg tf_prefix)"/>
-    <remap from="robot_description" to="arac_description"/>
-    <remap from="joint_states"      to="/state_estimator/joint_states"/>
-  </node>
+ 
 
   <!-- RViz -->
   <group if="$(arg run_rviz)">
