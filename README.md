@@ -15,6 +15,8 @@ Benzetimleri çalıştırabilmek için bilgisayarınızda aşağıdakiler bulunm
 
 ilgili egitsellerin bağlantıları ileride eklenecektir.
 
+[![Build Status](https://circleci.com/gh/Sadetra/arac.svg?style=shield&circle-token=:circle-token])
+
 #### English version
 
 Arac is a robotic platform developed to be used in autonomous driving.
