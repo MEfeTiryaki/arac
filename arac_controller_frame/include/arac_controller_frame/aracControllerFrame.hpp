@@ -33,14 +33,20 @@ class aracControllerFrame
   // Init
   virtual void init(int argc, char **argv);
 
+  // Parameters init
+  virtual void readParameters();
+
   // Update
   virtual void update();
 
   // excute
   virtual void execute();
 
+  // excute
+  virtual void advance();
+
  protected:
-  virtual void readParameters();
+
 
   virtual void initilizePublishers();
 
@@ -61,6 +67,9 @@ class aracControllerFrame
 
   std::string nodeName_;
   std::string robotName_;
+
+  std::shared_ptr<JoystickHandlerBase> JoysticHandler ;
+  std::shared_ptr<Kuco::ControllerBase> Controller ;
 
 
   // Publisher

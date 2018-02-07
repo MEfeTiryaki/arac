@@ -49,17 +49,23 @@ void aracControllerFrame::update()
 void aracControllerFrame::execute()
 {
   while (ros::ok()) {
-    if (ros::Time::now().toSec()-joystickCommandStartTime_>0.5){
-      resetActuatorCommand();
-    }else{
-      setActuatorCommand();
-    }
+
+    advance();
 
     actuatorCommandPublisher_.publish(actuatorCommand_);
 
     ros::spinOnce();
     loop_rate_->sleep();
   }
+}
+
+void aracControllerFrame::advance(){
+
+  // Advance the joystick handler
+  JoysticHandler.advance();
+
+  // Advance the controller
+
 }
 
 void aracControllerFrame::readParameters()
@@ -84,7 +90,6 @@ void aracControllerFrame::initilizePublishers()
 
 }
 
-// Todo : checkque size
 void aracControllerFrame::initilizeSubscribers()
 {
   std::cout << "arac_controller_frame::initilizeSubscribers" << std::endl;
@@ -93,11 +98,6 @@ void aracControllerFrame::initilizeSubscribers()
                                                &aracControllerFrame::getJoystickTwistInput, this);
 }
 
-void aracControllerFrame::getJoystickTwistInput(geometry_msgs::Twist msg)
-{
-  joystickMsg_ = msg;
-  joystickCommandStartTime_ = ros::Time::now().toSec();
-}
 
 void aracControllerFrame::createActuatorCommand(){
   actuatorCommand_.inputs.name = jointNames_;
