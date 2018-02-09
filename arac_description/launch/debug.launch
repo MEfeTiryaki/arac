@@ -11,11 +11,11 @@
   <!-- Joint state topic name -->
   <arg name="joint_states_topic" default="/state_estimator/joint_states"/>
 
-  <arg name="model_path"                              default="$(find gazebo_worlds)/.."/>
+  <arg name="model_path"                              default="$(find arac_gazebo)/.."/>
   <!-- Name of the world -->
   <arg name="world"                                   default="empty"/>
   <!-- Path to the world file -->
-  <arg name="world_file"                              default="$(find gazebo_worlds)/worlds/$(arg world).world"/>
+  <arg name="world_file"                              default="$(find arac_gazebo)/worlds/$(arg world).world"/>
 
   <!-- Set true to fix the robot's main body in space -->
   <arg name="fixed"                                   default="false"/>
@@ -27,7 +27,7 @@
   <!-- rviz configuration -->
   <arg name="rviz_config_path"                        default="$(find arac_sim)/config/rviz/arac.rviz"/>
   <!-- Path to the RViz world -->
-  <arg name="rviz_world_path"                         default="$(find gazebo_worlds)/rviz/$(arg world).yaml"/>
+  <arg name="rviz_world_path"                         default="$(find arac_gazebo)/rviz/$(arg world).yaml"/>
 
   <node name="arac_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen">
      <param name="use_gui"           value="true"/>

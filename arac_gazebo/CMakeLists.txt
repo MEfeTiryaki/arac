@@ -9,7 +9,6 @@ find_package(catkin REQUIRED
     arac_msgs
     gazebo_plugins
     gazebo_ros
-    gazebo_worlds
     roscpp
     urdf
     xacro
@@ -39,7 +38,6 @@ catkin_package(
     param_io
     arac_msgs
     gazebo_plugins
-    gazebo_worlds
     urdf
     xacro
   DEPENDS
