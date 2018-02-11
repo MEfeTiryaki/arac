@@ -15,6 +15,7 @@ find_package(catkin REQUIRED
   arac_sim
   arac_state_estimator
   arac_rviz
+  param_io
 )
 
 catkin_package(
@@ -30,4 +31,5 @@ catkin_package(
   arac_sim
   arac_state_estimator
   arac_rviz
+  param_io
 )

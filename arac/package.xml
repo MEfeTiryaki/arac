@@ -21,4 +21,5 @@
   <depend>arac_sim</depend>
   <depend>arac_state_estimator</depend>
   <depend>arac_rviz</depend>
+  <depend>param_io</depend>
 </package>
