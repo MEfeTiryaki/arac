@@ -17,12 +17,11 @@
   <arg name="gazebo_headless"                         default="false"/>
   <!-- Model path -->
   <!-- If the world is not found in a "linked" devel space layout (see catkin config), this might help: -->
-  <!-- "$(find gazebo_worlds)/../../.private/gazebo_worlds/share" -->
-  <arg name="model_path"                              default="$(find gazebo_worlds)/.."/>
+  <arg name="model_path"                              default="$(find arac_gazebo)/.."/>
   <!-- Name of the world -->
   <arg name="world"                                   default="empty"/>
   <!-- Path to the world file -->
-  <arg name="world_file"                              default="$(find gazebo_worlds)/worlds/$(arg world).world"/>
+  <arg name="world_file"                              default="$(find arac_gazebo)/worlds/$(arg world).world"/>
   <!-- Set true to fix the robot's main body in space -->
   <arg name="fixed"                                   default="false"/>
   <!-- Set the initial pose of the robot's main body -->
@@ -47,7 +46,7 @@
   <!-- rviz configuration -->
   <arg name="rviz_config_path"                        default="$(find arac_sim)/config/rviz/arac.rviz"/>
   <!-- Path to the RViz world -->
-  <arg name="rviz_world_path"                         default="$(find gazebo_worlds)/rviz/$(arg world).yaml"/>
+  <arg name="rviz_world_path"                         default="$(find arac_gazebo)/rviz/$(arg world).yaml"/>
 
 
 

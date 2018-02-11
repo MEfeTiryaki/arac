@@ -9,7 +9,6 @@ find_package(catkin REQUIRED
 
 catkin_package(
   INCLUDE_DIRS
-    include
   CATKIN_DEPENDS
     arac_description
     arac_gazebo
@@ -22,6 +21,5 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
 )

@@ -5,17 +5,17 @@
   <!-- GAZEBO ARGUMENTS -->
   <!-- Run Gazebo headless -->
   <arg name="headless"                              default="false"/>
-  
+
   <arg name="default_joint_position_config_file"    default="$(find arac_gazebo)/config/default.yaml"/>
-  <!-- Specify the actuator config file -->  
+  <!-- Specify the actuator config file -->
   <arg name="actuators_config_file"                 default="$(find arac_gazebo)/config/actuators.yaml"/>
-  
+
   <!-- Model path -->
-  <arg name="model_path"                            default="$(find gazebo_worlds)/.."/>
+  <arg name="model_path"                            default="$(find arac_gazebo)/world/.."/>
   <!-- Name of the world -->
   <arg name="world"                                 default="empty"/>
   <!-- Path to the world file -->
-  <arg name="world_file"                            default="$(find gazebo_worlds)/worlds/$(arg world).world"/>
+  <arg name="world_file"                            default="$(find arac_gazebo)/worlds/$(arg world).world"/>
   <!-- Enable/disable state estimation messages from Gazebo -->
   <arg name="simulate_estimator"                    default="true"/>
   <!-- Set true to simulate sensors without noise and bias -->
