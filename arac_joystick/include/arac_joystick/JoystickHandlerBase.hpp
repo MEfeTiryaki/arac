@@ -19,15 +19,17 @@
  #include <memory>
  #include <mutex>
 
+ #include "State.hpp"
+
 namespace joystick {
 
   class JoystickHandlerBase{
     public:
-      JoystickHandlerBase();
+      JoystickHandlerBase(kuco::State& state);
 
       virtual ~JoystickHandlerBase();
 
-      virtual void initilize(int argc, char **argv);
+      virtual void initilize(ros::NodeHandle* nh);
 
       virtual void advance();
 
@@ -60,6 +62,8 @@ namespace joystick {
 
       double linVelocity_;
       double angVelocity_;
+
+      kuco::State& state_;
   };
 
 }

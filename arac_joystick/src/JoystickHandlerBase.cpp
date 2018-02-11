@@ -2,6 +2,7 @@
 
 #include "arac_joystick/JoystickHandlerBase.hpp"
 
+
 #include <param_io/get_param.hpp>
 
 
@@ -12,18 +13,18 @@ namespace joystick{
 using namespace param_io;
 
 // Todo : check if we can add robot name here
-JoystickHandlerBase::JoystickHandlerBase(){
+JoystickHandlerBase::JoystickHandlerBase(kuco::State& state)
+  : state_(state)
+{
 }
 
 JoystickHandlerBase::~JoystickHandlerBase(){
 }
 
-void JoystickHandlerBase::initilize(int argc, char **argv)
+void JoystickHandlerBase::initilize(ros::NodeHandle* nh )
 {
 
-  ros::init(argc, argv, "joystick");
-  nodeHandle_ = new ros::NodeHandle("~");
-  loop_rate_= new ros::Rate(100);
+  nodeHandle_ = nh ;
 
   readParameters();
 

@@ -13,11 +13,12 @@
 #include <boost/chrono.hpp>
 #include <memory>
 #include <mutex>
+#include <vector>
 
 #include <param_io/get_param.hpp>
 
 #include "arac_joystick/JoystickDummy.hpp"
-
+#include "arac_controller/aracController.hpp"
 #include "arac_msgs/ActuatorCommands.h"
 
 // stl
@@ -36,6 +37,9 @@ class aracControllerFrame
 
   // Init
   virtual void initilize(int argc, char **argv);
+
+  // Create
+  virtual void create();
 
   // Parameters init
   virtual void readParameters();
@@ -60,7 +64,6 @@ class aracControllerFrame
 
   void createActuatorCommand();
 
-  void resetActuatorCommand();
  private:
 
   ros::NodeHandle* nodeHandle_;
@@ -70,10 +73,10 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
-  // Todo : understand difference with unique_ptr and document
-  joystick::JoystickDummy joystickHandler_ ;
-  //std::shared_ptr<Kuco::ControllerBase> controller_ ;
-
+  // Todo : pointerlar arasında ne fark var ogren
+  joystick::JoystickDummy* joystickHandler_ ;
+  kuco::aracController* controller_ ;
+  kuco::State* state_;
 
   // Publisher
   ros::Publisher actuatorCommandPublisher_;

@@ -5,13 +5,18 @@ namespace arac_controller_frame {
 
 // Note : param_io is needed to use the getParam
 using namespace param_io;
-aracControllerFrame::aracControllerFrame()
-  : joystickHandler_()
-{
+aracControllerFrame::aracControllerFrame(){
+
 }
 
 aracControllerFrame::~aracControllerFrame()
 {
+}
+
+void aracControllerFrame::create(){
+  state_ = new kuco::State();
+  joystickHandler_ = new joystick::JoystickDummy(*state_);
+  controller_ =  new kuco::aracController(*state_);
 }
 
 void aracControllerFrame::initilize(int argc, char **argv)
@@ -31,17 +36,14 @@ void aracControllerFrame::initilize(int argc, char **argv)
 
   nodeHandle_ = new ros::NodeHandle("~");
 
-  loop_rate_= new ros::Rate(400);
+  loop_rate_= new ros::Rate(100);
 
   readParameters();
   initilizePublishers();
   initilizeSubscribers();
 
-  // joystic handler initilization
-  // Todo :  move these resets some where more meaningful
-
-  joystickHandler_.initilize(argc, argv);
-
+  joystickHandler_->initilize( nodeHandle_);
+  controller_->initilize();
 
   std::cout << "arac_controller_frame::init " << std::endl;
 }
@@ -54,11 +56,7 @@ void aracControllerFrame::update()
 void aracControllerFrame::execute()
 {
   while (ros::ok()) {
-
     advance();
-
-    actuatorCommandPublisher_.publish(actuatorCommand_);
-
     ros::spinOnce();
     loop_rate_->sleep();
   }
@@ -66,10 +64,19 @@ void aracControllerFrame::execute()
 
 void aracControllerFrame::advance(){
 
+  // Estimator here in future
+
   // Advance the joystick handler
-  joystickHandler_.advance();
+  joystickHandler_->advance();
 
   // Advance the controller
+  controller_->advance();
+
+  // set actuator commands
+  setActuatorCommand();
+  // publish actuators
+  actuatorCommandPublisher_.publish(actuatorCommand_);
+
 
 }
 
@@ -82,9 +89,7 @@ void aracControllerFrame::readParameters()
 }
 
 
-
-void aracControllerFrame::initilizePublishers()
-{
+void aracControllerFrame::initilizePublishers(){
   std::cout << "arac_controller_frame::initilizePublishers" << std::endl;
   actuatorCommandPublisher_ = nodeHandle_->advertise < arac_msgs::ActuatorCommands>
                             ( actuatorCommandPublisherName_, actuatorCommandPublisherQueueSize_);
@@ -96,7 +101,6 @@ void aracControllerFrame::initilizeSubscribers()
 
 }
 
-
 void aracControllerFrame::createActuatorCommand(){
   actuatorCommand_.inputs.name = jointNames_;
   actuatorCommand_.inputs.position = jointVelocities_;
@@ -105,18 +109,12 @@ void aracControllerFrame::createActuatorCommand(){
 
 }
 
-void aracControllerFrame::resetActuatorCommand(){
-  actuatorCommand_.inputs.velocity = std::vector<double> (4, 0.0);
-
-}
-
 void aracControllerFrame::setActuatorCommand(){
-  double linearVelocity = joystickHandler_.getLinearVelocity();
-  double angularVelocity = joystickHandler_.getAngularVelocity();
-  actuatorCommand_.inputs.velocity[0] = linearVelocity + angularVelocity ;
-  actuatorCommand_.inputs.velocity[1] = linearVelocity + angularVelocity ;
-  actuatorCommand_.inputs.velocity[2] = linearVelocity - angularVelocity ;
-  actuatorCommand_.inputs.velocity[3] = linearVelocity - angularVelocity ;
+  std::vector<double> wheelVelocities;
+
+  wheelVelocities = controller_->getControlInputs();
+  for(int i=0; i<actuatorCommand_.inputs.velocity.size(); i++)
+    actuatorCommand_.inputs.velocity[i] = wheelVelocities[i];
 }
 
 

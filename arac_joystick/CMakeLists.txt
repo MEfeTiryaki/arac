@@ -10,6 +10,7 @@ find_package(catkin REQUIRED
   geometry_msgs
   std_msgs
   sensor_msgs
+  arac_model
 )
 
 catkin_package(
@@ -23,6 +24,7 @@ catkin_package(
     geometry_msgs
     std_msgs
     sensor_msgs
+    arac_model
 )
 
 include_directories(
@@ -35,12 +37,11 @@ add_library( ${PROJECT_NAME}
   src/JoystickDummy.cpp
 )
 
-add_dependencies(arac_joystick
+add_dependencies(${PROJECT_NAME}
   ${catkin_EXPORTED_TARGETS}
 )
 
-target_link_libraries(arac_joystick
-  ${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )

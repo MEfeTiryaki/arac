@@ -10,6 +10,7 @@ find_package(catkin REQUIRED
   	arac_model
 	  arac_msgs
     arac_joystick
+    arac_controller
     roscpp
     param_io
     geometry_msgs
@@ -29,12 +30,13 @@ catkin_package(
   CATKIN_DEPENDS
 	  arac_model
 	  arac_msgs
+    arac_joystick
+    arac_controller
 	  roscpp
 	  param_io
 	  geometry_msgs
     std_msgs
     sensor_msgs
-    arac_joystick
   DEPENDS
     Boost
 )
