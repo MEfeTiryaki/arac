@@ -7,7 +7,7 @@
 int main(int argc, char **argv)
 {
   arac_controller_frame::aracControllerFrame controllerFrame = arac_controller_frame::aracControllerFrame();
-  controllerFrame.init(argc,argv);
+  controllerFrame.initilize(argc,argv);
   controllerFrame.execute();
   return 0;
 }

@@ -20,6 +20,9 @@
 
 #include "arac_msgs/ActuatorCommands.h"
 
+// stl
+#include <memory>
+
 namespace arac_controller_frame {
 
 class aracControllerFrame
@@ -32,7 +35,7 @@ class aracControllerFrame
   virtual ~aracControllerFrame();
 
   // Init
-  virtual void init(int argc, char **argv);
+  virtual void initilize(int argc, char **argv);
 
   // Parameters init
   virtual void readParameters();
@@ -67,7 +70,8 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
-  std::shared_ptr<joystick::JoystickDummy> joysticHandler_ ;
+  // Todo : understand difference with unique_ptr and document
+  joystick::JoystickDummy joystickHandler_ ;
   //std::shared_ptr<Kuco::ControllerBase> controller_ ;
 
 

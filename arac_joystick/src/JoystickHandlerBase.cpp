@@ -20,6 +20,7 @@ JoystickHandlerBase::~JoystickHandlerBase(){
 
 void JoystickHandlerBase::initilize(int argc, char **argv)
 {
+
   ros::init(argc, argv, "joystick");
   nodeHandle_ = new ros::NodeHandle("~");
   loop_rate_= new ros::Rate(100);

@@ -6,6 +6,7 @@ namespace arac_controller_frame {
 // Note : param_io is needed to use the getParam
 using namespace param_io;
 aracControllerFrame::aracControllerFrame()
+  : joystickHandler_()
 {
 }
 
@@ -13,7 +14,7 @@ aracControllerFrame::~aracControllerFrame()
 {
 }
 
-void aracControllerFrame::init(int argc, char **argv)
+void aracControllerFrame::initilize(int argc, char **argv)
 {
   jointNames_.push_back("LF_WH");
   jointNames_.push_back("RF_WH");
@@ -37,7 +38,9 @@ void aracControllerFrame::init(int argc, char **argv)
   initilizeSubscribers();
 
   // joystic handler initilization
-  joysticHandler_->initilize(argc, argv);
+  // Todo :  move these resets some where more meaningful
+
+  joystickHandler_.initilize(argc, argv);
 
 
   std::cout << "arac_controller_frame::init " << std::endl;
@@ -64,7 +67,7 @@ void aracControllerFrame::execute()
 void aracControllerFrame::advance(){
 
   // Advance the joystick handler
-  joysticHandler_->advance();
+  joystickHandler_.advance();
 
   // Advance the controller
 
@@ -108,8 +111,8 @@ void aracControllerFrame::resetActuatorCommand(){
 }
 
 void aracControllerFrame::setActuatorCommand(){
-  double linearVelocity = joysticHandler_->getLinearVelocity();
-  double angularVelocity = joysticHandler_->getAngularVelocity();
+  double linearVelocity = joystickHandler_.getLinearVelocity();
+  double angularVelocity = joystickHandler_.getAngularVelocity();
   actuatorCommand_.inputs.velocity[0] = linearVelocity + angularVelocity ;
   actuatorCommand_.inputs.velocity[1] = linearVelocity + angularVelocity ;
   actuatorCommand_.inputs.velocity[2] = linearVelocity - angularVelocity ;
