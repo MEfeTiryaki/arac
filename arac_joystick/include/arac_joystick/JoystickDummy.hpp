@@ -7,10 +7,10 @@
 
 #include "arac_joystick/JoystickHandlerBase.hpp"
 
-
+ namespace joystick {
 class JoystickDummy : public JoystickHandlerBase{
 public:
-  virtual JoystickDummy();
+  JoystickDummy();
 
   virtual ~JoystickDummy();
 
@@ -20,3 +20,5 @@ public:
 
 
 };
+
+}

@@ -16,6 +16,7 @@
 
 #include <param_io/get_param.hpp>
 
+#include "arac_joystick/JoystickDummy.hpp"
 
 #include "arac_msgs/ActuatorCommands.h"
 
@@ -52,8 +53,6 @@ class aracControllerFrame
 
   virtual void initilizeSubscribers();
 
-  virtual void getJoystickTwistInput(geometry_msgs::Twist msg);
-
   virtual void setActuatorCommand();
 
   void createActuatorCommand();
@@ -68,8 +67,8 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
-  std::shared_ptr<JoystickHandlerBase> JoysticHandler_ ;
-  std::shared_ptr<Kuco::ControllerBase> Controller_ ;
+  std::shared_ptr<joystick::JoystickDummy> joysticHandler_ ;
+  //std::shared_ptr<Kuco::ControllerBase> controller_ ;
 
 
   // Publisher
@@ -80,15 +79,6 @@ class aracControllerFrame
   int actuatorCommandPublisherQueueSize_;
   // Publisher msgs
   arac_msgs::ActuatorCommands actuatorCommand_;
-
-  // Subscriber
-  ros::Subscriber joystickSubscriber_;
-  // Subscriber names
-  std::string joystickSubscriberName_;
-  // Subscriber queue_size
-  int joystickSubscriberQueueSize_;
-  // Subscriber msgs
-  geometry_msgs::Twist joystickMsg_;
 
 
   double joystickCommandStartTime_;
@@ -102,4 +92,5 @@ class aracControllerFrame
 
 
 };
+
 }

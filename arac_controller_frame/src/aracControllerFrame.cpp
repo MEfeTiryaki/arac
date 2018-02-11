@@ -36,9 +36,11 @@ void aracControllerFrame::init(int argc, char **argv)
   initilizePublishers();
   initilizeSubscribers();
 
-  joystickCommandStartTime_ = ros::Time::now().toSec();
-  std::cout << "arac_controller_frame::init " << std::endl;
+  // joystic handler initilization
+  joysticHandler_->initilize(argc, argv);
 
+
+  std::cout << "arac_controller_frame::init " << std::endl;
 }
 
 void aracControllerFrame::update()
@@ -62,7 +64,7 @@ void aracControllerFrame::execute()
 void aracControllerFrame::advance(){
 
   // Advance the joystick handler
-  JoysticHandler.advance();
+  joysticHandler_->advance();
 
   // Advance the controller
 
@@ -73,10 +75,6 @@ void aracControllerFrame::readParameters()
   // Get Publishers parameters
   getParam(*nodeHandle_, "publishers/actuator_commands/topic", actuatorCommandPublisherName_);
   getParam(*nodeHandle_, "publishers/actuator_commands/queue_size", actuatorCommandPublisherQueueSize_);
-
-  // Get Subscriber parameters
-  getParam(*nodeHandle_, "subscribers/joystick/topic", joystickSubscriberName_);
-  getParam(*nodeHandle_, "subscribers/joystick/queue_size", joystickSubscriberQueueSize_);
 
 }
 
@@ -92,10 +90,7 @@ void aracControllerFrame::initilizePublishers()
 
 void aracControllerFrame::initilizeSubscribers()
 {
-  std::cout << "arac_controller_frame::initilizeSubscribers" << std::endl;
 
-  joystickSubscriber_ = nodeHandle_->subscribe(joystickSubscriberName_, joystickSubscriberQueueSize_,
-                                               &aracControllerFrame::getJoystickTwistInput, this);
 }
 
 
@@ -113,8 +108,8 @@ void aracControllerFrame::resetActuatorCommand(){
 }
 
 void aracControllerFrame::setActuatorCommand(){
-  double linearVelocity = JoysticHandler_;
-  double angularVelocity = joystickMsg_.angular.z;
+  double linearVelocity = joysticHandler_->getLinearVelocity();
+  double angularVelocity = joysticHandler_->getAngularVelocity();
   actuatorCommand_.inputs.velocity[0] = linearVelocity + angularVelocity ;
   actuatorCommand_.inputs.velocity[1] = linearVelocity + angularVelocity ;
   actuatorCommand_.inputs.velocity[2] = linearVelocity - angularVelocity ;

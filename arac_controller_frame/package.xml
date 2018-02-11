@@ -13,6 +13,7 @@
 
   <depend>arac_model</depend>
   <depend>arac_msgs</depend>
+  <depend>arac_joystick</depend>
   <depend>roscpp</depend>
   <depend>boost</depend>
   <depend>eigen</depend>

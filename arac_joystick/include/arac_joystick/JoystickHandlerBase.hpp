@@ -5,56 +5,61 @@
  *      Author: efe
  */
 
-#include <ros/ros.h>
+ #include <ros/ros.h>
 
-// ROS messages / services
-#include <sensor_msgs/Joy.h>
-#include <geometry_msgs/TwistStamped.h>
-#include <geometry_msgs/PoseStamped.h>
-#include <geometry_msgs/TransformStamped.h>
-#include <std_srvs/Empty.h>
-#include <std_msgs/Empty.h>
+ // ROS messages / services
+ #include <sensor_msgs/Joy.h>
+ #include <geometry_msgs/TwistStamped.h>
+ #include <geometry_msgs/PoseStamped.h>
+ #include <geometry_msgs/TransformStamped.h>
+ #include <std_msgs/Empty.h>
 
+ #include <boost/thread.hpp>
+ #include <boost/chrono.hpp>
+ #include <memory>
+ #include <mutex>
 
-class JoystickHandlerBase{
-public:
-  virtual JoystickHandlerBase();
+namespace joystick {
 
-  virtual ~JoystickHandlerBase();
+  class JoystickHandlerBase{
+    public:
+      JoystickHandlerBase();
 
-  virtual void init();
+      virtual ~JoystickHandlerBase();
 
-  virtual void advance();
+      virtual void initilize(int argc, char **argv);
 
-  virtual void readParameters();
+      virtual void advance();
 
-  double getLinearVelocity();
+      virtual void readParameters();
 
-  double getAngularVelocity();
- private:
-   virtual void initilizeSubscribers();
+      double getLinearVelocity(){ return linVelocity_ ; };
 
-   virtual void getJoystickMsg(geometry_msgs::Twist msg);
+      double getAngularVelocity(){ return angVelocity_ ; };
+    protected:
+      virtual void initilizeSubscribers();
 
-
-   ros::NodeHandle* nodeHandle_;
-   ros::Rate* loop_rate_;
-
-
-   // Subscriber
-   ros::Subscriber joystickSubscriber_;
-   // Subscriber names
-   std::string joystickSubscriberName_;
-   // Subscriber queue_size
-   int joystickSubscriberQueueSize_;
-   // Subscriber msgs
-   geometry_msgs::Twist joystickMsg_;
+      virtual void getJoystickMsg(geometry_msgs::Twist msg);
 
 
-   double joystickCommandStartTime_;
-
-   double linVelocity_;
-   double angVelocity_;
+      ros::NodeHandle* nodeHandle_;
+      ros::Rate* loop_rate_;
 
 
-};
+      // Subscriber
+      ros::Subscriber joystickSubscriber_;
+      // Subscriber names
+      std::string joystickSubscriberName_;
+      // Subscriber queue_size
+      int joystickSubscriberQueueSize_;
+      // Subscriber msgs
+      geometry_msgs::Twist joystickMsg_;
+
+
+      double joystickCommandStartTime_;
+
+      double linVelocity_;
+      double angVelocity_;
+  };
+
+}

@@ -2,21 +2,23 @@
 
 #include "arac_joystick/JoystickHandlerBase.hpp"
 
-namespace gazebo {
+#include <param_io/get_param.hpp>
+
 
 // Note : param_io is needed to use the getParam
+
+namespace joystick{
+
 using namespace param_io;
 
 // Todo : check if we can add robot name here
-JoystickHandlerBase::JoystickHandlerBase()
-{
+JoystickHandlerBase::JoystickHandlerBase(){
 }
 
-JoystickHandlerBase::~JoystickHandlerBase()
-{
+JoystickHandlerBase::~JoystickHandlerBase(){
 }
 
-void JoystickHandlerBase::init()
+void JoystickHandlerBase::initilize(int argc, char **argv)
 {
   ros::init(argc, argv, "joystick");
   nodeHandle_ = new ros::NodeHandle("~");
@@ -24,15 +26,13 @@ void JoystickHandlerBase::init()
 
   readParameters();
 
-  initilizePublishers();
   initilizeSubscribers();
 
   joystickCommandStartTime_ = ros::Time::now().toSec();
 
 }
 
-void JoystickHandlerBase::advance()
-{
+void JoystickHandlerBase::advance(){
 }
 
 void JoystickHandlerBase::readParameters(){
@@ -48,8 +48,10 @@ void JoystickHandlerBase::initilizeSubscribers()
                                                &JoystickHandlerBase::getJoystickMsg, this);
 }
 
-void JoystickHandlerBase::getJoystickMsg(geometry_msgs::Twist msg)
-{
+void JoystickHandlerBase::getJoystickMsg(geometry_msgs::Twist msg){
   joystickMsg_ = msg;
   joystickCommandStartTime_ = ros::Time::now().toSec();
+}
+
+
 }
