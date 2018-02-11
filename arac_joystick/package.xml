@@ -10,5 +10,13 @@
   <maintainer email="m.efetiryaki@gmail.com">Mehmet Efe Tiryaki</maintainer>
 
   <buildtool_depend>catkin</buildtool_depend>
-
+  <depend>roscpp</depend>
+  <depend>boost</depend>
+  <depend>eigen</depend>
+  <depend>param_io</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>arac_model</depend>
+  
 </package>

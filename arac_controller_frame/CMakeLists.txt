@@ -9,12 +9,13 @@ find_package(catkin REQUIRED
   COMPONENTS
   	arac_model
 	  arac_msgs
-	  roscpp
-	  param_io
-	  geometry_msgs
+    arac_joystick
+    arac_controller
+    roscpp
+    param_io
+    geometry_msgs
     std_msgs
     sensor_msgs
-
 )
 
 ## System dependencies are found with CMake's conventions
@@ -29,6 +30,8 @@ catkin_package(
   CATKIN_DEPENDS
 	  arac_model
 	  arac_msgs
+    arac_joystick
+    arac_controller
 	  roscpp
 	  param_io
 	  geometry_msgs
@@ -36,8 +39,6 @@ catkin_package(
     sensor_msgs
   DEPENDS
     Boost
-
-
 )
 
 ###########

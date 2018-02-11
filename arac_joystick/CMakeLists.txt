@@ -5,9 +5,43 @@ add_definitions("-std=c++11")
 
 find_package(catkin REQUIRED
   COMPONENTS
+  roscpp
+  param_io
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+  arac_model
 )
 
 catkin_package(
   INCLUDE_DIRS
+    include
+  LIBRARIES
+    arac_joystick
   CATKIN_DEPENDS
+    roscpp
+    param_io
+    geometry_msgs
+    std_msgs
+    sensor_msgs
+    arac_model
+)
+
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+)
+
+add_library( ${PROJECT_NAME}
+  src/JoystickHandlerBase.cpp
+  src/JoystickDummy.cpp
+)
+
+add_dependencies(${PROJECT_NAME}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
 )

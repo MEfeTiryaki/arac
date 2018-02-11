@@ -13,11 +13,16 @@
 #include <boost/chrono.hpp>
 #include <memory>
 #include <mutex>
+#include <vector>
 
 #include <param_io/get_param.hpp>
 
-
+#include "arac_joystick/JoystickDummy.hpp"
+#include "arac_controller/aracController.hpp"
 #include "arac_msgs/ActuatorCommands.h"
+
+// stl
+#include <memory>
 
 namespace arac_controller_frame {
 
@@ -31,7 +36,13 @@ class aracControllerFrame
   virtual ~aracControllerFrame();
 
   // Init
-  virtual void init(int argc, char **argv);
+  virtual void initilize(int argc, char **argv);
+
+  // Create
+  virtual void create();
+
+  // Parameters init
+  virtual void readParameters();
 
   // Update
   virtual void update();
@@ -39,20 +50,20 @@ class aracControllerFrame
   // excute
   virtual void execute();
 
+  // excute
+  virtual void advance();
+
  protected:
-  virtual void readParameters();
+
 
   virtual void initilizePublishers();
 
   virtual void initilizeSubscribers();
 
-  virtual void getJoystickTwistInput(geometry_msgs::Twist msg);
-
   virtual void setActuatorCommand();
 
   void createActuatorCommand();
 
-  void resetActuatorCommand();
  private:
 
   ros::NodeHandle* nodeHandle_;
@@ -62,6 +73,10 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
+  // Todo : pointerlar arasında ne fark var ogren
+  joystick::JoystickDummy* joystickHandler_ ;
+  kuco::aracController* controller_ ;
+  kuco::State* state_;
 
   // Publisher
   ros::Publisher actuatorCommandPublisher_;
@@ -71,15 +86,6 @@ class aracControllerFrame
   int actuatorCommandPublisherQueueSize_;
   // Publisher msgs
   arac_msgs::ActuatorCommands actuatorCommand_;
-
-  // Subscriber
-  ros::Subscriber joystickSubscriber_;
-  // Subscriber names
-  std::string joystickSubscriberName_;
-  // Subscriber queue_size
-  int joystickSubscriberQueueSize_;
-  // Subscriber msgs
-  geometry_msgs::Twist joystickMsg_;
 
 
   double joystickCommandStartTime_;
@@ -93,4 +99,5 @@ class aracControllerFrame
 
 
 };
+
 }
