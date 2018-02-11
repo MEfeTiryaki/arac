@@ -1,7 +1,7 @@
-# Arac_Joystick
+# Arac Güdüm Kolu
 English version is below.
 
-Aracı dışarıdan yönlendire bilmek için oyun kolu yazılımı.
+Aracı dışarıdan yönlendire bilmek için güdüm kolu yazılımı.
 İlk sürümü turtlesim eğitseli üzerinden geliştirilecektir.
 
 
