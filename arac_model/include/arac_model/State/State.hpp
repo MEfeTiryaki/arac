@@ -1,10 +1,10 @@
-
 /*
- * joystickHandlerBase.cpp
- *
- *  Created on: Feb 11 , 2018
- *      Author: efe
- */
+ name : State.hpp
+ Author : Selçuk Ercan , M. Efe Tiryaki
+
+*/
+
+
  #pragma once
 
 

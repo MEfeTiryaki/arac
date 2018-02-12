@@ -1,5 +1,10 @@
+/*
+ name : State.cpp
+ Author : Selçuk Ercan , M. Efe Tiryaki
 
-#include "State.hpp"
+*/
+
+#include "arac_model/State/State.hpp"
 
 namespace kuco{
 
@@ -7,7 +12,7 @@ namespace kuco{
 State::State()
 {
   linearVelocityInX_ = 0.0 ;
-  angularVelocityInZ_= 0.0 ; 
+  angularVelocityInZ_= 0.0 ;
 }
 
 State::~State()
