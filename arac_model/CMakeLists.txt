@@ -36,6 +36,9 @@ add_library(
   src/Module/ModuleBase.cpp
   src/Module/Govde.cpp
   src/Module/Tekerlek.cpp
+  # Devitec
+  src/Devitec/Denetleyici.cpp
+  src/Devitec/DevitecModelBase.cpp
 
 )
 
