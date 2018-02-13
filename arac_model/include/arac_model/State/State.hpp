@@ -23,6 +23,48 @@ namespace kuco {
 
     virtual ~State();
 
+    Position getPositionInWorldFrame();
+    void setPositionInWorldFrame(Position pos);
+
+    Quaternion getOrientationInWorldFrame();
+    void setOrientationInWorldFrame(Quaternion q);
+
+    Velocity getVelocityInWorldFrame();
+    void setVelocityInWorldFrame(Velocity vel);
+
+    AngularVelocity getAngularVelocityInWorldFrame();
+    void setAngularVelocityInWorldFrame(AngularVelocity angVel);
+
+    Acceleration getAccelerationInWorldFrame();
+    void setAccelerationInWorldFrame(Acceleration acc);
+
+    AngularAcceleration getAngularAccelerationInWorldFrame();
+    void setAngularAccelerationInWorldFrame(AngularAcceleration angAcc);
+
+    Force getForceInWorldFrame();
+    void setForceInWorldFrame(Force f);
+
+    Torque getTorqueInWorldFrame();
+    void setTorqueInWorldFrame(Torque t);
+
+    Velocity getVelocityInBaseFrame();
+    void setVelocityInBaseFrame(Velocity vel);
+
+    AngularVelocity getAngularVelocityInBaseFrame();
+    void setAngularVelocityIBaseFrame(AngularVelocity angVel);
+
+    Acceleration getAccelerationInBaseFrame();
+    void setAccelerationInBaseFrame(Acceleration acc);
+
+    AngularAcceleration getAngularAccelerationInBaseFrame();
+    void setAngularAccelerationInBaserame(AngularAcceleration angAcc);
+
+    Force getForceInBaseFrame();
+    void setForceInBaseFrame(Force f);
+
+    Torque getTorqueInBaseFrame();
+    void setTorqueInBaserame(Torque t);
+
     double getLinearVelocityInX(){ return linearVelocityInX_ ;};
     void   setLinearVelocityInX(double vel){ linearVelocityInX_ = vel ;};
 
@@ -40,14 +82,14 @@ namespace kuco {
      Acceleration accelerationInWorldFrame_ ;
      AngularAcceleration angularAccelerationInWorldFrame_ ;
      Force forceInWorldFrame_ ;
-     Torque forqueInWorldFrame_ ;
+     Torque torqueInWorldFrame_ ;
 
      Velocity velocityInBaseFrame_ ;
      AngularVelocity angularVelocityInBaseFrame_ ;
      Acceleration accelerationInBaseFrame_ ;
      AngularAcceleration angularAccelerationInBaseFrame_ ;
      Force forceInBaseFrame_ ;
-     Torque forqueInBaseFrame_ ;
+     Torque torqueInBaseFrame_ ;
 
   };
 
