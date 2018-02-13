@@ -4,6 +4,7 @@
 
 */
 
+#include <Eigen/Core>
 
 #pragma once
 

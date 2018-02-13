@@ -6,14 +6,14 @@
 
 #pragma once
 
-#include "/arac_model/Model/KulmanModel.hpp"
-
+#include "arac_model/Model/KulmanModel.hpp"
+#include "arac_model/Module/Tekerlek.hpp"
 namespace kuco {
 
 class AracModel: public KulmanModel
 {
  public:
-   AracModel()
+   AracModel();
 
    virtual ~AracModel();
 

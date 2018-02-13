@@ -22,7 +22,7 @@ class Tekerlek: public ModuleBase
   virtual ~Tekerlek();
 
   // Init
-  virtual void init(int argc, char **argv);
+  virtual void initilize();
 
   // Create
   virtual void create();

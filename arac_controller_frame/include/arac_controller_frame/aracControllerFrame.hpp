@@ -20,6 +20,7 @@
 #include "arac_joystick/JoystickDummy.hpp"
 #include "arac_controller/aracController.hpp"
 #include "arac_msgs/ActuatorCommands.h"
+#include "arac_model/State/State.hpp"
 
 // stl
 #include <memory>

@@ -5,12 +5,11 @@
 */
 
 
-#include "/arac_model/Model/AracModel.hpp"
+#include "arac_model/Model/AracModel.hpp"
 
 namespace kuco {
 
 // Note : param_io is needed to use the getParam
-using namespace param_io;
 AracModel::AracModel()
 {
 }
@@ -23,11 +22,16 @@ void AracModel::initilize()
 {
 }
 
-void AracModel::update()
+void AracModel::create()
 {
 }
 
-void AracModel::execute()
+void AracModel::advance()
+{
+}
+
+
+void AracModel::reset()
 {
 }
 

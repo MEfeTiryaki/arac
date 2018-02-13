@@ -22,7 +22,7 @@ class Govde : public ModuleBase
   virtual ~Govde();
 
   // Init
-  virtual void init(int argc, char **argv);
+  virtual void initilize();
 
   // Create
   virtual void create();

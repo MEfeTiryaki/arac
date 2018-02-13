@@ -4,7 +4,7 @@
 
 */
 
-
+#include "arac_model/Module/Govde.hpp"
 #pragma once
 
 
@@ -13,7 +13,7 @@ namespace kuco {
 class KulmanModel
 {
  public:
-   KulmanModel()
+   KulmanModel();
 
    virtual ~KulmanModel();
 
