@@ -98,14 +98,11 @@
   </include>
 
 
-
   <!--  Joint State and TF publishers for Rviz Virtualization  -->
   <node name="arac_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen">
     <param name="use_gui"           value="false"/>
     <param name="rate"              value="100"/>
-    <rosparam param="source_list">
-        ["$(arg simulation_joint_states_topic)"]
-    </rosparam>
+    <rosparam param="source_list">["/state_estimator/simulation_joint_states"]</rosparam>
     <remap from="robot_description" to="$(arg kulman_description)"/>
     <remap from="joint_states"      to="$(arg joint_states_topic)"/>
   </node>

@@ -5,12 +5,12 @@
 */
 
 
-#include "/arac_model/Model/KulmanModel.hpp"
+#include "arac_model/Model/KulmanModel.hpp"
 
 namespace kuco {
 
 // Note : param_io is needed to use the getParam
-using namespace param_io;
+
 KulmanModel::KulmanModel()
 {
 }
@@ -23,12 +23,17 @@ void KulmanModel::initilize()
 {
 }
 
-void KulmanModel::update()
+void KulmanModel::create()
 {
 }
 
-void KulmanModel::execute()
+void KulmanModel::advance()
 {
 }
 
-} /* namespace arac_controller_frame*/
+void KulmanModel::reset()
+{
+}
+
+
+}; /* namespace arac_controller_frame*/

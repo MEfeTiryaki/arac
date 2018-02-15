@@ -7,9 +7,13 @@ find_package(catkin REQUIRED
   COMPONENTS
 )
 
+# to use eigen library
+find_package(Eigen3 REQUIRED)
+
 catkin_package(
   INCLUDE_DIRS
   	include
+    ${EIGEN3_INCLUDE_DIR}
   LIBRARIES
    arac_model
   CATKIN_DEPENDS
@@ -18,11 +22,24 @@ catkin_package(
 
 include_directories(
   include
+	${EIGEN3_INCLUDE_DIR}
   ${catkin_INCLUDE_DIRS}
 )
 add_library(
   ${PROJECT_NAME}
-  src/State.cpp
+	# State
+  src/State/State.cpp
+	# Model
+  src/Model/KulmanModel.cpp
+  src/Model/aracModel.cpp
+	# Module
+  src/Module/ModuleBase.cpp
+  src/Module/Govde.cpp
+  src/Module/Tekerlek.cpp
+  # Devitec
+  src/Devitec/Denetleyici.cpp
+  src/Devitec/DevitecModelBase.cpp
+
 )
 
 add_dependencies(${PROJECT_NAME}

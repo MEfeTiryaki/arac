@@ -18,7 +18,6 @@ State::State()
     angularAccelerationInWorldFrame_(),
     forceInWorldFrame_(),
     torqueInWorldFrame_(),
-
     velocityInBaseFrame_(),
     angularVelocityInBaseFrame_(),
     accelerationInBaseFrame_(),
@@ -30,9 +29,7 @@ State::State()
   angularVelocityInZ_= 0.0 ;
 }
 
-State::~State()
-{
-}
+State::~State(){}
 
 Position State::getPositionInWorldFrame(){
   return positionInWorldFrame_;
@@ -93,7 +90,7 @@ void State::setTorqueInWorldFrame(Torque t){
 Velocity State::getVelocityInBaseFrame(){
   return velocityInBaseFrame_ ;
 }
-void State::setVelocityInBaseFrame(Velocity vel)
+void State::setVelocityInBaseFrame(Velocity vel){
   velocityInBaseFrame_ = vel ;
 }
 
@@ -134,4 +131,4 @@ void State::setTorqueInBaserame(Torque t){
 
 
 
-}/* namespace kuco*/
+};/* namespace kuco*/

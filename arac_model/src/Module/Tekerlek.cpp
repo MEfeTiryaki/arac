@@ -4,12 +4,11 @@
 
 */
 
-#include "arac_model/Module/ModuleBase.hpp"
+#include "arac_model/Module/Tekerlek.hpp"
 
 namespace kuco {
 
 // Note : param_io is needed to use the getParam
-using namespace param_io;
 
 // Default Consructor Definition
 Tekerlek::Tekerlek()
