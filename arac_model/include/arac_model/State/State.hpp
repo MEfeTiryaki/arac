@@ -5,18 +5,23 @@
 */
 
 #include <Eigen/Core>
+#include <Eigen/Dense>
+#include <iostream>
+#include <vector>
 
 #pragma once
 
 namespace kuco {
-  typedef Eigen::Vector3d Position ;
-  typedef Eigen::Vector4d Quaternion ;
-  typedef Eigen::Vector3d Velocity ;
-  typedef Eigen::Vector3d AngularVelocity ;
-  typedef Eigen::Vector3d Acceleration ;
-  typedef Eigen::Vector3d AngularAcceleration ;
-  typedef Eigen::Vector3d Force ;
-  typedef Eigen::Vector3d Torque ;
+  // Todo (Efe Tiryaki 16.02.18): Bu arkadaşlaro typedef headerı içinde başka bir yerde tanımla
+  // daha genel kullanıma açılsın
+//  typedef std::vector<double>  Position ;
+//  typedef std::vector<double>  Quaternion ;
+//  typedef std::vector<double>  Velocity ;
+//  typedef std::vector<double>  AngularVelocity ;
+//  typedef std::vector<double>  Acceleration ;
+//  typedef std::vector<double>  AngularAcceleration ;
+//  typedef std::vector<double>  Force ;
+//  typedef std::vector<double>  Torque ;
 
   class State {
   public:
@@ -24,73 +29,65 @@ namespace kuco {
 
     virtual ~State();
 
-    Position getPositionInWorldFrame();
-    void setPositionInWorldFrame(Position pos);
+    std::vector<double>  getPositionInWorldFrame();
+    void setPositionInWorldFrame(std::vector<double>  pos);
 
-    Quaternion getOrientationInWorldFrame();
-    void setOrientationInWorldFrame(Quaternion q);
+    std::vector<double>  getOrientationInWorldFrame();
+    void setOrientationInWorldFrame(std::vector<double>  q);
 
-    Velocity getVelocityInWorldFrame();
-    void setVelocityInWorldFrame(Velocity vel);
+    Eigen::Matrix<double, 3, 1>   getVelocityInWorldFrame();
+    void setVelocityInWorldFrame(Eigen::Matrix<double, 3, 1>  vel);
 
-    AngularVelocity getAngularVelocityInWorldFrame();
-    void setAngularVelocityInWorldFrame(AngularVelocity angVel);
+    std::vector<double>  getAngularVelocityInWorldFrame();
+    void setAngularVelocityInWorldFrame(std::vector<double>  angVel);
 
-    Acceleration getAccelerationInWorldFrame();
-    void setAccelerationInWorldFrame(Acceleration acc);
+    std::vector<double>  getAccelerationInWorldFrame();
+    void setAccelerationInWorldFrame(std::vector<double>  acc);
 
-    AngularAcceleration getAngularAccelerationInWorldFrame();
-    void setAngularAccelerationInWorldFrame(AngularAcceleration angAcc);
+    std::vector<double>  getAngularAccelerationInWorldFrame();
+    void setAngularAccelerationInWorldFrame(std::vector<double>  angAcc);
 
-    Force getForceInWorldFrame();
-    void setForceInWorldFrame(Force f);
+    std::vector<double>  getForceInWorldFrame();
+    void setForceInWorldFrame(std::vector<double>  f);
 
-    Torque getTorqueInWorldFrame();
-    void setTorqueInWorldFrame(Torque t);
+    std::vector<double>   getTorqueInWorldFrame();
+    void setTorqueInWorldFrame(std::vector<double>  t);
 
-    Velocity getVelocityInBaseFrame();
-    void setVelocityInBaseFrame(Velocity vel);
+    std::vector<double>  getVelocityInBaseFrame();
+    void setVelocityInBaseFrame(std::vector<double>  vel);
 
-    AngularVelocity getAngularVelocityInBaseFrame();
-    void setAngularVelocityIBaseFrame(AngularVelocity angVel);
+    std::vector<double>  getAngularVelocityInBaseFrame();
+    void setAngularVelocityIBaseFrame(std::vector<double>  angVel);
 
-    Acceleration getAccelerationInBaseFrame();
-    void setAccelerationInBaseFrame(Acceleration acc);
+    std::vector<double>  getAccelerationInBaseFrame();
+    void setAccelerationInBaseFrame(std::vector<double>  acc);
 
-    AngularAcceleration getAngularAccelerationInBaseFrame();
-    void setAngularAccelerationInBaserame(AngularAcceleration angAcc);
+    std::vector<double>  getAngularAccelerationInBaseFrame();
+    void setAngularAccelerationInBaserame(std::vector<double>  angAcc);
 
-    Force getForceInBaseFrame();
-    void setForceInBaseFrame(Force f);
+    std::vector<double>  getForceInBaseFrame();
+    void setForceInBaseFrame(std::vector<double>  f);
 
-    Torque getTorqueInBaseFrame();
-    void setTorqueInBaserame(Torque t);
-
-    double getLinearVelocityInX(){ return linearVelocityInX_ ;};
-    void   setLinearVelocityInX(double vel){ linearVelocityInX_ = vel ;};
-
-    double getAngularVelocityInZ(){ return angularVelocityInZ_ ;};
-    void   setAngularVelocityInZ(double vel){ angularVelocityInZ_ = vel ;};
+    std::vector<double>  getTorqueInBaseFrame();
+    void setTorqueInBaserame(std::vector<double>  t);
 
    private:
-     double linearVelocityInX_;
-     double angularVelocityInZ_;
 
-     Position positionInWorldFrame_ ;
-     Quaternion orientationInWorldFrame_ ;
-     Velocity velocityInWorldFrame_ ;
-     AngularVelocity angularVelocityInWorldFrame_ ;
-     Acceleration accelerationInWorldFrame_ ;
-     AngularAcceleration angularAccelerationInWorldFrame_ ;
-     Force forceInWorldFrame_ ;
-     Torque torqueInWorldFrame_ ;
+     std::vector<double>  positionInWorldFrame_ ;
+     std::vector<double>  orientationInWorldFrame_ ;
+     Eigen::Matrix<double, 3, 1>  velocityInWorldFrame_ ;
+     std::vector<double>  angularVelocityInWorldFrame_ ;
+     std::vector<double>  accelerationInWorldFrame_ ;
+     std::vector<double>  angularAccelerationInWorldFrame_ ;
+     std::vector<double>  forceInWorldFrame_ ;
+     std::vector<double>  torqueInWorldFrame_ ;
 
-     Velocity velocityInBaseFrame_ ;
-     AngularVelocity angularVelocityInBaseFrame_ ;
-     Acceleration accelerationInBaseFrame_ ;
-     AngularAcceleration angularAccelerationInBaseFrame_ ;
-     Force forceInBaseFrame_ ;
-     Torque torqueInBaseFrame_ ;
+     std::vector<double>  velocityInBaseFrame_ ;
+     std::vector<double>  angularVelocityInBaseFrame_ ;
+     std::vector<double>  accelerationInBaseFrame_ ;
+     std::vector<double>  angularAccelerationInBaseFrame_ ;
+     std::vector<double>  forceInBaseFrame_ ;
+     std::vector<double>  torqueInBaseFrame_ ;
 
   };
 

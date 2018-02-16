@@ -2,7 +2,7 @@
  name : ModuleBase.cpp
  Author : Selçuk Ercan , M. Efe Tiryaki
 
-*/
+ */
 
 #include "arac_model/Module/ModuleBase.hpp"
 
@@ -18,23 +18,34 @@ ModuleBase::ModuleBase()
 ModuleBase::~ModuleBase()
 {
 }
-void ModuleBase::initilize(){
+void ModuleBase::initilize()
+{
+  desiredState_ =  State();
+  measuredState_ =  State();
 }
 
-void ModuleBase::create(){
+void ModuleBase::create()
+{
 }
 
-void ModuleBase::advance(){
+void ModuleBase::advance()
+{
 }
 
-void ModuleBase::getDesiredState(){
-  // pointer from Desired Value proivided by Trajectory Generator
-  // XXX: Bunlar direk message'lardan alınmayack mı?
+void ModuleBase::setName(std::string name ){
+  name_= name;
 }
-void ModuleBase::getMeasuredState(){
-  // pointer from Desired Value proivided by Trajectory Generator
-  // XXX: Bunlar direk message'lardan alınmayack mı?
+std::string ModuleBase::getName(){
+  return name_;
 }
 
+State& ModuleBase::getDesiredState()
+{
+  return desiredState_;
+}
+State& ModuleBase::getMeasuredState()
+{
+  return measuredState_;
+}
 
 } /* namespace kuco*/

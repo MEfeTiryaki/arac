@@ -10,7 +10,7 @@
  namespace joystick {
 class JoystickDummy : public JoystickHandlerBase{
 public:
-  JoystickDummy(kuco::State& state);
+  JoystickDummy(kuco::AracModel& model);
 
   virtual ~JoystickDummy();
 

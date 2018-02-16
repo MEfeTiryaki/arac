@@ -1,7 +1,9 @@
 #pragma once
 
 #include "arac_model/State/State.hpp"
+#include "arac_model/Model/AracModel.hpp"
 #include <vector>
+
 
 namespace kuco {
 
@@ -9,7 +11,8 @@ class aracController
 {
  public:
   // Constructor.
-  aracController(kuco::State& state);
+//  aracController(kuco::State& state);
+  aracController(kuco::AracModel& model);
 
   // Destructor.
   virtual ~aracController();
@@ -23,17 +26,14 @@ class aracController
   // excute
   virtual void advance();
 
-  virtual std::vector<double> getControlInputs();
-
 
  protected:
 
   virtual void setActuatorCommand();
 
  private:
-   kuco::State& state_;
-
-   std::vector<double> controllerInput_;
+   //kuco::State& state_;
+   kuco::AracModel model_;
 
 
 };

@@ -17,13 +17,16 @@ catkin_package(
   LIBRARIES
    arac_model
   CATKIN_DEPENDS
+  
+  DEPENDS
+   Eigen3
 )
 
 
 include_directories(
   include
 	${EIGEN3_INCLUDE_DIR}
-  ${catkin_INCLUDE_DIRS}
+   ${catkin_INCLUDE_DIRS}
 )
 add_library(
   ${PROJECT_NAME}
@@ -31,7 +34,7 @@ add_library(
   src/State/State.cpp
 	# Model
   src/Model/KulmanModel.cpp
-  src/Model/aracModel.cpp
+  src/Model/AracModel.cpp
 	# Module
   src/Module/ModuleBase.cpp
   src/Module/Govde.cpp

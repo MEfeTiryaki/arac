@@ -11,7 +11,8 @@ namespace kuco {
 
 // Note : param_io is needed to use the getParam
 
-KulmanModel::KulmanModel()
+KulmanModel::KulmanModel():
+    govde_()
 {
 }
 
@@ -35,5 +36,13 @@ void KulmanModel::reset()
 {
 }
 
+void KulmanModel::setGovde(Govde* govde)
+{
+  govde_ = govde;
+}
+Govde& KulmanModel::getGovde()
+{
+  return *govde_;
+}
 
 }; /* namespace arac_controller_frame*/

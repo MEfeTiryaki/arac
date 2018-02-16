@@ -2,6 +2,10 @@
 
 #include "arac_joystick/JoystickHandlerBase.hpp"
 
+// Todo (Efe Tiryaki 16.02.18): State içinde tanımlanan Eigen::Vector lerini ayrı headera alınca bundan
+// kurtul .
+#include "arac_model/State/State.hpp"
+
 
 #include <param_io/get_param.hpp>
 
@@ -12,9 +16,12 @@ namespace joystick{
 
 using namespace param_io;
 
-// Todo : check if we can add robot name here
-JoystickHandlerBase::JoystickHandlerBase(kuco::State& state)
-  : state_(state)
+//JoystickHandlerBase::JoystickHandlerBase(kuco::State& state)
+//  : state_(state)
+//{
+//}
+JoystickHandlerBase::JoystickHandlerBase(kuco::AracModel& model)
+  : model_(model)
 {
 }
 

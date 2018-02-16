@@ -9,6 +9,7 @@
 
 #include <string>
 #include <vector>
+#include "arac_model/State/State.hpp"
 
 /* Kulman Controller namespace */
 namespace kuco {
@@ -36,15 +37,15 @@ class ModuleBase
   std::string getName();
   void setName(std::string name);
 
-  void getDesiredState();
-  void getMeasuredState();
+  State& getDesiredState();
+  State& getMeasuredState();
 
- protected:
+ private:
 
   std::string name_;
 
-  std::vector<double> measuredState;
-  std::vector<double> desiredState;
+  State measuredState_;
+  State desiredState_;
 
 };
 
