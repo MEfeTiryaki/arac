@@ -21,6 +21,7 @@
 #include "arac_controller/aracController.hpp"
 #include "arac_msgs/ActuatorCommands.h"
 #include "arac_model/State/State.hpp"
+#include "arac_model/Model/AracModel.hpp"
 
 // stl
 #include <memory>
@@ -78,6 +79,7 @@ class aracControllerFrame
   joystick::JoystickDummy* joystickHandler_ ;
   kuco::aracController* controller_ ;
   kuco::State* state_;
+  kuco::AracModel* model_;
 
   // Publisher
   ros::Publisher actuatorCommandPublisher_;

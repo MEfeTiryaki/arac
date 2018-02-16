@@ -5,7 +5,8 @@ namespace arac_controller_frame {
 
 // Note : param_io is needed to use the getParam
 using namespace param_io;
-aracControllerFrame::aracControllerFrame(){
+aracControllerFrame::aracControllerFrame()
+{
 
 }
 
@@ -13,10 +14,12 @@ aracControllerFrame::~aracControllerFrame()
 {
 }
 
-void aracControllerFrame::create(){
-  state_ = new kuco::State();
-  joystickHandler_ = new joystick::JoystickDummy(*state_);
-  controller_ =  new kuco::aracController(*state_);
+void aracControllerFrame::create()
+{
+  //state_ = new kuco::State();
+  model_ = new kuco::AracModel;
+  joystickHandler_ = new joystick::JoystickDummy(*model_);
+  controller_ = new kuco::aracController(*model_);
 }
 
 void aracControllerFrame::initilize(int argc, char **argv)
@@ -25,9 +28,9 @@ void aracControllerFrame::initilize(int argc, char **argv)
   jointNames_.push_back("RF_WH");
   jointNames_.push_back("LH_WH");
   jointNames_.push_back("RH_WH");
-  jointPositions_ = std::vector<double> (4, 0.0);
-  jointVelocities_ = std::vector<double> (4, 0.0);
-  jointEffort_ = std::vector<double> (4, 0.0);
+  jointPositions_ = std::vector<double>(4, 0.0);
+  jointVelocities_ = std::vector<double>(4, 0.0);
+  jointEffort_ = std::vector<double>(4, 0.0);
   createActuatorCommand();
 
   nodeName_ = "/arac_controller_frame";
@@ -36,13 +39,14 @@ void aracControllerFrame::initilize(int argc, char **argv)
 
   nodeHandle_ = new ros::NodeHandle("~");
 
-  loop_rate_= new ros::Rate(100);
+  loop_rate_ = new ros::Rate(100);
 
   readParameters();
   initilizePublishers();
   initilizeSubscribers();
 
-  joystickHandler_->initilize( nodeHandle_);
+  model_->initilize();
+  joystickHandler_->initilize(nodeHandle_);
   controller_->initilize();
 
   std::cout << "arac_controller_frame::init " << std::endl;
@@ -62,7 +66,8 @@ void aracControllerFrame::execute()
   }
 }
 
-void aracControllerFrame::advance(){
+void aracControllerFrame::advance()
+{
 
   // Estimator here in future
 
@@ -77,22 +82,22 @@ void aracControllerFrame::advance(){
   // publish actuators
   actuatorCommandPublisher_.publish(actuatorCommand_);
 
-
 }
 
 void aracControllerFrame::readParameters()
 {
   // Get Publishers parameters
   getParam(*nodeHandle_, "publishers/actuator_commands/topic", actuatorCommandPublisherName_);
-  getParam(*nodeHandle_, "publishers/actuator_commands/queue_size", actuatorCommandPublisherQueueSize_);
+  getParam(*nodeHandle_, "publishers/actuator_commands/queue_size",
+           actuatorCommandPublisherQueueSize_);
 
 }
 
-
-void aracControllerFrame::initilizePublishers(){
+void aracControllerFrame::initilizePublishers()
+{
   std::cout << "arac_controller_frame::initilizePublishers" << std::endl;
-  actuatorCommandPublisher_ = nodeHandle_->advertise < arac_msgs::ActuatorCommands>
-                            ( actuatorCommandPublisherName_, actuatorCommandPublisherQueueSize_);
+  actuatorCommandPublisher_ = nodeHandle_->advertise<arac_msgs::ActuatorCommands>(
+      actuatorCommandPublisherName_, actuatorCommandPublisherQueueSize_);
 
 }
 
@@ -101,7 +106,8 @@ void aracControllerFrame::initilizeSubscribers()
 
 }
 
-void aracControllerFrame::createActuatorCommand(){
+void aracControllerFrame::createActuatorCommand()
+{
   actuatorCommand_.inputs.name = jointNames_;
   actuatorCommand_.inputs.position = jointVelocities_;
   actuatorCommand_.inputs.velocity = jointVelocities_;
@@ -109,15 +115,13 @@ void aracControllerFrame::createActuatorCommand(){
 
 }
 
-void aracControllerFrame::setActuatorCommand(){
-  std::vector<double> wheelVelocities;
-
-  wheelVelocities = controller_->getControlInputs();
-  for(int i=0; i<actuatorCommand_.inputs.velocity.size(); i++)
-    actuatorCommand_.inputs.velocity[i] = wheelVelocities[i];
+void aracControllerFrame::setActuatorCommand()
+{
+  double wheelVelocities;
+  for (int i = 0; i < actuatorCommand_.inputs.velocity.size(); i++) {
+    wheelVelocities = model_->getTekerlek(i).getDesiredState().getAngularVelocityInWorldFrame()[2];
+    actuatorCommand_.inputs.velocity[i] = wheelVelocities;
+  }
 }
-
-
-
 
 } /* namespace arac_controller_frame*/

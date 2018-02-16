@@ -8,9 +8,8 @@ namespace kuco {
 using namespace param_io;
 
 // Todo : make controllerInput length adjustable
-aracController::aracController(kuco::State& state) :
-  controllerInput_(4),
-  state_(state)
+aracController::aracController(kuco::AracModel& model) :
+  model_(model)
 {
 }
 
@@ -35,19 +34,24 @@ void aracController::readParameters()
 
 void aracController::setActuatorCommand(){
 
-  double linearVelocity = state_.getLinearVelocityInX();
-  double angularVelocity = state_.getAngularVelocityInZ();
+  double linearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()[0];
+  double angularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()[2];
 
-  controllerInput_[0] = linearVelocity + angularVelocity ;
-  controllerInput_[1] = linearVelocity + angularVelocity ;
-  controllerInput_[2] = linearVelocity - angularVelocity ;
-  controllerInput_[3] = linearVelocity - angularVelocity ;
+  std::vector<double> controllerInput;
+  controllerInput[0] = linearVelocity + angularVelocity ;
+  controllerInput[1] = linearVelocity + angularVelocity ;
+  controllerInput[2] = linearVelocity - angularVelocity ;
+  controllerInput[3] = linearVelocity - angularVelocity ;
 
+  // Todo (Efe Tiryaki 16.02.18): 4 yerine teker sayısını çek
+  for (int i = 0; i< 4 ; i++){
+      auto teker = model_.getTekerlek(i);
+      Eigen::Vector3d input;
+      input << 0.0,0.0,controllerInput[i] ;
+      //teker. getDesiredState().setAngularVelocityIFrame(input);
+  }
 }
 
-std::vector<double> aracController::getControlInputs(){
-  return controllerInput_;
-}
 
 
 

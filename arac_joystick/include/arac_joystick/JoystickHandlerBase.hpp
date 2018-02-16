@@ -20,12 +20,14 @@
  #include <mutex>
 
  #include "arac_model/State/State.hpp"
+#include "arac_model/Model/AracModel.hpp"
 
 namespace joystick {
 
   class JoystickHandlerBase{
     public:
-      JoystickHandlerBase(kuco::State& state);
+      //JoystickHandlerBase(kuco::State& state);
+      JoystickHandlerBase(kuco::AracModel& model);
 
       virtual ~JoystickHandlerBase();
 
@@ -63,7 +65,8 @@ namespace joystick {
       double linVelocity_;
       double angVelocity_;
 
-      kuco::State& state_;
+      //kuco::State& state_;
+      kuco::AracModel model_;
   };
 
 }

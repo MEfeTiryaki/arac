@@ -1,11 +1,10 @@
-
 #include "arac_joystick/JoystickDummy.hpp"
 
-namespace joystick{
+namespace joystick {
 
 // Todo : check if we can add robot name here
-JoystickDummy::JoystickDummy(kuco::State& state):
-    JoystickHandlerBase(state)
+JoystickDummy::JoystickDummy(kuco::AracModel& model)
+    : JoystickHandlerBase(model)
 {
 }
 
@@ -15,14 +14,19 @@ JoystickDummy::~JoystickDummy()
 
 void JoystickDummy::advance()
 {
-  if (ros::Time::now().toSec()-joystickCommandStartTime_>0.5){
-    state_.setLinearVelocityInX(0.0) ;
-    state_.setAngularVelocityInZ(0.0) ;
+  Eigen::Matrix<double, 3, 1> velocity = Eigen::Matrix<double, 3, 1>::Zero();
+  Eigen::Vector3d angularVelocity = Eigen::Vector3d::Zero();
 
-  }else{
-    state_.setLinearVelocityInX(joystickMsg_.linear.x) ;
-    state_.setAngularVelocityInZ(joystickMsg_.angular.z) ;
+  if (ros::Time::now().toSec() - joystickCommandStartTime_ > 0.5) {
+    //velocity = {0.0,0.0,0.0};
+    //angularVelocity = {0.0,0.0,0.0};
+  } else {
+    velocity[0] = joystickMsg_.linear.x;
+    angularVelocity[2] = joystickMsg_.angular.z;
   }
+
+  model_.getGovde().getDesiredState().setVelocityInWorldFrame(velocity);
+  //model_.getGovde().getDesiredState().setAngularVelocityInWorldFrame(angularVelocity);
 
 }
 
