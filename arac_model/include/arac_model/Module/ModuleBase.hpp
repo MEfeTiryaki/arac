@@ -37,15 +37,15 @@ class ModuleBase
   std::string getName();
   void setName(std::string name);
 
-  State& getDesiredState();
-  State& getMeasuredState();
+  State& getDesiredState() ;
+  State& getMeasuredState() ;
 
  private:
 
   std::string name_;
 
-  State measuredState_;
-  State desiredState_;
+  State* measuredState_;
+  State* desiredState_;
 
 };
 

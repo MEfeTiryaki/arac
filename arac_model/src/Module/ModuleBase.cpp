@@ -10,7 +10,9 @@ namespace kuco {
 
 // Note : param_io is needed to use the getParam
 // Default Consructor Definition
-ModuleBase::ModuleBase()
+ModuleBase::ModuleBase():
+    desiredState_(new State()),
+    measuredState_(new State())
 {
 }
 
@@ -20,8 +22,6 @@ ModuleBase::~ModuleBase()
 }
 void ModuleBase::initilize()
 {
-  desiredState_ =  State();
-  measuredState_ =  State();
 }
 
 void ModuleBase::create()
@@ -41,11 +41,11 @@ std::string ModuleBase::getName(){
 
 State& ModuleBase::getDesiredState()
 {
-  return desiredState_;
+  return *desiredState_;
 }
 State& ModuleBase::getMeasuredState()
 {
-  return measuredState_;
+  return *measuredState_;
 }
 
 } /* namespace kuco*/

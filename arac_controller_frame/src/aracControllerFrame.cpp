@@ -118,8 +118,9 @@ void aracControllerFrame::createActuatorCommand()
 void aracControllerFrame::setActuatorCommand()
 {
   double wheelVelocities;
+  auto& tekerler = model_->getTekerlek();
   for (int i = 0; i < actuatorCommand_.inputs.velocity.size(); i++) {
-    wheelVelocities = model_->getTekerlek(i).getDesiredState().getAngularVelocityInWorldFrame()[2];
+    wheelVelocities = tekerler[i]->getDesiredState().getAngularVelocityInWorldFrame().toImplementation()[2];
     actuatorCommand_.inputs.velocity[i] = wheelVelocities;
   }
 }

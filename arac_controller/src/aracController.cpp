@@ -8,8 +8,8 @@ namespace kuco {
 using namespace param_io;
 
 // Todo : make controllerInput length adjustable
-aracController::aracController(kuco::AracModel& model) :
-  model_(model)
+aracController::aracController(kuco::AracModel& model)
+    : model_(model)
 {
 }
 
@@ -17,13 +17,14 @@ aracController::~aracController()
 {
 }
 
-void aracController::initilize( )
+void aracController::initilize()
 {
 
 }
 
-void aracController::advance(){
-    setActuatorCommand();
+void aracController::advance()
+{
+  setActuatorCommand();
 }
 
 void aracController::readParameters()
@@ -31,28 +32,28 @@ void aracController::readParameters()
 
 }
 
+void aracController::setActuatorCommand()
+{
 
-void aracController::setActuatorCommand(){
+  double linearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()
+      .toImplementation()[0];
+  double angularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()
+      .toImplementation()[2];
 
-  double linearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()[0];
-  double angularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()[2];
+  std::vector<double> controllerInput(4);
+  controllerInput[0] = linearVelocity + angularVelocity;
+  controllerInput[1] = linearVelocity + angularVelocity;
+  controllerInput[2] = linearVelocity - angularVelocity;
+  controllerInput[3] = linearVelocity - angularVelocity;
 
-  std::vector<double> controllerInput;
-  controllerInput[0] = linearVelocity + angularVelocity ;
-  controllerInput[1] = linearVelocity + angularVelocity ;
-  controllerInput[2] = linearVelocity - angularVelocity ;
-  controllerInput[3] = linearVelocity - angularVelocity ;
+  auto& tekerler = model_.getTekerlek();
 
   // Todo (Efe Tiryaki 16.02.18): 4 yerine teker sayısını çek
-  for (int i = 0; i< 4 ; i++){
-      auto teker = model_.getTekerlek(i);
-      Eigen::Vector3d input;
-      input << 0.0,0.0,controllerInput[i] ;
-      //teker. getDesiredState().setAngularVelocityIFrame(input);
+  for (int i = 0; i < 4; i++) {
+    kindr::AngularVelocity3D input;
+    input << 0.0, 0.0, controllerInput[i];
+    tekerler[i]->getDesiredState().setAngularVelocityInWorldFrame(input);
   }
 }
-
-
-
 
 } /* namespace kuco*/

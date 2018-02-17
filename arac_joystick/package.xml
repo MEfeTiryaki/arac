@@ -11,12 +11,17 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
-  <depend>boost</depend>
-  <depend>eigen</depend>
   <depend>param_io</depend>
   <depend>geometry_msgs</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>arac_model</depend>
+  
+  <depend>boost</depend>
+  <depend>eigen</depend>
+  <depend>kindr</depend>
+  
+  
+  
   
 </package>

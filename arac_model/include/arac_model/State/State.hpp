@@ -2,93 +2,79 @@
  name : State.hpp
  Author : Selçuk Ercan , M. Efe Tiryaki
 
-*/
+ */
 
 #include <Eigen/Core>
-#include <Eigen/Dense>
+
+// Kindr library for physical variables
+#include <kindr/Core>
 #include <iostream>
 #include <vector>
 
 #pragma once
 
 namespace kuco {
-  // Todo (Efe Tiryaki 16.02.18): Bu arkadaşlaro typedef headerı içinde başka bir yerde tanımla
-  // daha genel kullanıma açılsın
-//  typedef std::vector<double>  Position ;
-//  typedef std::vector<double>  Quaternion ;
-//  typedef std::vector<double>  Velocity ;
-//  typedef std::vector<double>  AngularVelocity ;
-//  typedef std::vector<double>  Acceleration ;
-//  typedef std::vector<double>  AngularAcceleration ;
-//  typedef std::vector<double>  Force ;
-//  typedef std::vector<double>  Torque ;
+// Todo (Efe Tiryaki 16.02.18): Bu arkadaşlaro typedef headerı içinde başka bir yerde tanımla
+// daha genel kullanıma açılsın
+typedef std::vector<double> Position;
+typedef std::vector<double> Quaternion;
+typedef kindr::Velocity3D Velocity;
+typedef std::vector<double> AngularVelocity;
+typedef std::vector<double> Acceleration;
+typedef std::vector<double> AngularAcceleration;
+typedef std::vector<double> Force;
+typedef std::vector<double> Torque;
 
-  class State {
-  public:
-    State();
+class State
+{
+ public:
+  State();
 
-    virtual ~State();
+  virtual ~State();
 
-    std::vector<double>  getPositionInWorldFrame();
-    void setPositionInWorldFrame(std::vector<double>  pos);
+  const kindr::Position3D& getPositionInWorldFrame() const;
 
-    std::vector<double>  getOrientationInWorldFrame();
-    void setOrientationInWorldFrame(std::vector<double>  q);
+  void setPositionInWorldFrame(const kindr::Position3D& pos);
 
-    Eigen::Matrix<double, 3, 1>   getVelocityInWorldFrame();
-    void setVelocityInWorldFrame(Eigen::Matrix<double, 3, 1>  vel);
+  //
+  const kindr::QuaternionD& getOrientationInWorldFrame() const;
 
-    std::vector<double>  getAngularVelocityInWorldFrame();
-    void setAngularVelocityInWorldFrame(std::vector<double>  angVel);
+  void setOrientationInWorldFrame(const kindr::QuaternionD& q);
 
-    std::vector<double>  getAccelerationInWorldFrame();
-    void setAccelerationInWorldFrame(std::vector<double>  acc);
+  //
+  const kindr::Velocity3D& getVelocityInWorldFrame() const;
 
-    std::vector<double>  getAngularAccelerationInWorldFrame();
-    void setAngularAccelerationInWorldFrame(std::vector<double>  angAcc);
+  void setVelocityInWorldFrame(const kindr::Velocity3D& vel);
 
-    std::vector<double>  getForceInWorldFrame();
-    void setForceInWorldFrame(std::vector<double>  f);
+  //
+  const kindr::AngularVelocity3D& getAngularVelocityInWorldFrame() const;
 
-    std::vector<double>   getTorqueInWorldFrame();
-    void setTorqueInWorldFrame(std::vector<double>  t);
+  void setAngularVelocityInWorldFrame(const kindr::AngularVelocity3D& angVel);
 
-    std::vector<double>  getVelocityInBaseFrame();
-    void setVelocityInBaseFrame(std::vector<double>  vel);
+  //
+  const kindr::Acceleration3D& getAccelerationInWorldFrame() const ;
+  void setAccelerationInWorldFrame(const kindr::Acceleration3D& acc);
 
-    std::vector<double>  getAngularVelocityInBaseFrame();
-    void setAngularVelocityIBaseFrame(std::vector<double>  angVel);
+  const kindr::AngularAcceleration3D& getAngularAccelerationInWorldFrame()const;
+  void setAngularAccelerationInWorldFrame( const kindr::AngularAcceleration3D& angAcc);
 
-    std::vector<double>  getAccelerationInBaseFrame();
-    void setAccelerationInBaseFrame(std::vector<double>  acc);
+  const kindr::Force3D& getForceInWorldFrame()const;
+  void setForceInWorldFrame(const kindr::Force3D& f);
 
-    std::vector<double>  getAngularAccelerationInBaseFrame();
-    void setAngularAccelerationInBaserame(std::vector<double>  angAcc);
+  const kindr::Torque3D& getTorqueInWorldFrame()const;
+  void setTorqueInWorldFrame(const kindr::Torque3D& t);
 
-    std::vector<double>  getForceInBaseFrame();
-    void setForceInBaseFrame(std::vector<double>  f);
+ protected:
 
-    std::vector<double>  getTorqueInBaseFrame();
-    void setTorqueInBaserame(std::vector<double>  t);
+  kindr::Position3D positionInWorldFrame_;
+  kindr::QuaternionD orientationInWorldFrame_;
+  kindr::Velocity3D velocityInWorldFrame_;
+  kindr::AngularVelocity3D angularVelocityInWorldFrame_;
+  kindr::Acceleration3D accelerationInWorldFrame_;
+  kindr::AngularAcceleration3D angularAccelerationInWorldFrame_;
+  kindr::Force3D forceInWorldFrame_;
+  kindr::Torque3D torqueInWorldFrame_;
 
-   private:
-
-     std::vector<double>  positionInWorldFrame_ ;
-     std::vector<double>  orientationInWorldFrame_ ;
-     Eigen::Matrix<double, 3, 1>  velocityInWorldFrame_ ;
-     std::vector<double>  angularVelocityInWorldFrame_ ;
-     std::vector<double>  accelerationInWorldFrame_ ;
-     std::vector<double>  angularAccelerationInWorldFrame_ ;
-     std::vector<double>  forceInWorldFrame_ ;
-     std::vector<double>  torqueInWorldFrame_ ;
-
-     std::vector<double>  velocityInBaseFrame_ ;
-     std::vector<double>  angularVelocityInBaseFrame_ ;
-     std::vector<double>  accelerationInBaseFrame_ ;
-     std::vector<double>  angularAccelerationInBaseFrame_ ;
-     std::vector<double>  forceInBaseFrame_ ;
-     std::vector<double>  torqueInBaseFrame_ ;
-
-  };
+};
 
 }/* namespace kuco*/

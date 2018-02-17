@@ -27,16 +27,20 @@ class AracModel : public KulmanModel
 
   virtual void reset();
 
-  void setTekerlek(Tekerlek* tekerlek);
+  //void setTekerlek(Tekerlek tekerlek);
 
-  Tekerlek& getTekerlek(int index);
+  std::vector<Tekerlek*>& getTekerlek();
 
 
  protected:
 
   // vector içinde pointer ne kadar doğru bir yaklaşım emin değilim ama dursun
-  std::vector<Tekerlek*> tekerlekler_;
+  Tekerlek* tekerlekLF_;
+  Tekerlek* tekerlekRF_;
+  Tekerlek* tekerlekLH_;
+  Tekerlek* tekerlekRH_;
 
+  std::vector<Tekerlek*>* tekerlekler_;
 };
 
 } /* namespace kuco */

@@ -12,7 +12,7 @@ namespace kuco {
 // Note : param_io is needed to use the getParam
 
 KulmanModel::KulmanModel():
-    govde_()
+    govde_(new Govde())
 {
 }
 
@@ -40,6 +40,7 @@ void KulmanModel::setGovde(Govde* govde)
 {
   govde_ = govde;
 }
+
 Govde& KulmanModel::getGovde()
 {
   return *govde_;

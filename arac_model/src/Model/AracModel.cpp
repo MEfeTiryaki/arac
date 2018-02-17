@@ -9,9 +9,18 @@
 namespace kuco {
 
 // Note : param_io is needed to use the getParam
+
 AracModel::AracModel()
-    : tekerlekler_()
+    : tekerlekLF_(new Tekerlek()),
+      tekerlekRF_(new Tekerlek()),
+      tekerlekLH_(new Tekerlek()),
+      tekerlekRH_(new Tekerlek()),
+      tekerlekler_(new std::vector<Tekerlek*>())
 {
+  tekerlekler_->push_back(tekerlekLF_);
+  tekerlekler_->push_back(tekerlekRF_);
+  tekerlekler_->push_back(tekerlekLH_);
+  tekerlekler_->push_back(tekerlekRH_);
 }
 
 AracModel::~AracModel()
@@ -43,15 +52,9 @@ void AracModel::reset()
 //  return *tekerlekler_;
 //}
 
-void AracModel::setTekerlek(Tekerlek* tekerlek)
+std::vector<Tekerlek*>& AracModel::getTekerlek()
 {
-  tekerlekler_.push_back(tekerlek);
+  return *tekerlekler_;
 }
-
-Tekerlek& AracModel::getTekerlek(int index)
-{
-  return *(tekerlekler_[index]);
-}
-
 
 } /* namespace arac_controller_frame*/

@@ -27,6 +27,7 @@ class KulmanModel
 
   void setGovde(Govde* govde);
   Govde& getGovde();
+
  protected:
 
    // Her kulmanın gövdesi olması gerektigi için gövdeyi kulmanda tanımlıyoruz

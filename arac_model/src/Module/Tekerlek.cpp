@@ -19,6 +19,7 @@ Tekerlek::Tekerlek()
 Tekerlek::~Tekerlek()
 {
 }
+
 void Tekerlek::initilize(){
 }
 
