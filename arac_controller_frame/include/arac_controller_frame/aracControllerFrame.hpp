@@ -81,6 +81,7 @@ class aracControllerFrame
   kuco::State* state_;
   kuco::AracModel* model_;
 
+
   // Publisher
   ros::Publisher actuatorCommandPublisher_;
   // Publisher names

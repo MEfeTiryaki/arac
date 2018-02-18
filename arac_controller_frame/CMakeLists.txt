@@ -8,9 +8,10 @@ find_package(Boost REQUIRED COMPONENTS thread chrono)
 find_package(catkin REQUIRED
   COMPONENTS
   	arac_model
-	  arac_msgs
+	arac_msgs
     arac_joystick
     arac_controller
+    arac_state_estimator
     roscpp
     param_io
     geometry_msgs
@@ -28,13 +29,14 @@ catkin_package(
   LIBRARIES
   	arac_controller_frame
   CATKIN_DEPENDS
-	  arac_model
-	  arac_msgs
+	arac_model
+	arac_msgs
     arac_joystick
     arac_controller
-	  roscpp
-	  param_io
-	  geometry_msgs
+    arac_state_estimator
+	roscpp
+	param_io
+	geometry_msgs
     std_msgs
     sensor_msgs
   DEPENDS
