@@ -1,4 +1,3 @@
-
 #include <ros/ros.h>
 
 // ROS messages / services
@@ -16,30 +15,33 @@
 #include "arac_model/State/State.hpp"
 #include "arac_model/Model/AracModel.hpp"
 
+#include "kulman_state_estimator/KulmanStateEstimatorBase.hpp"
+
 namespace estimator {
 
-class StateEstimator
+using Model = kuco::AracModel ;
+
+class AracStateEstimator : public KulmanStateEstimatorBase<Model>
 {
  public:
   //JoystickHandlerBase(kuco::State& state);
-  StateEstimator(kuco::AracModel& model);
+  AracStateEstimator();
 
-  virtual ~StateEstimator();
+  virtual void initilize(int argc, char **argv) override ;
 
-  virtual void initilize(ros::NodeHandle* nh);
+  virtual void create() override ;
 
-  virtual void advance();
+  virtual void advance() override ;
 
-  virtual void readParameters();
+  virtual void execute() override ;
+
+  virtual void readParameters() override ;
 
  protected:
-  virtual void initilizeSubscribers();
+  virtual void initilizeSubscribers() override ;
 
-  ros::NodeHandle* nodeHandle_;
-  ros::Rate* loop_rate_;
+  virtual void initilizePublishers() override ;
 
-  //kuco::State& state_;
-  kuco::AracModel model_;
 };
 
 }

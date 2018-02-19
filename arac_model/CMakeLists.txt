@@ -31,13 +31,13 @@ catkin_package(
 
 
 include_directories(
-  	include
+  include
 	${EIGEN3_INCLUDE_DIR}
-   	${catkin_INCLUDE_DIRS}
-   	${kindr_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+  ${kindr_INCLUDE_DIRS}
 )
 add_library(
-      ${PROJECT_NAME}
+  ${PROJECT_NAME}
 	# State
 	  src/State/State.cpp
 	# Model

@@ -5,6 +5,7 @@ add_definitions("-std=c++11")
 
 find_package(catkin REQUIRED
   COMPONENTS
+  kulman_state_estimator
   roscpp
   param_io
   geometry_msgs
@@ -23,13 +24,21 @@ endif()
 
 find_package(Eigen3 REQUIRED)
 
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
+  ${kindr_INCLUDE_DIRS}
+)
 
 catkin_package(
   INCLUDE_DIRS
     include
+    ${catkin_INCLUDE_DIRS}
   LIBRARIES
-    arac_state_estimator
+    ${PROJECT_NAME}
   CATKIN_DEPENDS
+    kulman_state_estimator
     roscpp
     param_io
     geometry_msgs
@@ -40,21 +49,53 @@ catkin_package(
     kindr
 )
 
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIR}
-  ${kindr_INCLUDE_DIRS}
+
+
+add_library(
+  ${PROJECT_NAME}
+  src/AracStateEstimator.cpp
 )
 
-add_library( ${PROJECT_NAME}
-  src/StateEstimator.cpp
-)
-
-add_dependencies(${PROJECT_NAME}
+add_dependencies(
+  ${PROJECT_NAME}
   ${catkin_EXPORTED_TARGETS}
 )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(
+  ${PROJECT_NAME}
   ${catkin_LIBRARIES}
+)
+
+add_executable(arac_state_estimator_node
+  src/arac_state_estimator_node.cpp
+)
+
+add_dependencies(
+  arac_state_estimator_node
+  ${PROJECT_NAME}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(arac_state_estimator_node
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+)
+
+#############
+## Install ##
+#############
+
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY config launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+install(FILES Readme.md
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
