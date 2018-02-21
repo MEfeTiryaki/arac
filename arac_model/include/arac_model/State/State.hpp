@@ -7,7 +7,6 @@
 #include <Eigen/Core>
 
 // Kindr library for physical variables
-#include <kindr/Core>
 #include <iostream>
 #include <vector>
 
@@ -16,14 +15,14 @@
 namespace kuco {
 // Todo (Efe Tiryaki 16.02.18): Bu arkadaşlaro typedef headerı içinde başka bir yerde tanımla
 // daha genel kullanıma açılsın
-typedef std::vector<double> Position;
-typedef std::vector<double> Quaternion;
-typedef kindr::Velocity3D Velocity;
-typedef std::vector<double> AngularVelocity;
-typedef std::vector<double> Acceleration;
-typedef std::vector<double> AngularAcceleration;
-typedef std::vector<double> Force;
-typedef std::vector<double> Torque;
+typedef Eigen::Vector3d Position;
+typedef Eigen::Vector4d Quaternion;
+typedef Eigen::Vector3d Velocity;
+typedef Eigen::Vector3d AngularVelocity;
+typedef Eigen::Vector3d Acceleration;
+typedef Eigen::Vector3d AngularAcceleration;
+typedef Eigen::Vector3d Force;
+typedef Eigen::Vector3d Torque;
 
 class State
 {
@@ -32,48 +31,48 @@ class State
 
   virtual ~State();
 
-  const kindr::Position3D& getPositionInWorldFrame() const;
+  const Position& getPositionInWorldFrame() const;
 
-  void setPositionInWorldFrame(const kindr::Position3D& pos);
-
-  //
-  const kindr::QuaternionD& getOrientationInWorldFrame() const;
-
-  void setOrientationInWorldFrame(const kindr::QuaternionD& q);
+  void setPositionInWorldFrame(const Position& pos);
 
   //
-  const kindr::Velocity3D& getVelocityInWorldFrame() const;
+  const Quaternion& getOrientationInWorldFrame() const;
 
-  void setVelocityInWorldFrame(const kindr::Velocity3D& vel);
-
-  //
-  const kindr::AngularVelocity3D& getAngularVelocityInWorldFrame() const;
-
-  void setAngularVelocityInWorldFrame(const kindr::AngularVelocity3D& angVel);
+  void setOrientationInWorldFrame(const Quaternion& q);
 
   //
-  const kindr::Acceleration3D& getAccelerationInWorldFrame() const ;
-  void setAccelerationInWorldFrame(const kindr::Acceleration3D& acc);
+  const Velocity& getVelocityInWorldFrame() const;
 
-  const kindr::AngularAcceleration3D& getAngularAccelerationInWorldFrame()const;
-  void setAngularAccelerationInWorldFrame( const kindr::AngularAcceleration3D& angAcc);
+  void setVelocityInWorldFrame(const Velocity& vel);
 
-  const kindr::Force3D& getForceInWorldFrame()const;
-  void setForceInWorldFrame(const kindr::Force3D& f);
+  //
+  const AngularVelocity& getAngularVelocityInWorldFrame() const;
 
-  const kindr::Torque3D& getTorqueInWorldFrame()const;
-  void setTorqueInWorldFrame(const kindr::Torque3D& t);
+  void setAngularVelocityInWorldFrame(const AngularVelocity& angVel);
+
+  //
+  const Acceleration& getAccelerationInWorldFrame() const ;
+  void setAccelerationInWorldFrame(const Acceleration& acc);
+
+  const AngularAcceleration& getAngularAccelerationInWorldFrame()const;
+  void setAngularAccelerationInWorldFrame( const AngularAcceleration& angAcc);
+
+  const Force& getForceInWorldFrame()const;
+  void setForceInWorldFrame(const Force& f);
+
+  const Torque& getTorqueInWorldFrame()const;
+  void setTorqueInWorldFrame(const Torque& t);
 
  protected:
 
-  kindr::Position3D positionInWorldFrame_;
-  kindr::QuaternionD orientationInWorldFrame_;
-  kindr::Velocity3D velocityInWorldFrame_;
-  kindr::AngularVelocity3D angularVelocityInWorldFrame_;
-  kindr::Acceleration3D accelerationInWorldFrame_;
-  kindr::AngularAcceleration3D angularAccelerationInWorldFrame_;
-  kindr::Force3D forceInWorldFrame_;
-  kindr::Torque3D torqueInWorldFrame_;
+  Position positionInWorldFrame_;
+  Quaternion orientationInWorldFrame_;
+  Velocity velocityInWorldFrame_;
+  AngularVelocity angularVelocityInWorldFrame_;
+  Acceleration accelerationInWorldFrame_;
+  AngularAcceleration angularAccelerationInWorldFrame_;
+  Force forceInWorldFrame_;
+  Torque torqueInWorldFrame_;
 
 };
 

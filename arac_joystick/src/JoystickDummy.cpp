@@ -14,8 +14,8 @@ JoystickDummy::~JoystickDummy()
 
 void JoystickDummy::advance()
 {
-  kindr::Velocity3D velocity = kindr::Velocity3D::Zero();
-  kindr::AngularVelocity3D angularVelocity = kindr::AngularVelocity3D::Zero();
+  kuco::Velocity velocity = kuco::Velocity::Zero();
+  kuco::AngularVelocity angularVelocity = kuco::AngularVelocity::Zero();
 
   if (ros::Time::now().toSec() - joystickCommandStartTime_ > 0.5) {
     //velocity = {0.0,0.0,0.0};

@@ -35,10 +35,8 @@ void aracController::readParameters()
 void aracController::setActuatorCommand()
 {
 
-  double linearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()
-      .toImplementation()[0];
-  double angularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()
-      .toImplementation()[2];
+  double linearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()[0];
+  double angularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()[2];
 
   std::vector<double> controllerInput(4);
   controllerInput[0] = linearVelocity + angularVelocity;
@@ -50,7 +48,7 @@ void aracController::setActuatorCommand()
 
   // Todo (Efe Tiryaki 16.02.18): 4 yerine teker sayısını çek
   for (int i = 0; i < 4; i++) {
-    kindr::AngularVelocity3D input;
+    kuco::AngularVelocity input;
     input << 0.0, 0.0, controllerInput[i];
     tekerler[i]->getDesiredState().setAngularVelocityInWorldFrame(input);
   }

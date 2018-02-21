@@ -25,82 +25,82 @@ State::~State()
 }
 
 //
-const kindr::Position3D&  State::getPositionInWorldFrame() const
+const Position&  State::getPositionInWorldFrame() const
 {
   return positionInWorldFrame_;
 }
 
-void State::setPositionInWorldFrame( const kindr::Position3D& pos)
+void State::setPositionInWorldFrame( const Position& pos)
 {
   positionInWorldFrame_ = pos;
 }
 
 //
-const kindr::QuaternionD& State::getOrientationInWorldFrame() const
+const Quaternion& State::getOrientationInWorldFrame() const
 {
   return orientationInWorldFrame_;
 }
 
-void State::setOrientationInWorldFrame(const kindr::QuaternionD& q)
+void State::setOrientationInWorldFrame(const Quaternion& q)
 {
   orientationInWorldFrame_ = q;
 }
 
 //
-const kindr::Velocity3D& State::getVelocityInWorldFrame() const
+const Velocity& State::getVelocityInWorldFrame() const
 {
   return velocityInWorldFrame_;
 }
 
-void State::setVelocityInWorldFrame(const kindr::Velocity3D& vel)
+void State::setVelocityInWorldFrame(const Velocity& vel)
 {
   velocityInWorldFrame_= vel;
 }
 
 //
-const kindr::AngularVelocity3D& State::getAngularVelocityInWorldFrame() const
+const AngularVelocity& State::getAngularVelocityInWorldFrame() const
 {
   return angularVelocityInWorldFrame_;
 }
 
-void State::setAngularVelocityInWorldFrame(const kindr::AngularVelocity3D& angVel)
+void State::setAngularVelocityInWorldFrame(const AngularVelocity& angVel)
 {
   angularVelocityInWorldFrame_ = angVel;
 }
 
 //
-const kindr::Acceleration3D& State::getAccelerationInWorldFrame() const
+const Acceleration& State::getAccelerationInWorldFrame() const
 {
   return accelerationInWorldFrame_;
 }
-void State::setAccelerationInWorldFrame(const kindr::Acceleration3D&  acc)
+void State::setAccelerationInWorldFrame(const Acceleration&  acc)
 {
   accelerationInWorldFrame_ = acc;
 }
 
-const kindr::AngularAcceleration3D&  State::getAngularAccelerationInWorldFrame() const
+const AngularAcceleration&  State::getAngularAccelerationInWorldFrame() const
 {
   return angularAccelerationInWorldFrame_;
 }
-void State::setAngularAccelerationInWorldFrame(const kindr::AngularAcceleration3D&  angAcc)
+void State::setAngularAccelerationInWorldFrame(const AngularAcceleration&  angAcc)
 {
   angularAccelerationInWorldFrame_ = angAcc;
 }
 
-const kindr::Force3D& State::getForceInWorldFrame() const
+const Force& State::getForceInWorldFrame() const
 {
   return forceInWorldFrame_;
 }
-void State::setForceInWorldFrame(const kindr::Force3D&  f)
+void State::setForceInWorldFrame(const Force&  f)
 {
   forceInWorldFrame_ = f;
 }
 
-const kindr::Torque3D&  State::getTorqueInWorldFrame() const
+const Torque&  State::getTorqueInWorldFrame() const
 {
   return torqueInWorldFrame_;
 }
-void State::setTorqueInWorldFrame(const kindr::Torque3D& t)
+void State::setTorqueInWorldFrame(const Torque& t)
 {
   torqueInWorldFrame_ = t;
 }

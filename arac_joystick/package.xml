@@ -19,8 +19,6 @@
   
   <depend>boost</depend>
   <depend>eigen</depend>
-  <depend>kindr</depend>
-  
   
   
   
