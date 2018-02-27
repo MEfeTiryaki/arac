@@ -6,7 +6,6 @@
 
 #include <Eigen/Core>
 
-// Kindr library for physical variables
 #include <iostream>
 #include <vector>
 
