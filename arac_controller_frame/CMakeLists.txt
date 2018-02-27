@@ -11,7 +11,6 @@ find_package(catkin REQUIRED
 	arac_msgs
     arac_joystick
     arac_controller
-    arac_state_estimator
     roscpp
     param_io
     geometry_msgs
@@ -33,7 +32,6 @@ catkin_package(
 	arac_msgs
     arac_joystick
     arac_controller
-    arac_state_estimator
 	roscpp
 	param_io
 	geometry_msgs
