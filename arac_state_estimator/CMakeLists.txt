@@ -14,13 +14,6 @@ find_package(catkin REQUIRED
   arac_model
 )
 
-# Attempt to find catkinized kindr
-find_package(kindr QUIET)
-if(NOT kindr_FOUND)
-  # Attempt to find package-based kindr
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(kindr kindr REQUIRED)
-endif()
 
 find_package(Eigen3 REQUIRED)
 
@@ -28,7 +21,6 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
-  ${kindr_INCLUDE_DIRS}
 )
 
 catkin_package(
@@ -46,7 +38,6 @@ catkin_package(
     sensor_msgs
     arac_model
   DEPENDS
-    kindr
 )
 
 
