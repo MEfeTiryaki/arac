@@ -1,4 +1,4 @@
-// arac gazebo
+  // arac gazebo
 #include "arac_controller_frame/aracControllerFrame.hpp"
 
 namespace arac_controller_frame {
@@ -18,7 +18,7 @@ void aracControllerFrame::create()
 {
   //state_ = new kuco::State();
   model_ = new kuco::AracModel;
-  joystickHandler_ = new joystick::JoystickDummy(*model_);
+  joystickHandler_ = new joystick::JoystickAcc(*model_);
   controller_ = new kuco::aracController(*model_);
 }
 

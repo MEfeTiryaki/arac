@@ -17,7 +17,7 @@
 
 #include <param_io/get_param.hpp>
 
-#include "arac_joystick/JoystickDummy.hpp"
+#include "arac_joystick/JoystickAcc.hpp"
 #include "arac_controller/aracController.hpp"
 #include "arac_msgs/ActuatorCommands.h"
 #include "arac_model/State/State.hpp"
@@ -76,7 +76,7 @@ class aracControllerFrame
   std::string robotName_;
 
   // Todo : pointerlar arasında ne fark var ogren
-  joystick::JoystickDummy* joystickHandler_ ;
+  joystick::JoystickAcc* joystickHandler_ ;
   kuco::aracController* controller_ ;
   kuco::State* state_;
   kuco::AracModel* model_;
