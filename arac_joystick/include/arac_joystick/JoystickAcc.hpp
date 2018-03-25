@@ -23,11 +23,9 @@ protected:
  private:
 
  kuco::Acceleration acceleration_;
- kuco::Acceleration accelerationMax_;
  kuco::Acceleration accelerationFree_;
 
  kuco::AngularAcceleration angularAcceleration_;
- kuco::AngularAcceleration angularAccelerationMax_;
  kuco::AngularAcceleration angularAccelerationFree_;
 
  kuco::Velocity velocity_;
@@ -37,9 +35,6 @@ protected:
  kuco::AngularVelocity angularVelocityMax_;
 
  double inputSamplingTime_;
- double jerk_;
- double angularJerk_;
- bool didUserInputRecieved_;
 };
 
 }

@@ -6,19 +6,14 @@ namespace joystick {
 JoystickAcc::JoystickAcc(kuco::AracModel& model)
     : JoystickHandlerBase(model),
       acceleration_(),
-      accelerationMax_(kuco::Acceleration::Ones() * 5),
       accelerationFree_(kuco::Acceleration::Ones() * 0.005),
       angularAcceleration_(),
-      angularAccelerationMax_(kuco::AngularAcceleration::Ones()),
       angularAccelerationFree_(kuco::AngularAcceleration::Ones() * 0.002),
       velocity_(),
-      velocityMax_(kuco::Velocity::Ones() * 5),
+      velocityMax_(kuco::Velocity::Ones() * 10),
       angularVelocity_(),
-      angularVelocityMax_(kuco::AngularVelocity::Ones()),
-      inputSamplingTime_(0.1),
-      jerk_(0.1),
-      angularJerk_(0.1),
-      didUserInputRecieved_(false)
+      angularVelocityMax_(kuco::AngularVelocity::Ones() * 5),
+      inputSamplingTime_(0.01)
 {
 }
 
@@ -28,120 +23,106 @@ JoystickAcc::~JoystickAcc()
 
 void JoystickAcc::advance()
 {
-  const double jerk = 10;
-  const double angularJerk = 10;
-  const double jerkFree = 1;
-  const double angularJerkFree = 1;
+  const double acc = 10;
+  const double angularAcc = 10;
+  const double accFree = 3;
+  const double angularAccFree = 3;
 
+  bool isAccFree = false;
+  bool isAngularAccFree = false;
   double dt = inputSamplingTime_;
 
-  if (didUserInputRecieved_) {
-
+  // Todo : change the name of the  joystickCommandStartTime_
+  if (ros::Time::now().toSec() - joystickCommandStartTime_ >= inputSamplingTime_) {
     if (joystickMsg_.linear.x > 0) {
-      jerk_ = jerk;
+      acceleration_[0] = acc;
     } else if (joystickMsg_.linear.x < 0) {
-      jerk_ = -jerk;
+      acceleration_[0] = -acc;
     } else {
-      jerk_ = 0.0;
+      isAccFree = true;
+      if (velocity_[0] > 0) {
+        acceleration_[0] = -accFree;
+      } else if (velocity_[0] < 0) {
+        acceleration_[0] = accFree;
+      } else {
+        acceleration_[0] = 0.0;
+      }
     }
-
     if (joystickMsg_.angular.z > 0) {
-      angularJerk_ = angularJerk;
+      angularAcceleration_[2] = angularAcc;
     } else if (joystickMsg_.angular.z < 0) {
-      angularJerk_ = -angularJerk;
+      angularAcceleration_[2] = -angularAcc;
     } else {
-      angularJerk_ = 0.0;
+      isAngularAccFree = true;
+      if (angularVelocity_[2] > 0) {
+        angularAcceleration_[2] = -angularAccFree;
+      } else if (angularVelocity_[2] < 0) {
+        angularAcceleration_[2] = angularAccFree;
+      } else {
+        angularAcceleration_[2] = 0.0;
+      }
     }
-
-
     // Reset the Velocity Commands Back to 0
     joystickMsg_.linear.x = 0.0;
     joystickMsg_.angular.z = 0.0;
 
-    // Acceleration Update II
-
-    if ((acceleration_[0] + jerk_ * dt < accelerationMax_[0]) && (acceleration_[0] + jerk_ * dt > -accelerationMax_[0])) {
-      acceleration_[0] += jerk_ * dt;
-    } else if(acceleration_[0] + jerk_ * dt >= accelerationMax_[0]){
-      acceleration_[0] = accelerationMax_[0];
-    } else{
-      acceleration_[0] = -accelerationMax_[0];
-    }
-    // Angular Acceleration Update
-
-    if ((angularAcceleration_[0] + angularJerk_ * dt < angularAccelerationMax_[0]) && (angularAcceleration_[0] + angularJerk_ * dt > -angularAccelerationMax_[0])) {
-      angularAcceleration_[0] += angularJerk_ * dt;
-    } else if(angularAcceleration_[0] + angularJerk_ * dt >= angularAccelerationMax_[0]){
-      angularAcceleration_[0] = angularAccelerationMax_[0];
-    } else{
-      angularAcceleration_[0] = -angularAccelerationMax_[0];
-    }
-
-    didUserInputRecieved_ = false;
-
-  } else if (!didUserInputRecieved_ ) {
-    // && ros::Time::now().toSec() - joystickCommandStartTime_ >= inputSamplingTime_
-    jerk_= jerkFree ;
-    angularJerk_ = angularJerkFree ;
-    if (velocity_[0] > 0) {
-      //acceleration_[0] = -accelerationFree_[0];
-      acceleration_[0] -= jerk_ * dt;
-    } else if (velocity_[0] < 0) {
-      //acceleration_[0] = accelerationFree_[0];
-      acceleration_[0] += jerk_ * dt;
+    if (!isAccFree) {
+      if ((velocity_[0] + acceleration_[0] * dt < velocityMax_[0])
+          && (velocity_[0] + acceleration_[0] * dt > -velocityMax_[0])) {
+        velocity_[0] += acceleration_[0] * dt;
+      } else if (velocity_[0] + acceleration_[0] * dt >= velocityMax_[0]) {
+        velocity_[0] = velocityMax_[0];
+      } else {
+        velocity_[0] = -velocityMax_[0];
+      }
     } else {
-      acceleration_[0] = 0.0;
+
+      if ((velocity_[0] + acceleration_[0] * dt) * velocity_[0] > 0.0) {
+        if ((velocity_[0] + acceleration_[0] * dt < velocityMax_[0])
+            && (velocity_[0] + acceleration_[0] * dt > -velocityMax_[0])) {
+          velocity_[0] += acceleration_[0] * dt;
+        } else if (velocity_[0] + acceleration_[0] * dt >= velocityMax_[0]) {
+          velocity_[0] = velocityMax_[0];
+        } else {
+          velocity_[0] = -velocityMax_[0];
+        }
+      } else {
+        velocity_[0] = 0.0;
+      }
+      isAccFree = false;
+    }
+    if (!isAngularAccFree) {
+      if ((angularVelocity_[2] + angularAcceleration_[2] * dt < angularVelocityMax_[2])
+          && (angularVelocity_[2] + angularAcceleration_[2] * dt > -angularVelocityMax_[2])) {
+        angularVelocity_[2] += angularAcceleration_[2] * dt;
+      } else if (angularVelocity_[0] + angularAcceleration_[2] * dt >= angularVelocityMax_[2]) {
+        angularVelocity_[2] = angularVelocityMax_[2];
+      } else {
+        angularVelocity_[2] = -angularVelocityMax_[2];
+      }
+    } else {
+      if ((angularVelocity_[2] + angularAcceleration_[2] * dt) * angularVelocity_[2] > 0.0) {
+        if ((angularVelocity_[2] + angularAcceleration_[2] * dt < angularVelocityMax_[2])
+            && (angularVelocity_[2] + angularAcceleration_[2] * dt > -angularVelocityMax_[2])) {
+          angularVelocity_[2] += angularAcceleration_[2] * dt;
+        } else if (angularVelocity_[2] + angularAcceleration_[2] * dt >= angularVelocityMax_[2]) {
+          angularVelocity_[2] = angularVelocityMax_[2];
+        } else {
+          angularVelocity_[2] = -angularVelocityMax_[2];
+        }
+      } else {
+        angularVelocity_[2] = 0.0;
+      }
+      isAngularAccFree = false;
     }
 
-    if (angularVelocity_[0] > 0) {
-//      angularAcceleration_[0] = -angularAccelerationFree_[0];
-      angularAcceleration_[0] -= angularJerk_ * dt;
-    } else if (angularVelocity_[0] < 0) {
-//      angularAcceleration_[0] = angularAccelerationFree_[0];
-      angularAcceleration_[0] += angularJerk_ * dt;
-    } else {
-      angularAcceleration_[0] = 0.0;
-    }
+    joystickCommandStartTime_ = ros::Time::now().toSec();
   }
+  // ELSE DO NOTHING
 
-  // Velocity Update
-  if (jerk_ != 0) {
-    if ((velocity_[0] + acceleration_[0] * dt < velocityMax_[0]) && (velocity_[0] + acceleration_[0] * dt > -velocityMax_[0])) {
-      velocity_[0] += acceleration_[0] * dt;
-    } else if(velocity_[0] + acceleration_[0] * dt >= velocityMax_[0]){
-      velocity_[0] = velocityMax_[0];
-    } else{
-      velocity_[0] = -velocityMax_[0];
-    }
-
-  } else {
-    if ((velocity_[0] + acceleration_[0] * dt) * velocity_[0] > 0.0) {
-      velocity_[0] = acceleration_[0] * dt;
-    } else {
-      velocity_[0] = 0.0;
-    }
-  }
-
-  if (angularJerk_ != 0) {
-    if ((angularVelocity_[0] + angularAcceleration_[0] * dt < angularVelocityMax_[0]) && (angularVelocity_[0] + angularAcceleration_[0] * dt > -angularVelocityMax_[0])) {
-      angularVelocity_[0] += angularAcceleration_[0] * dt;
-    } else if(angularVelocity_[0] + angularAcceleration_[0] * dt >= angularVelocityMax_[0]){
-      angularVelocity_[0] = angularVelocityMax_[0];
-    } else{
-      angularVelocity_[0] = -angularVelocityMax_[0];
-    }
-
-  }else {
-    if ((angularVelocity_[0] + angularAcceleration_[0] * dt) * angularVelocity_[0] > 0.0) {
-      angularVelocity_[0] = angularAcceleration_[0] * dt;
-    } else {
-      angularVelocity_[0] = 0.0;
-    }
-  }
-
-  //*
   std::cout << "__________________________________________________________________________"
-            << std::endl;
+      << std::endl;
+  std::cout << "time : " << ros::Time::now().toSec() << std::endl;
   std::cout << "acceleration : " << acceleration_.transpose() << std::endl;
   std::cout << "angularAcceleration : " << angularAcceleration_.transpose() << std::endl;
   std::cout << "velocity : " << velocity_.transpose() << std::endl;
@@ -155,12 +136,8 @@ void JoystickAcc::advance()
 
 void JoystickAcc::getJoystickMsg(geometry_msgs::Twist msg)
 {
-  if (ros::Time::now().toSec() - joystickCommandStartTime_ >= inputSamplingTime_) {
-    joystickMsg_ = msg;
-    joystickCommandStartTime_ = ros::Time::now().toSec();
-    didUserInputRecieved_ = true;
-  }
+  joystickMsg_ = msg;
+  //joystickCommandStartTime_ = ros::Time::now().toSec();
 }
 
 }
-
