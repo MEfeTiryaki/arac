@@ -19,29 +19,23 @@
 
 namespace estimator {
 
-using Model = kuco::AracModel ;
+using Model = kuco::AracModel;
 
 class AracStateEstimator : public KulmanStateEstimatorBase<Model>
 {
  public:
-  //JoystickHandlerBase(kuco::State& state);
-  AracStateEstimator();
 
-  virtual void initilize(int argc, char **argv) override ;
+  AracStateEstimator(Model& model);
 
-  virtual void create() override ;
+  virtual void initilize(ros::NodeHandle* nh) override;
 
-  virtual void advance() override ;
+  virtual void advance() override;
 
-  virtual void execute() override ;
-
-  virtual void readParameters() override ;
-
- protected:
-  virtual void initilizeSubscribers() override ;
-
-  virtual void initilizePublishers() override ;
-
+ private:
+  kuco::Velocity positionWorldToBase_;
+  kuco::Quaternion orientationWorldToBase_;
+  kuco::Velocity velocityWorldToBaseInWorldFrame_;
+  kuco::AngularVelocity angularVelocityWorldToBaseInWorldFrame_;
 };
 
 }

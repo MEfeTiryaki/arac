@@ -8,7 +8,7 @@
 #include "arac_joystick/JoystickHandlerBase.hpp"
 
  namespace joystick {
-class JoystickDummy : public JoystickHandlerBase{
+class JoystickDummy: public JoystickHandlerBase{
 public:
   JoystickDummy(kuco::AracModel& model);
 

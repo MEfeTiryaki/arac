@@ -41,6 +41,7 @@ include_directories(
 add_library( ${PROJECT_NAME}
   src/JoystickHandlerBase.cpp
   src/JoystickDummy.cpp
+  src/JoystickAcc.cpp
 )
 
 add_dependencies(${PROJECT_NAME}

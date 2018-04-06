@@ -15,6 +15,7 @@
   <depend>arac_msgs</depend>
   <depend>arac_joystick</depend>
   <depend>arac_controller</depend>
+  <depend>arac_state_estimator</depend>
   <depend>roscpp</depend>
   <depend>boost</depend>
   <depend>eigen</depend>

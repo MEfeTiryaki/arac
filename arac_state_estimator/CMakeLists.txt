@@ -6,12 +6,15 @@ add_definitions("-std=c++11")
 find_package(catkin REQUIRED
   COMPONENTS
   kulman_state_estimator
+  arac_msgs
+  arac_model
   roscpp
   param_io
   geometry_msgs
   std_msgs
   sensor_msgs
-  arac_model
+ 
+  
 )
 
 
@@ -31,12 +34,13 @@ catkin_package(
     ${PROJECT_NAME}
   CATKIN_DEPENDS
     kulman_state_estimator
+    arac_msgs
+ 	arac_model
     roscpp
     param_io
     geometry_msgs
     std_msgs
     sensor_msgs
-    arac_model
   DEPENDS
 )
 
@@ -57,21 +61,12 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-add_executable(arac_state_estimator_node
-  src/arac_state_estimator_node.cpp
-)
 
 add_dependencies(
-  arac_state_estimator_node
   ${PROJECT_NAME}
   ${catkin_EXPORTED_TARGETS}
 )
 
-target_link_libraries(arac_state_estimator_node
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-)
 
 #############
 ## Install ##

@@ -23,6 +23,35 @@ AracGazeboPlugin::~AracGazeboPlugin()
 }
 
 
+void AracGazeboPlugin::readSimulation(){
+  KulmanGazeboPlugin::readSimulation();
+  // read joint angles and write in publisher
+  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+    const auto jointPtr = jointPtrs_[i];
+    jointStates_.position[i] = jointPtr->GetAngle(0).Radian();
+    jointStates_.velocity[i] = jointPtr->GetVelocity(0);
+    jointStates_.effort[i] = jointPtr->GetForce(0);
+  }
+  kulmanStateMsg_.pose.pose.position.x = baseLink_->GetWorldPose().pos.x ;
+  kulmanStateMsg_.pose.pose.position.y = baseLink_->GetWorldPose().pos.y ;
+  kulmanStateMsg_.pose.pose.position.z = baseLink_->GetWorldPose().pos.z ;
+
+  kulmanStateMsg_.pose.pose.orientation.w = baseLink_->GetWorldPose().rot.w ;
+  kulmanStateMsg_.pose.pose.orientation.x = baseLink_->GetWorldPose().rot.x ;
+  kulmanStateMsg_.pose.pose.orientation.y = baseLink_->GetWorldPose().rot.y ;
+  kulmanStateMsg_.pose.pose.orientation.z = baseLink_->GetWorldPose().rot.z ;
+
+  kulmanStateMsg_.twist.twist.linear.x = baseLink_->GetWorldLinearVel().x ;
+  kulmanStateMsg_.twist.twist.linear.y = baseLink_->GetWorldLinearVel().y ;
+  kulmanStateMsg_.twist.twist.linear.z = baseLink_->GetWorldLinearVel().z ;
+
+  kulmanStateMsg_.twist.twist.angular.x = baseLink_->GetWorldAngularVel().x ;
+  kulmanStateMsg_.twist.twist.angular.y = baseLink_->GetWorldAngularVel().y ;
+  kulmanStateMsg_.twist.twist.angular.z = baseLink_->GetWorldAngularVel().z ;
+
+
+
+}
 
 void AracGazeboPlugin::writeSimulation()
 {
