@@ -34,11 +34,11 @@ void KulmanGazeboPlugin::Reset()
 
 void KulmanGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 {
- // To ensure that gazebo is not distrubed while loading
+  // To ensure that gazebo is not distrubed while loading
   //std::unique_lock<std::recursive_mutex> lock(gazeboMutex_);
 
   // XXX : "~" getParam'da başa gelen salak cift // den kurtarıyor
-   nodeHandle_ = new ros::NodeHandle("~");
+  nodeHandle_ = new ros::NodeHandle("~");
 
   // Note : check if this is placed correctly
   this->readParameters(sdf);
@@ -54,6 +54,7 @@ void KulmanGazeboPlugin::Load(physics::ModelPtr model, sdf::ElementPtr sdf)
 
   // initialize joint structure
   initJointStructures();
+  initLinkStructure();
   // initialize ROS pub/sub/services
   initPublishers();
   initSubscribers();
@@ -97,10 +98,10 @@ void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
   getParam(*nodeHandle_, "publishers/joint_state/topic", jointStatePublisherName_);
   getParam(*nodeHandle_, "publishers/joint_state/queue_size", jointStatePublisherQueueSize_);
 
-
   // Get Subscriber parameters
   getParam(*nodeHandle_, "subscribers/actuator_commands/topic", actuatorCommandSubscriberName_);
-  getParam(*nodeHandle_, "subscribers/actuator_commands/queue_size", actuatorCommandSubscriberQueueSize_);
+  getParam(*nodeHandle_, "subscribers/actuator_commands/queue_size",
+           actuatorCommandSubscriberQueueSize_);
 
   // Get Default Positions
   getParam(*nodeHandle_, "joint_states/default_positions", jointPositionsDefault_);
@@ -108,7 +109,6 @@ void KulmanGazeboPlugin::readParameters(sdf::ElementPtr sdf)
   isEstimatorUsed = false;
 
 }
-
 
 // Note : RSL code for getting model of the robot
 std::string KulmanGazeboPlugin::getUrdfRobotDescription(const std::string& paramName) const
@@ -149,14 +149,14 @@ void KulmanGazeboPlugin::initJointStructures()
 {
   jointPtrs_ = model_->GetJoints();
 
-  std::cout << "Detected Joints are :"<< std::endl;
+  std::cout << "Detected Joints are :" << std::endl;
 
   jointPositionsReset_ = std::vector<double>(jointPtrs_.size());
 
   // Init the joint structures.
-  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+  for (int i = 0; i < jointPtrs_.size(); i++) {
     const auto jointPtr = jointPtrs_[i];
-    std::cout <<"  - " << jointPtr->GetName()<< std::endl;
+    std::cout << "  - " << jointPtr->GetName() << std::endl;
 
     // Set joint position to default initial position
     jointPtr->SetPosition(0, jointPositionsDefault_[i]);
@@ -164,23 +164,36 @@ void KulmanGazeboPlugin::initJointStructures()
   }
 }
 
+void KulmanGazeboPlugin::initLinkStructure()
+{
+  physics::Link_V links = model_->GetLinks();
+
+  for (int i = 0; i < links.size(); i++) {
+    if (links[i]->GetName().find("base") != std::string::npos) {
+      baseLink_ = links[i];
+      std::cout << "Model contain base_link!" << std::endl;
+      return;
+    }
+  }
+}
+
 void KulmanGazeboPlugin::initPublishers()
 {
 
   // Robot State Publishers
-  kulmanStatePublisher_ = nodeHandle_->advertise<arac_msgs::KulmanState>(kulmanStatePublisherName_,
-                                                                      kulmanStatePublisherQueueSize_);
-  jointStatePublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>(jointStatePublisherName_,
-                                                                        jointStatePublisherQueueSize_);
+  kulmanStatePublisher_ = nodeHandle_->advertise<arac_msgs::KulmanState>(
+      kulmanStatePublisherName_, kulmanStatePublisherQueueSize_);
+  jointStatePublisher_ = nodeHandle_->advertise<sensor_msgs::JointState>(
+      jointStatePublisherName_, jointStatePublisherQueueSize_);
 
   // Initilized the message
   kulmanStateMsg_ = arac_msgs::KulmanState();
   // kulmanStateMsg_.pose =
   // kulmanStateMsg_.twist =
 
-  jointStates_ =  sensor_msgs::JointState();
+  jointStates_ = sensor_msgs::JointState();
 
-  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+  for (int i = 0; i < jointPtrs_.size(); i++) {
     const auto jointPtr = jointPtrs_[i];
     jointStates_.name.push_back(jointPtr->GetName());
     jointStates_.position.push_back(0.0);
@@ -189,7 +202,6 @@ void KulmanGazeboPlugin::initPublishers()
   }
   kulmanStateMsg_.joints = jointStates_;
 
-
 }
 
 void KulmanGazeboPlugin::initSubscribers()
@@ -197,10 +209,10 @@ void KulmanGazeboPlugin::initSubscribers()
 
   // Actuator Command Subscriber
   const std::string subscriberStr = "/arac_controller_frame/ActuatorCommands";
-  actuatorCommandSubscriber_ = nodeHandle_->subscribe(actuatorCommandSubscriberName_
-                                                     , actuatorCommandSubscriberQueueSize_
-                                                     , &KulmanGazeboPlugin::actuatorCommandsCallback
-                                                     , this);
+  actuatorCommandSubscriber_ = nodeHandle_->subscribe(actuatorCommandSubscriberName_,
+                                                      actuatorCommandSubscriberQueueSize_,
+                                                      &KulmanGazeboPlugin::actuatorCommandsCallback,
+                                                      this);
 
   actuatorCommands_.inputs.name = jointNames_;
   actuatorCommands_.inputs.position = std::vector<double>(4, 0.0);
@@ -216,30 +228,30 @@ void KulmanGazeboPlugin::actuatorCommandsCallback(const arac_msgs::ActuatorComma
   actuatorCommands_ = msg;
 }
 
-
 void KulmanGazeboPlugin::publishTFs()
 {
-  const auto& pose  = model_->GetLink(frameBase_)->GetWorldPose();
+  const auto& pose = model_->GetLink(frameBase_)->GetWorldPose();
   // Odom
-  odomTransform.setOrigin( tf::Vector3(pose.pos.x,pose.pos.y,pose.pos.z ));
-  odomTransform.setRotation(tf::Quaternion(pose.rot.x,pose.rot.y,pose.rot.z,pose.rot.w));
+  odomTransform.setOrigin(tf::Vector3(pose.pos.x, pose.pos.y, pose.pos.z));
+  odomTransform.setRotation(tf::Quaternion(pose.rot.x, pose.rot.y, pose.rot.z, pose.rot.w));
 
   static tf::TransformBroadcaster br;
-  br.sendTransform(tf::StampedTransform(odomTransform, ros::Time::now(), frameWorld_ , frameBase_));
+  br.sendTransform(tf::StampedTransform(odomTransform, ros::Time::now(), frameWorld_, frameBase_));
 
 }
 
 void KulmanGazeboPlugin::publishPublishers()
 {
-    kulmanStatePublisher_.publish(kulmanStateMsg_);
-    jointStatePublisher_.publish(jointStates_);
+  kulmanStatePublisher_.publish(kulmanStateMsg_);
+  jointStatePublisher_.publish(jointStates_);
 }
 
-void KulmanGazeboPlugin::readSimulation(){
-  jointStates_.header.stamp = ros::Time::now() ;
-  kulmanStateMsg_.header.stamp = ros::Time::now() ;
+void KulmanGazeboPlugin::readSimulation()
+{
+  jointStates_.header.stamp = ros::Time::now();
+  kulmanStateMsg_.header.stamp = ros::Time::now();
   // read joint angles and write in publisher
-  for (int i = 0 ; i < jointPtrs_.size() ;i++) {
+  for (int i = 0; i < jointPtrs_.size(); i++) {
     const auto jointPtr = jointPtrs_[i];
     jointStates_.position[i] = jointPtr->GetAngle(0).Radian();
     jointStates_.velocity[i] = jointPtr->GetVelocity(0);

@@ -27,6 +27,10 @@ class AracGazeboPlugin : public KulmanGazeboPlugin
   virtual void initPublishers() override;
 
   // Writes simulation state.
+  virtual void readSimulation() override;
+
+
+  // Writes simulation state.
   virtual void writeSimulation() override;
 
   // Publisher

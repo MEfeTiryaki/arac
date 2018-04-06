@@ -120,6 +120,7 @@ void JoystickAcc::advance()
   }
   // ELSE DO NOTHING
 
+  /*
   std::cout << "__________________________________________________________________________"
       << std::endl;
   std::cout << "time : " << ros::Time::now().toSec() << std::endl;

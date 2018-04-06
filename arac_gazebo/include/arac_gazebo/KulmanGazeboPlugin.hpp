@@ -12,6 +12,7 @@
 #include <string>
 #include <atomic>
 #include <condition_variable>
+#include <vector>
 
 // required for std::this_thread
 #include <thread>
@@ -70,6 +71,8 @@ class KulmanGazeboPlugin : public ModelPlugin
   virtual void readParameters(sdf::ElementPtr sdf);
 
   virtual void initJointStructures() ;
+
+  virtual void initLinkStructure() ;
 
   // Inits the ROS subscriber.
   virtual void initSubscribers() ;
@@ -146,21 +149,17 @@ class KulmanGazeboPlugin : public ModelPlugin
   arac_msgs::ActuatorCommands actuatorCommands_;
 
 
+  // Estimator Bool
+  bool isEstimatorUsed;
+
   // Model.
   physics::ModelPtr model_;
   // World update event.
   event::ConnectionPtr updateConnection_;
 
-  // Robot base link pose (transforms vectors from base to world).
-  math::Pose robotBaseLinkPose_;
-  // Robot base link linear velocity in world frame.
-  math::Vector3 robotBaseLinkLinearVelocity_;
-  // Robot base link angular velocity in base frame.
-  math::Vector3 robotBaseLinkAngularVelocity_;
+  // Robot links
+  physics::LinkPtr baseLink_;
 
-
-  // Estimator Bool
-  bool isEstimatorUsed;
   // Actuators
   std::vector<std::string> jointNames_;
   std::unordered_map<std::string, int> jointNametoJointId_;

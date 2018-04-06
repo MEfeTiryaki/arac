@@ -18,8 +18,9 @@ void aracControllerFrame::create()
 {
   //state_ = new kuco::State();
   model_ = new kuco::AracModel;
+  estimator_ = new estimator::AracStateEstimator(*model_);
   joystickHandler_ = new joystick::JoystickAcc(*model_);
-  controller_ = new kuco::aracController(*model_);
+  controller_ = new kuco::aracPidController(*model_);
 }
 
 void aracControllerFrame::initilize(int argc, char **argv)
@@ -46,6 +47,7 @@ void aracControllerFrame::initilize(int argc, char **argv)
   initilizeSubscribers();
 
   model_->initilize();
+  estimator_->initilize(nodeHandle_);
   joystickHandler_->initilize(nodeHandle_);
   controller_->initilize();
 
@@ -70,6 +72,7 @@ void aracControllerFrame::advance()
 {
 
   // Estimator here in future
+  estimator_->advance();
 
   // Advance the joystick handler
   joystickHandler_->advance();
