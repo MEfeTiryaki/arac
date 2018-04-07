@@ -4,6 +4,7 @@
 
   <!-- Import shared components -->
     <xacro:include filename="$(find arac_description)/urdf/include/arac_plugin.gazebo.xacro"/>
+    <xacro:include filename="$(find arac_description)/urdf/include/hokuyo_plugin.gazebo.xacro"/>
 
   <!-- Math constants -->
   <xacro:property name="PI" value="3.1415926535897931"/>
