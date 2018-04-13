@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /RobotModel1
         - /LaserScan1
+        - /Marker1
       Splitter Ratio: 0.292243779
     Tree Height: 1107
   - Class: rviz/Selection
@@ -94,6 +95,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: arac_description
       TF Prefix: ""
@@ -119,6 +125,8 @@ Visualization Manager:
           Value: true
         hokuyo_link:
           Value: true
+        imu_link:
+          Value: true
         map:
           Value: true
       Marker Scale: 1
@@ -140,6 +148,8 @@ Visualization Manager:
             base_inertia:
               {}
             hokuyo_link:
+              {}
+            imu_link:
               {}
       Update Interval: 0
       Value: true
@@ -172,6 +182,14 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /arac_controller_frame/visualization_marker
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:

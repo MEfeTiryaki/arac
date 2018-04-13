@@ -49,6 +49,7 @@ catkin_package(
 add_library(
   ${PROJECT_NAME}
   src/AracStateEstimator.cpp
+  src/AracEKF.cpp
 )
 
 add_dependencies(
