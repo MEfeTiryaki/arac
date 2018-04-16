@@ -2,17 +2,20 @@
 
 namespace joystick {
 
-// Todo : check if we can add robot name here
-JoystickDummy::JoystickDummy(kuco::AracModel& model)
-    : JoystickHandlerBase(model)
+template<typename KulmanModel_>
+JoystickDummy<KulmanModel_>::JoystickDummy(kuco::AracModel& model)
+    : JoystickHandlerBase<KulmanModel_>(model)
 {
 }
 
-JoystickDummy::~JoystickDummy()
+
+template<typename KulmanModel_>
+JoystickDummy<KulmanModel_>::~JoystickDummy()
 {
 }
 
-void JoystickDummy::advance()
+template<typename KulmanModel_>
+void JoystickDummy<KulmanModel_>::advance()
 {
   kuco::Velocity velocity = kuco::Velocity::Zero();
   kuco::AngularVelocity angularVelocity = kuco::AngularVelocity::Zero();

@@ -20,15 +20,18 @@ using namespace param_io;
 //  : state_(state)
 //{
 //}
-JoystickHandlerBase::JoystickHandlerBase(kuco::AracModel& model)
+template<typename KulmanModel_>
+JoystickHandlerBase<KulmanModel_>::JoystickHandlerBase(KulmanModel_& model)
   : model_(model)
 {
 }
 
-JoystickHandlerBase::~JoystickHandlerBase(){
+template<typename KulmanModel_>
+JoystickHandlerBase<KulmanModel_>::~JoystickHandlerBase(){
 }
 
-void JoystickHandlerBase::initilize(ros::NodeHandle* nh )
+template<typename KulmanModel_>
+void JoystickHandlerBase<KulmanModel_>::initilize(ros::NodeHandle* nh )
 {
 
   nodeHandle_ = nh ;
@@ -41,23 +44,27 @@ void JoystickHandlerBase::initilize(ros::NodeHandle* nh )
 
 }
 
-void JoystickHandlerBase::advance(){
+template<typename KulmanModel_>
+void JoystickHandlerBase<KulmanModel_>::advance(){
 }
 
-void JoystickHandlerBase::readParameters(){
+template<typename KulmanModel_>
+void JoystickHandlerBase<KulmanModel_>::readParameters(){
   // Get Subscriber parameters
   getParam(*nodeHandle_, "subscribers/joystick/topic", joystickSubscriberName_);
   getParam(*nodeHandle_, "subscribers/joystick/queue_size", joystickSubscriberQueueSize_);
 
 }
 
-void JoystickHandlerBase::initilizeSubscribers()
+template<typename KulmanModel_>
+void JoystickHandlerBase<KulmanModel_>::initilizeSubscribers()
 {
   joystickSubscriber_ = nodeHandle_->subscribe(joystickSubscriberName_, joystickSubscriberQueueSize_,
                                                &JoystickHandlerBase::getJoystickMsg, this);
 }
 
-void JoystickHandlerBase::getJoystickMsg(geometry_msgs::Twist msg){
+template<typename KulmanModel_>
+void JoystickHandlerBase<KulmanModel_>::getJoystickMsg(geometry_msgs::Twist msg){
   joystickMsg_ = msg;
   joystickCommandStartTime_ = ros::Time::now().toSec();
 }

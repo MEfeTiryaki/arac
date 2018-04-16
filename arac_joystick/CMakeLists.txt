@@ -38,16 +38,16 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
 )
 
-add_library( ${PROJECT_NAME}
-  src/JoystickHandlerBase.cpp
-  src/JoystickDummy.cpp
-  src/JoystickAcc.cpp
-)
+#add_library( ${PROJECT_NAME}
+  #src/JoystickHandlerBase.cpp
+  #src/JoystickDummy.cpp
+  #src/JoystickAcc.cpp
+#)
 
-add_dependencies(${PROJECT_NAME}
-  ${catkin_EXPORTED_TARGETS}
-)
+#add_dependencies(${PROJECT_NAME}
+#  ${catkin_EXPORTED_TARGETS}
+#)
 
-target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+#target_link_libraries(${PROJECT_NAME}
+#  ${catkin_LIBRARIES}
+#)

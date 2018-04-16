@@ -92,10 +92,12 @@ void AracEKF::advance()
   model_.getGovde().getMeasuredState().setAngularVelocityInWorldFrame(
       angularVelocityWorldToBaseInWorldFrame_);
 
+      /*
   std::cout << "X_real : \n" << positionWorldToBase_[0] << "," << positionWorldToBase_[1] << ","
             << 2 * acos(orientationWorldToBase_[0]) << "," << velocityWorldToBaseInWorldFrame_[0]
             << "," << angularVelocityWorldToBaseInWorldFrame_[2] << "," << std::endl;
-  std::cout << "____________________________________ " << std::endl;
+            */
+  //std::cout << "____________________________________ " << std::endl;
   publish();
 }
 
@@ -213,10 +215,10 @@ void AracEKF::pStep()
 
   Pp_ = F_ * Pm_ * F_.transpose() + Q_;
 
-  std::cout << "U : \n" << U_.transpose() << std::endl;
+  //std::cout << "U : \n" << U_.transpose() << std::endl;
   //std::cout << "F   : \n" << F_ << std::endl;
-  std::cout << "X_p : \n" << Xp_.transpose() << std::endl;
-  std::cout << "P_p : \n" << Pp_ << std::endl;
+  //std::cout << "X_p : \n" << Xp_.transpose() << std::endl;
+  //std::cout << "P_p : \n" << Pp_ << std::endl;
 
 }
 void AracEKF::mStep()
@@ -251,10 +253,9 @@ void AracEKF::mStep()
   //std::cout << "S   : \n" << S_ << std::endl;
   //std::cout << "K   : \n" << K_ << std::endl;
 
-  std::cout << "X_m : \n" << Xm_.transpose() << std::endl;
-  std::cout << "P_m : \n" << Pm_ << std::endl;
+  //std::cout << "X_m : \n" << Xm_.transpose() << std::endl;
+  //std::cout << "P_m : \n" << Pm_ << std::endl;
 
 }
 
 }
-

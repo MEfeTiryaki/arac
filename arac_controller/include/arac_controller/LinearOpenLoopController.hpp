@@ -11,7 +11,7 @@ class LinearOpenLoopController : public OpenLoopController<KulmanModel>
   /*
    * Gudumcuyu yaratir.
    */
-  LinearOpenLoopController(AracModel& model)
+  LinearOpenLoopController(KulmanModel& model)
       : OpenLoopController<KulmanModel>(model),
         n_(0),
         l_(0)

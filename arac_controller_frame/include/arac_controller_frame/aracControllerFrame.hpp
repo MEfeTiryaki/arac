@@ -77,7 +77,7 @@ class aracControllerFrame
   std::string robotName_;
 
   estimator::AracEKF* estimator_;
-  joystick::JoystickAcc* joystickHandler_ ;
+  joystick::JoystickAcc<kuco::AracModel>* joystickHandler_ ;
   kuco::AracOLController* controller_ ;
   kuco::State* state_;
   kuco::AracModel* model_;

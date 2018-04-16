@@ -52,6 +52,7 @@ add_library(
   ${PROJECT_NAME}
   src/AracGazeboPlugin.cpp
   src/KulmanGazeboPlugin.cpp
+  src/ActuatorContainer.cpp
 )
 add_dependencies(
   ${PROJECT_NAME}

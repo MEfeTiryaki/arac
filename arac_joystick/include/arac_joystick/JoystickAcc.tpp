@@ -2,9 +2,9 @@
 
 namespace joystick {
 
-// Todo : check if we can add robot name here
-JoystickAcc::JoystickAcc(kuco::AracModel& model)
-    : JoystickHandlerBase(model),
+template<typename KulmanModel_>
+JoystickAcc<KulmanModel_>::JoystickAcc(KulmanModel_& model)
+    : JoystickHandlerBase<KulmanModel_>(model),
       acceleration_(),
       accelerationFree_(kuco::Acceleration::Ones() * 0.005),
       angularAcceleration_(),
@@ -17,11 +17,13 @@ JoystickAcc::JoystickAcc(kuco::AracModel& model)
 {
 }
 
-JoystickAcc::~JoystickAcc()
+template<typename KulmanModel_>
+JoystickAcc<KulmanModel_>::~JoystickAcc()
 {
 }
 
-void JoystickAcc::advance()
+template<typename KulmanModel_>
+void JoystickAcc<KulmanModel_>::advance()
 {
   const double acc = 10;
   const double angularAcc = 10;
@@ -33,10 +35,10 @@ void JoystickAcc::advance()
   double dt = inputSamplingTime_;
 
   // Todo : change the name of the  joystickCommandStartTime_
-  if (ros::Time::now().toSec() - joystickCommandStartTime_ >= inputSamplingTime_) {
-    if (joystickMsg_.linear.x > 0) {
+  if (ros::Time::now().toSec() - this->joystickCommandStartTime_ >= inputSamplingTime_) {
+    if (this->joystickMsg_.linear.x > 0) {
       acceleration_[0] = acc;
-    } else if (joystickMsg_.linear.x < 0) {
+    } else if (this->joystickMsg_.linear.x < 0) {
       acceleration_[0] = -acc;
     } else {
       isAccFree = true;
@@ -48,9 +50,9 @@ void JoystickAcc::advance()
         acceleration_[0] = 0.0;
       }
     }
-    if (joystickMsg_.angular.z > 0) {
+    if (this->joystickMsg_.angular.z > 0) {
       angularAcceleration_[2] = angularAcc;
-    } else if (joystickMsg_.angular.z < 0) {
+    } else if (this->joystickMsg_.angular.z < 0) {
       angularAcceleration_[2] = -angularAcc;
     } else {
       isAngularAccFree = true;
@@ -63,8 +65,8 @@ void JoystickAcc::advance()
       }
     }
     // Reset the Velocity Commands Back to 0
-    joystickMsg_.linear.x = 0.0;
-    joystickMsg_.angular.z = 0.0;
+    this->joystickMsg_.linear.x = 0.0;
+    this->joystickMsg_.angular.z = 0.0;
 
     if (!isAccFree) {
       if ((velocity_[0] + acceleration_[0] * dt < velocityMax_[0])
@@ -116,7 +118,7 @@ void JoystickAcc::advance()
       isAngularAccFree = false;
     }
 
-    joystickCommandStartTime_ = ros::Time::now().toSec();
+    this->joystickCommandStartTime_ = ros::Time::now().toSec();
   }
   // ELSE DO NOTHING
 
@@ -130,14 +132,15 @@ void JoystickAcc::advance()
   std::cout << "angularVelociy : " << angularVelocity_.transpose() << std::endl;
   //*/
 
-  model_.getGovde().getDesiredState().setVelocityInWorldFrame(velocity_);
-  model_.getGovde().getDesiredState().setAngularVelocityInWorldFrame(angularVelocity_);
+  this->model_.getGovde().getDesiredState().setVelocityInWorldFrame(velocity_);
+  this->model_.getGovde().getDesiredState().setAngularVelocityInWorldFrame(angularVelocity_);
 
 }
 
-void JoystickAcc::getJoystickMsg(geometry_msgs::Twist msg)
+template<typename KulmanModel_>
+void JoystickAcc<KulmanModel_>::getJoystickMsg(geometry_msgs::Twist msg)
 {
-  joystickMsg_ = msg;
+  this->joystickMsg_ = msg;
   //joystickCommandStartTime_ = ros::Time::now().toSec();
 }
 

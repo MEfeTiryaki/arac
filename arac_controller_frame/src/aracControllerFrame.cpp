@@ -20,7 +20,7 @@ void aracControllerFrame::create()
   //state_ = new kuco::State();
   model_ = new kuco::AracModel;
   estimator_ = new estimator::AracEKF(*model_);
-  joystickHandler_ = new joystick::JoystickAcc(*model_);
+  joystickHandler_ = new joystick::JoystickAcc<kuco::AracModel>(*model_);
   controller_ = new kuco::AracOLController(*model_);
 }
 
