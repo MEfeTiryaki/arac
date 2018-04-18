@@ -8,8 +8,9 @@ find_package(Boost REQUIRED COMPONENTS thread chrono)
 find_package(catkin REQUIRED
   COMPONENTS
     kulman_joystick
+    kulman_controller_frame
   	arac_model
-	  arac_msgs
+	  kulman_msgs
     arac_controller
     arac_state_estimator
     roscpp
@@ -30,8 +31,9 @@ catkin_package(
     arac_controller_frame
   CATKIN_DEPENDS
     kulman_joystick
+    kulman_controller_frame
   	arac_model
-  	arac_msgs
+  	kulman_msgs
     arac_controller
     arac_state_estimator
   	roscpp
@@ -54,7 +56,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_library(
   ${PROJECT_NAME}
-  src/aracControllerFrame.cpp
+  src/AracControllerFrame.cpp
 )
 
 add_dependencies(arac_controller_frame

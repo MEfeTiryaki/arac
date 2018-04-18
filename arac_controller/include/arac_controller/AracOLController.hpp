@@ -29,9 +29,9 @@ class AracOLController : public LinearOpenLoopController<Model>
 
   virtual void setActuatorCommand() override;
 
-  // tekerlek yaricapi
+  // Wheel yaricapi
   double rWheel_ ;
-  // tekerlek uzakligi
+  // Wheel uzakligi
   double lWheel_ ;
 };
 

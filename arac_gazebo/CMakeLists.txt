@@ -7,7 +7,7 @@ find_package(catkin REQUIRED
   COMPONENTS
     kulman_gazebo
     param_io
-    arac_msgs
+    kulman_msgs
     gazebo_plugins
     gazebo_ros
     roscpp
@@ -37,7 +37,7 @@ catkin_package(
     ${PROJECT_NAME}
   CATKIN_DEPENDS
     param_io
-    arac_msgs
+    kulman_msgs
     gazebo_plugins
     urdf
     xacro

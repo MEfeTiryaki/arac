@@ -16,9 +16,9 @@
   <depend>arac_description</depend>
   <depend>arac_gazebo</depend>
   <depend>arac_model</depend>
-  <depend>arac_msgs</depend>
+  <depend>kulman_msgs</depend>
   <depend>arac_sim</depend>
   <depend>arac_state_estimator</depend>
-  <depend>arac_rviz</depend>
+  <depend>kulman_rviz</depend>
   <depend>param_io</depend>
 </package>

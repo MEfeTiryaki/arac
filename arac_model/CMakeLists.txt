@@ -5,6 +5,7 @@ add_definitions("-std=c++11")
 
 find_package(catkin REQUIRED
   COMPONENTS
+    kulman_model
 )
 
 
@@ -18,6 +19,7 @@ catkin_package(
   LIBRARIES
    arac_model
   CATKIN_DEPENDS
+   kulman_model
   DEPENDS
 )
 
@@ -29,20 +31,7 @@ include_directories(
 )
 add_library(
   ${PROJECT_NAME}
-	# State
-	  src/State/State.cpp
-	# Model
-	  src/Model/KulmanModel.cpp
-	  src/Model/AracModel.cpp
-    src/Model/Arac2Model.cpp
-	# Module
-	  src/Module/ModuleBase.cpp
-	  src/Module/Govde.cpp
-	  src/Module/Tekerlek.cpp
-	# Devitec
-	  src/Devitec/Denetleyici.cpp
-	  src/Devitec/DevitecModelBase.cpp
-
+	  src/AracModel.cpp
 )
 
 add_dependencies(${PROJECT_NAME}

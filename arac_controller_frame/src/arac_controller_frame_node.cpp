@@ -1,12 +1,12 @@
 #include <ros/ros.h>
 #include <iostream>
 
-#include "arac_controller_frame/aracControllerFrame.hpp"
+#include "arac_controller_frame/AracControllerFrame.hpp"
 
 
 int main(int argc, char **argv)
 {
-  arac_controller_frame::aracControllerFrame controllerFrame = arac_controller_frame::aracControllerFrame();
+  kuco::AracControllerFrame controllerFrame = kuco::AracControllerFrame();
   controllerFrame.create();
   controllerFrame.initilize(argc,argv);
   controllerFrame.execute();

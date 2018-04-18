@@ -23,7 +23,7 @@ void aracPidController::initilize()
 
 }
 
-void aracPidController::advance()
+void aracPidController::advance(double dt)
 {
   setActuatorCommand();
 }
@@ -35,11 +35,11 @@ void aracPidController::readParameters()
 
 void aracPidController::setActuatorCommand()
 {
-  double measLinearVelocity = model_.getGovde().getMeasuredState().getVelocityInWorldFrame()[0];
-  double measAngularVelocity = model_.getGovde().getMeasuredState().getAngularVelocityInWorldFrame()[2];
+  double measLinearVelocity = model_.getBody().getMeasuredState().getVelocityInWorldFrame()[0];
+  double measAngularVelocity = model_.getBody().getMeasuredState().getAngularVelocityInWorldFrame()[2];
 
-  double desLinearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()[0];
-  double desAngularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()[2];
+  double desLinearVelocity = model_.getBody().getDesiredState().getVelocityInWorldFrame()[0];
+  double desAngularVelocity = model_.getBody().getDesiredState().getAngularVelocityInWorldFrame()[2];
 
   std::cout << "Linear des/meas: " <<  desLinearVelocity <<" , " << measLinearVelocity << std::endl;
   std::cout << "Angula des/meas: " <<  desAngularVelocity <<" , " << measAngularVelocity << std::endl;
@@ -54,7 +54,7 @@ void aracPidController::setActuatorCommand()
   std::cout << "Right : " <<  controllerInput[2] << std::endl;
 
 
-  auto& wheels = model_.getTekerlek();
+  auto& wheels = model_.getWheel();
 
   // Todo (Efe Tiryaki 16.02.18): 4 yerine teker sayısını çek
   for (int i = 0; i < 4; i++) {
