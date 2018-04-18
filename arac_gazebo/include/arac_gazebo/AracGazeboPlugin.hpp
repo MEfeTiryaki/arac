@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "arac_gazebo/KulmanGazeboPlugin.hpp"
+#include "kulman_gazebo/KulmanGazeboPlugin.hpp"
 
 namespace gazebo {
 class AracGazeboPlugin : public KulmanGazeboPlugin

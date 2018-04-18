@@ -15,7 +15,6 @@
   <depend>arac_controller_frame</depend>
   <depend>arac_description</depend>
   <depend>arac_gazebo</depend>
-  <depend>arac_joystick</depend>
   <depend>arac_model</depend>
   <depend>arac_msgs</depend>
   <depend>arac_sim</depend>

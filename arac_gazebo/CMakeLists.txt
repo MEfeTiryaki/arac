@@ -5,6 +5,7 @@ add_definitions(-std=c++11)
 
 find_package(catkin REQUIRED
   COMPONENTS
+    kulman_gazebo
     param_io
     arac_msgs
     gazebo_plugins
@@ -51,8 +52,6 @@ catkin_package(
 add_library(
   ${PROJECT_NAME}
   src/AracGazeboPlugin.cpp
-  src/KulmanGazeboPlugin.cpp
-  src/ActuatorContainer.cpp
 )
 add_dependencies(
   ${PROJECT_NAME}

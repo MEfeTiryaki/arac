@@ -1,7 +1,7 @@
 #pragma once
 
 #include "arac_model/Model/AracModel.hpp"
-#include "arac_controller/LinearOpenLoopController.hpp"
+#include "kulman_controller/LinearOpenLoopController.hpp"
 #include <vector>
 
 namespace kuco {

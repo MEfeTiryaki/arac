@@ -5,6 +5,7 @@ add_definitions("-std=c++11")
 
 find_package(catkin REQUIRED
   COMPONENTS
+  kulman_controller
   arac_model
   param_io
 )
@@ -15,6 +16,7 @@ catkin_package(
   LIBRARIES
   	arac_controller
   CATKIN_DEPENDS
+    kulman_controller
 	  arac_model
     param_io
 )

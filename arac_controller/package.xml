@@ -11,6 +11,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>kulman_controller</depend>
   <depend>arac_model</depend>
   <depend>param_io</depend>
 </package>

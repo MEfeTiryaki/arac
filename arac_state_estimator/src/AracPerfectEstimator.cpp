@@ -1,20 +1,20 @@
-#include "arac_state_estimator/AracStateEstimator.hpp"
+#include "arac_state_estimator/AracPerfectEstimator.hpp"
 
 namespace estimator {
 
-AracStateEstimator::AracStateEstimator(Model& model)
+AracPerfectEstimator::AracPerfectEstimator(Model& model)
     : KulmanStateEstimatorBase(model)
 {
 
 }
 
-void AracStateEstimator::initilize(ros::NodeHandle* nh)
+void AracPerfectEstimator::initilize(ros::NodeHandle* nh)
 {
   KulmanStateEstimatorBase::initilize(nh);
 
 }
 
-void AracStateEstimator::advance()
+void AracPerfectEstimator::advance()
 {
 //  positionWorldToBase_[0] = kulmanStateMsg_.;
 //  positionWorldToBase_[1] = kulmanStateMsg_.pose.pose.pos.y;

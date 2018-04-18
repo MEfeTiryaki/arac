@@ -9,7 +9,7 @@ find_package(catkin REQUIRED
   arac_controller_frame
   arac_description
   arac_gazebo
-  arac_joystick
+  #arac_joystick
   arac_model
   arac_msgs
   arac_sim
@@ -25,7 +25,7 @@ catkin_package(
   arac_controller_frame
   arac_description
   arac_gazebo
-  arac_joystick
+  #arac_joystick
   arac_model
   arac_msgs
   arac_sim

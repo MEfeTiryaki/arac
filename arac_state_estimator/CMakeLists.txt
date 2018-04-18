@@ -13,8 +13,8 @@ find_package(catkin REQUIRED
   geometry_msgs
   std_msgs
   sensor_msgs
- 
-  
+
+
 )
 
 
@@ -48,7 +48,7 @@ catkin_package(
 
 add_library(
   ${PROJECT_NAME}
-  src/AracStateEstimator.cpp
+  src/AracPerfectEstimator.cpp
   src/AracEKF.cpp
 )
 

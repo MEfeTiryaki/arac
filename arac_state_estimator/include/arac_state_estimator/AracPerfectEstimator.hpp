@@ -21,11 +21,11 @@ namespace estimator {
 
 using Model = kuco::AracModel;
 
-class AracStateEstimator : public KulmanStateEstimatorBase<Model>
+class AracPerfectEstimator : public KulmanStateEstimatorBase<Model>
 {
  public:
 
-  AracStateEstimator(Model& model);
+  AracPerfectEstimator(Model& model);
 
   virtual void initilize(ros::NodeHandle* nh) override;
 
