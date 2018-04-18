@@ -24,7 +24,7 @@ class aracPidController
   virtual void readParameters();
 
   // excute
-  virtual void advance();
+  virtual void advance(double dt);
 
 
  protected:

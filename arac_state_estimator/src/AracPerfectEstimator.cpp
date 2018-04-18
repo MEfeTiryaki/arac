@@ -1,20 +1,20 @@
-#include "arac_state_estimator/AracStateEstimator.hpp"
+#include "arac_state_estimator/AracPerfectEstimator.hpp"
 
 namespace estimator {
 
-AracStateEstimator::AracStateEstimator(Model& model)
+AracPerfectEstimator::AracPerfectEstimator(Model& model)
     : KulmanStateEstimatorBase(model)
 {
 
 }
 
-void AracStateEstimator::initilize(ros::NodeHandle* nh)
+void AracPerfectEstimator::initilize(ros::NodeHandle* nh)
 {
   KulmanStateEstimatorBase::initilize(nh);
 
 }
 
-void AracStateEstimator::advance()
+void AracPerfectEstimator::advance(double dt)
 {
 //  positionWorldToBase_[0] = kulmanStateMsg_.;
 //  positionWorldToBase_[1] = kulmanStateMsg_.pose.pose.pos.y;
@@ -37,10 +37,10 @@ void AracStateEstimator::advance()
   angularVelocityWorldToBaseInWorldFrame_[2] = kulmanStateMsg_.twist.twist.angular.z;
 
   // Kestirilen konum,yönelim ve hızları ölçülen duruma ata.
-  model_.getGovde().getMeasuredState().setPositionInWorldFrame(positionWorldToBase_);
-  model_.getGovde().getMeasuredState().setOrientationInWorldFrame(orientationWorldToBase_);
-  model_.getGovde().getMeasuredState().setVelocityInWorldFrame(velocityWorldToBaseInWorldFrame_);
-  model_.getGovde().getMeasuredState().setAngularVelocityInWorldFrame(
+  model_.getBody().getMeasuredState().setPositionInWorldFrame(positionWorldToBase_);
+  model_.getBody().getMeasuredState().setOrientationInWorldFrame(orientationWorldToBase_);
+  model_.getBody().getMeasuredState().setVelocityInWorldFrame(velocityWorldToBaseInWorldFrame_);
+  model_.getBody().getMeasuredState().setAngularVelocityInWorldFrame(
       angularVelocityWorldToBaseInWorldFrame_);
 }
 

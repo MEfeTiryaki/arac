@@ -20,7 +20,7 @@
   * roscpp
   * urdf
   * xacro
-  * arac_msgs
+  * kulman_msgs
 
 
   #### English version
@@ -41,4 +41,4 @@
   * roscpp
   * urdf
   * xacro
-  * arac_msgs
+  * kulman_msgs

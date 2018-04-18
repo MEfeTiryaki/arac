@@ -6,15 +6,15 @@ add_definitions("-std=c++11")
 find_package(catkin REQUIRED
   COMPONENTS
   kulman_state_estimator
-  arac_msgs
+  kulman_msgs
   arac_model
   roscpp
   param_io
   geometry_msgs
   std_msgs
   sensor_msgs
- 
-  
+
+
 )
 
 
@@ -34,7 +34,7 @@ catkin_package(
     ${PROJECT_NAME}
   CATKIN_DEPENDS
     kulman_state_estimator
-    arac_msgs
+    kulman_msgs
  	arac_model
     roscpp
     param_io
@@ -48,7 +48,7 @@ catkin_package(
 
 add_library(
   ${PROJECT_NAME}
-  src/AracStateEstimator.cpp
+  src/AracPerfectEstimator.cpp
   src/AracEKF.cpp
 )
 
