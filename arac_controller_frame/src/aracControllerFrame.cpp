@@ -1,11 +1,12 @@
-  // arac gazebo
+// arac gazebo
 #include "arac_controller_frame/aracControllerFrame.hpp"
 
 namespace arac_controller_frame {
 
 // Note : param_io is needed to use the getParam
 using namespace param_io;
-aracControllerFrame::aracControllerFrame()
+aracControllerFrame::aracControllerFrame():
+    loop_rate_(0)
 {
 
 }
@@ -18,9 +19,9 @@ void aracControllerFrame::create()
 {
   //state_ = new kuco::State();
   model_ = new kuco::AracModel;
-  estimator_ = new estimator::AracStateEstimator(*model_);
-  joystickHandler_ = new joystick::JoystickAcc(*model_);
-  controller_ = new kuco::aracPidController(*model_);
+  estimator_ = new estimator::AracEKF(*model_);
+  joystickHandler_ = new joystick::JoystickAcc<kuco::AracModel>(*model_);
+  controller_ = new kuco::AracOLController(*model_);
 }
 
 void aracControllerFrame::initilize(int argc, char **argv)
@@ -47,8 +48,8 @@ void aracControllerFrame::initilize(int argc, char **argv)
   initilizeSubscribers();
 
   model_->initilize();
-  estimator_->initilize(nodeHandle_);
   joystickHandler_->initilize(nodeHandle_);
+  estimator_->initilize(nodeHandle_);
   controller_->initilize();
 
   std::cout << "arac_controller_frame::init " << std::endl;

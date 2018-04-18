@@ -18,11 +18,11 @@
 #include <param_io/get_param.hpp>
 
 #include "arac_joystick/JoystickAcc.hpp"
-#include "arac_controller/aracPidController.hpp"
+#include "arac_controller/AracOLController.hpp"
 #include "arac_msgs/ActuatorCommands.h"
 #include "arac_model/State/State.hpp"
 #include "arac_model/Model/AracModel.hpp"
-#include "arac_state_estimator/AracStateEstimator.hpp"
+#include "arac_state_estimator/AracEKF.hpp"
 
 // stl
 #include <memory>
@@ -76,9 +76,9 @@ class aracControllerFrame
   std::string nodeName_;
   std::string robotName_;
 
-  estimator::AracStateEstimator* estimator_;
-  joystick::JoystickAcc* joystickHandler_ ;
-  kuco::aracPidController* controller_ ;
+  estimator::AracEKF* estimator_;
+  joystick::JoystickAcc<kuco::AracModel>* joystickHandler_ ;
+  kuco::AracOLController* controller_ ;
   kuco::State* state_;
   kuco::AracModel* model_;
 

@@ -4,13 +4,16 @@
  *  Created on: Jan 28, 2018
  *      Author: efe
  */
+#pragma once
 
 #include "arac_joystick/JoystickHandlerBase.hpp"
 
- namespace joystick {
-class JoystickAcc : public JoystickHandlerBase{
+
+namespace joystick {
+template<typename KulmanModel_>
+class JoystickAcc : public JoystickHandlerBase<KulmanModel_>{
 public:
-  JoystickAcc(kuco::AracModel& model);
+  JoystickAcc(KulmanModel_& model);
 
   virtual ~JoystickAcc();
 
@@ -38,3 +41,5 @@ protected:
 };
 
 }
+
+#include "arac_joystick/JoystickAcc.tpp"

@@ -34,6 +34,7 @@ add_library(
 	# Model
 	  src/Model/KulmanModel.cpp
 	  src/Model/AracModel.cpp
+    src/Model/Arac2Model.cpp
 	# Module
 	  src/Module/ModuleBase.cpp
 	  src/Module/Govde.cpp

@@ -10,6 +10,8 @@ AracStateEstimator::AracStateEstimator(Model& model)
 
 void AracStateEstimator::initilize(ros::NodeHandle* nh)
 {
+  KulmanStateEstimatorBase::initilize(nh);
+
 }
 
 void AracStateEstimator::advance()

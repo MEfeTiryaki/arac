@@ -35,7 +35,20 @@ class aracPidController
    //kuco::State& state_;
    kuco::AracModel model_;
 
+   double rWheel_;
 
+
+
+   double n_ ;
+   double l_ ;
+
+   Eigen::VectorXd X_;
+   Eigen::VectorXd U_;
+
+   Eigen::Matrix A_ ;
+   Eigen::Matrix B_ ;
+
+   Eigen::Matrix K_ ;
 };
 
 } /* namespace kuco*/

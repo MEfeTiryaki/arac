@@ -32,8 +32,8 @@ include_directories(
 
 add_library(
   ${PROJECT_NAME}
-  src/aracController.cpp
-  src/aracPidController.cpp
+  src/AracOLController.cpp
+  #src/aracPidController.cpp
 )
 
 add_dependencies(${PROJECT_NAME}

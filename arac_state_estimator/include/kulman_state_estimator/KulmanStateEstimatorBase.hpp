@@ -47,6 +47,7 @@ class KulmanStateEstimatorBase
     readParameters();
 
     initilizeSubscribers();
+    initilizePublishers();
 
     std::cout << "state_estimator::init " << std::endl;
   }

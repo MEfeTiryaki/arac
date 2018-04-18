@@ -9,7 +9,8 @@ using namespace param_io;
 
 // Todo : make controllerInput length adjustable
 aracPidController::aracPidController(kuco::AracModel& model)
-    : model_(model)
+    : model_(model),
+      rWheel_(0.15)
 {
 }
 
@@ -40,11 +41,17 @@ void aracPidController::setActuatorCommand()
   double desLinearVelocity = model_.getGovde().getDesiredState().getVelocityInWorldFrame()[0];
   double desAngularVelocity = model_.getGovde().getDesiredState().getAngularVelocityInWorldFrame()[2];
 
+  std::cout << "Linear des/meas: " <<  desLinearVelocity <<" , " << measLinearVelocity << std::endl;
+  std::cout << "Angula des/meas: " <<  desAngularVelocity <<" , " << measAngularVelocity << std::endl;
+
   std::vector<double> controllerInput(4);
-  controllerInput[0] = (desLinearVelocity-measLinearVelocity) + (desAngularVelocity-measAngularVelocity);
-  controllerInput[1] = (desLinearVelocity-measLinearVelocity) + (desAngularVelocity-measAngularVelocity);
-  controllerInput[2] = (desLinearVelocity-measLinearVelocity) - (desAngularVelocity-measAngularVelocity);
-  controllerInput[3] = (desLinearVelocity-measLinearVelocity) - (desAngularVelocity-measAngularVelocity);
+  controllerInput[0] = (-(desLinearVelocity-measLinearVelocity) + (desAngularVelocity-measAngularVelocity))/rWheel_;
+  controllerInput[1] = (-(desLinearVelocity-measLinearVelocity) + (desAngularVelocity-measAngularVelocity))/rWheel_;
+  controllerInput[2] = (-(desLinearVelocity-measLinearVelocity) - (desAngularVelocity-measAngularVelocity))/rWheel_;
+  controllerInput[3] = (-(desLinearVelocity-measLinearVelocity) - (desAngularVelocity-measAngularVelocity))/rWheel_;
+
+  std::cout << "Left  : " <<  controllerInput[0] << std::endl;
+  std::cout << "Right : " <<  controllerInput[2] << std::endl;
 
 
   auto& wheels = model_.getTekerlek();

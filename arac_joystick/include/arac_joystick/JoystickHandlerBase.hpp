@@ -4,6 +4,7 @@
  *  Created on: Jan 28, 2018
  *      Author: efe
  */
+#pragma once
 
  #include <ros/ros.h>
 
@@ -20,14 +21,15 @@
  #include <mutex>
 
  #include "arac_model/State/State.hpp"
-#include "arac_model/Model/AracModel.hpp"
+ #include "arac_model/Model/AracModel.hpp"
 
 namespace joystick {
 
+  template<typename KulmanModel_>
   class JoystickHandlerBase{
     public:
       //JoystickHandlerBase(kuco::State& state);
-      JoystickHandlerBase(kuco::AracModel& model);
+      JoystickHandlerBase(KulmanModel_& model);
 
       virtual ~JoystickHandlerBase();
 
@@ -66,7 +68,9 @@ namespace joystick {
       double angVelocity_;
 
       //kuco::State& state_;
-      kuco::AracModel model_;
+      KulmanModel_ model_;
   };
 
 }
+
+#include "arac_joystick/JoystickHandlerBase.tpp"
