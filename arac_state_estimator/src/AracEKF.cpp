@@ -146,6 +146,8 @@ void AracEKF::initilizeSubscribers()
 }
 void AracEKF::initilizePublishers()
 {
+  KulmanStateEstimatorBase::initilizePublishers();
+
   vis_pub_ = nodeHandle_->advertise<visualization_msgs::Marker>("visualization_marker", 0);
 }
 
