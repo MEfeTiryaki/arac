@@ -49,7 +49,14 @@ void AracGazeboPlugin::readSimulation(){
   kulmanStateMsg_.twist.twist.angular.y = baseLink_->GetWorldAngularVel().y ;
   kulmanStateMsg_.twist.twist.angular.z = baseLink_->GetWorldAngularVel().z ;
 
-
+  /*
+  std::cout << " Gazebo Reading : \n" << kulmanStateMsg_.pose.pose.position.x << ","
+                                      << kulmanStateMsg_.pose.pose.position.y << ","
+                                      << 2 * acos(kulmanStateMsg_.pose.pose.orientation.w) << ","
+                                      << kulmanStateMsg_.twist.twist.linear.x << ","
+                                      << kulmanStateMsg_.twist.twist.angular.z << ","
+                                      << std::endl;
+  //*/
 
 }
 

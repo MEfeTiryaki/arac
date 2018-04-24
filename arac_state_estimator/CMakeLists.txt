@@ -35,7 +35,7 @@ catkin_package(
   CATKIN_DEPENDS
     kulman_state_estimator
     kulman_msgs
- 	arac_model
+ 	  arac_model
     roscpp
     param_io
     geometry_msgs
@@ -48,8 +48,11 @@ catkin_package(
 
 add_library(
   ${PROJECT_NAME}
+# Estimators
   src/AracPerfectEstimator.cpp
   src/AracEKF.cpp
+# Handlers
+  src/AracStateEstimatorHandler.cpp
 )
 
 add_dependencies(
@@ -67,6 +70,19 @@ add_dependencies(
   ${PROJECT_NAME}
   ${catkin_EXPORTED_TARGETS}
 )
+
+add_executable(arac_state_estimator_node
+  src/arac_state_estimator_node.cpp
+)
+add_dependencies(arac_state_estimator_node
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(arac_state_estimator_node
+  arac_state_estimator
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+)
+
 
 
 #############

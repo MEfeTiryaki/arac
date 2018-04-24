@@ -13,24 +13,27 @@
 #include <mutex>
 
 #include "arac_model/AracModel.hpp"
+#include "kulman_state_estimator/StateEstimatorHandlerBase.hpp"
 
-#include "kulman_state_estimator/KulmanStateEstimatorBase.hpp"
+#include <param_io/get_param.hpp>
 
 namespace estimator {
 
-using Model = kuco::AracModel;
+using namespace param_io;
 
-class AracPerfectEstimator : public KulmanStateEstimatorBase<Model>
+using Model_ = kuco::AracModel;
+
+class AracStateEstimatorHandler : public  StateEstimatorHandlerBase<Model_>
 {
  public:
+  AracStateEstimatorHandler(Model_& model);
 
-  AracPerfectEstimator(Model& model);
-
-  virtual void initilize(ros::NodeHandle* nh) override;
+  virtual ~AracStateEstimatorHandler(){}
 
   virtual void advance(double dt) override;
 
- private:
+
+protected:
   kuco::Velocity positionWorldToBase_;
   kuco::Quaternion orientationWorldToBase_;
   kuco::Velocity velocityWorldToBaseInWorldFrame_;

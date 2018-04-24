@@ -98,7 +98,10 @@ void AracEKF::advance(double dt)
             << "," << angularVelocityWorldToBaseInWorldFrame_[2] << "," << std::endl;
             */
   //std::cout << "____________________________________ " << std::endl;
-  publish();
+
+  publishVisualization();
+
+  publishEstimatedState();
 }
 
 void AracEKF::readParameters()
@@ -146,7 +149,7 @@ void AracEKF::initilizePublishers()
   vis_pub_ = nodeHandle_->advertise<visualization_msgs::Marker>("visualization_marker", 0);
 }
 
-void AracEKF::publish()
+void AracEKF::publishVisualization()
 {
   visualization_msgs::Marker marker;
   marker.header.frame_id = "map";
@@ -163,15 +166,37 @@ void AracEKF::publish()
   marker.pose.orientation.z = sin(Xm_[2] / 2);
   marker.pose.orientation.w = cos(Xm_[2] / 2);
   marker.scale.x = 0.5;
-  marker.scale.y = 0.5;
-  marker.scale.z = 0.5;
+  marker.scale.y = 0.2;
+  marker.scale.z = 0.3;
   marker.color.a = 0.5;  // Don't forget to set the alpha!
   marker.color.r = 1.0;
   marker.color.g = 0.0;
   marker.color.b = 0.0;
   vis_pub_.publish(marker);
-
 }
+
+void  AracEKF::publishEstimatedState()
+{
+  kulmanStateEstimatorMsg_.pose.pose.position.x = Xm_[0] ;
+  kulmanStateEstimatorMsg_.pose.pose.position.y = Xm_[1] ;
+  kulmanStateEstimatorMsg_.pose.pose.position.z = 0.0 ;
+
+  kulmanStateEstimatorMsg_.pose.pose.orientation.w = cos(Xm_[2] / 2) ;
+  kulmanStateEstimatorMsg_.pose.pose.orientation.x = Xm_[1] ;
+  kulmanStateEstimatorMsg_.pose.pose.orientation.y = Xm_[1] ;
+  kulmanStateEstimatorMsg_.pose.pose.orientation.z = sin(Xm_[2] / 2) ;
+
+  kulmanStateEstimatorMsg_.twist.twist.linear.x = Xm_[3] ;
+  kulmanStateEstimatorMsg_.twist.twist.linear.y = Xm_[4] ;
+  kulmanStateEstimatorMsg_.twist.twist.linear.z = 0.0 ;
+
+  kulmanStateEstimatorMsg_.twist.twist.angular.x = 0.0 ;
+  kulmanStateEstimatorMsg_.twist.twist.angular.y = 0.0 ;
+  kulmanStateEstimatorMsg_.twist.twist.angular.z = Xm_[5] ;
+
+  KulmanStateEstimatorBase::publishEstimatedState();
+}
+
 void AracEKF::getImuMsg(sensor_msgs::Imu msg)
 {
   imuMsg_ = msg;

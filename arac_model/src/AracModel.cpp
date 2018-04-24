@@ -4,7 +4,7 @@
 
  */
 
-#include "arac_model/Model/AracModel.hpp"
+#include "arac_model/AracModel.hpp"
 
 namespace kuco {
 

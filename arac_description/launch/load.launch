@@ -2,6 +2,7 @@
 
 <launch>
 
+  <arg name="robot_name" default="arac0000"/>
   <!-- Set true for simulation of arac in Gazebo -->
   <arg name="simulation" default="true"/>
   <!-- Set true to simulate sensors without noise and bias -->
@@ -20,6 +21,7 @@
   <!-- Run xacro script to generate arac description -->
   <param name="$(arg description_name)" command="$(find xacro)/xacro --inorder
     $(arg description_file)
+    robot_name:=$(arg robot_name)
     simulation:=$(arg simulation)
     perfect_sensors:=$(arg perfect_sensors)
     fixed:=$(arg fixed)

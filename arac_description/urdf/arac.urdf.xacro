@@ -5,6 +5,7 @@
 <robot name="arac" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Arguments -->
+  <xacro:arg name="robot_name"          default="arac0000"/>
   <xacro:arg name="simulation"          default="true"/>
   <xacro:arg name="fixed"               default="false"/>
   <xacro:arg name="material_color_rgba" default="0.7 0.7 0.7 1.0"/>
