@@ -9,8 +9,8 @@ find_package(catkin REQUIRED
   COMPONENTS
     kulman_joystick
     kulman_controller_frame
-  	arac_model
-	  kulman_msgs
+  	kulman_msgs
+    arac_model
     arac_controller
     arac_state_estimator
     roscpp

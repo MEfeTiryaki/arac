@@ -1,6 +1,6 @@
 #pragma once
 
-#include "arac_model/Model/AracModel.hpp"
+#include "arac_model/AracModel.hpp"
 #include "kulman_controller/LinearOpenLoopController.hpp"
 #include <vector>
 

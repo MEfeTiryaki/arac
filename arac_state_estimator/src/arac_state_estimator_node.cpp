@@ -1,15 +1,16 @@
 
 
-#include <arac_state_estimator/AracStateEstimator.hpp>
+#include <kulman_state_estimator/StateEstimatorNode.hpp>
+#include <arac_state_estimator/AracEKF.hpp>
+#include <arac_model/AracModel.hpp>
+
+
 #include <ros/ros.h>
 #include <iostream>
 
-#include "arac_model/Model/AracModel.hpp"
-
-
 int main(int argc, char **argv)
 {
-  estimator::AracStateEstimator estimator_ = estimator::AracStateEstimator();
+  estimator::StateEstimatorNode<kuco::AracModel,estimator::AracEKF> estimator_ = estimator::StateEstimatorNode<kuco::AracModel,estimator::AracEKF>();
   estimator_.create();
   estimator_.initilize(argc,argv);
   estimator_.execute();

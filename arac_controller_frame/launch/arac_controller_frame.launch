@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
+  <!-- Name of the robot  -->
+  <arg name="robot_name" default="arac0000"/>
+
   <!-- Name of the robot description parameter -->
   <arg name="description_name" default="arac_description"/>
 
@@ -15,10 +18,10 @@
 
 
   <!-- Load Parameter Files -->
-  <rosparam command="load" ns="arac_controller_frame" file="$(find arac_controller_frame)/config/parameters.yaml"/>
-  <rosparam command="load" ns="arac_controller_frame" file="$(find arac_controller_frame)/config/publishers.yaml"/>
-  <rosparam command="load" ns="arac_controller_frame" file="$(find arac_controller_frame)/config/subscribers.yaml"/>
-  <rosparam command="load" ns="arac_controller_frame" file="$(find arac_controller_frame)/config/services.yaml"/>
+  <rosparam command="load" ns="$(arg robot_name)_controller_frame" file="$(find arac_controller_frame)/config/parameters.yaml"/>
+  <rosparam command="load" ns="$(arg robot_name)_controller_frame" file="$(find arac_controller_frame)/config/publishers.yaml"/>
+  <rosparam command="load" ns="$(arg robot_name)_controller_frame" file="$(find arac_controller_frame)/config/subscribers.yaml"/>
+  <rosparam command="load" ns="$(arg robot_name)_controller_frame" file="$(find arac_controller_frame)/config/services.yaml"/>
 
 
   <!-- Load parameters from arguments -->
@@ -26,11 +29,16 @@
   <param name="arac_controller_frame/update_decimation" value="1"/>
 
   <!-- Load simulation specific parameters -->
-  <param name="arac_controller_frame/controller/simulation"  value="$(arg simulation)"/>
-  <param name="arac_controller_frame/time_step"              value="0.0025" />
+  <param name="$(arg robot_name)_controller_frame/controller/simulation"  value="$(arg simulation)"/>
+  <param name="$(arg robot_name)_controller_frame/time_step"              value="0.0025" />
+  <param name="$(arg robot_name)_controller_frame/robot_name"  value="$(arg robot_name)"/>
+
+  <!-- ESTIMATOR -->
+  <arg name="state_estimator_used"             default="true"/>
+  <param name="$(arg robot_name)_controller_frame/state_estimator_used"    value="$(arg state_estimator_used)"/>
 
   <!-- Launch the locomotion controller -->
-  <node name="arac_controller_frame"
+  <node name="$(arg robot_name)_controller_frame"
         pkg="arac_controller_frame"
         type="arac_controller_frame_node"
         output="$(arg output)"

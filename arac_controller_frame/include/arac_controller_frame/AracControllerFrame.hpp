@@ -21,8 +21,8 @@
 #include "kulman_joystick/JoystickAcc.hpp"
 #include "arac_controller/AracOLController.hpp"
 #include "kulman_msgs/ActuatorCommands.h"
-#include "arac_model/Model/AracModel.hpp"
-#include "arac_state_estimator/AracEKF.hpp"
+#include "arac_model/AracModel.hpp"
+#include "arac_state_estimator/AracStateEstimatorHandler.hpp"
 
 // stl
 #include <memory>
@@ -31,10 +31,10 @@ namespace kuco {
 
 using KulmanModel_ = kuco::AracModel;
 using Controller_ = kuco::AracOLController;
-using Estimator_ = estimator::AracEKF;
+using EstimatorHandler_ = estimator::AracStateEstimatorHandler;
 using Joystick_ = joystick::JoystickAcc<KulmanModel_>;
 
-class AracControllerFrame : public KulmanControllerFrame<KulmanModel_,Controller_,Estimator_,Joystick_>
+class AracControllerFrame : public KulmanControllerFrame<KulmanModel_,Controller_,EstimatorHandler_,Joystick_>
 {
  public:
   // Constructor.
